@@ -50,7 +50,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         Health = _maxHealth;
     }
 
-    void OnEnable()
+    public virtual void OnEnable()
     {
         Actions.Player.Enable();
         // Subscribe to input events
@@ -59,7 +59,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         Actions.Player.Attack.performed += ctx => Attack();
     }
 
-    void OnDisable()
+    public virtual void OnDisable()
     {
         Actions.Player.Disable();
         // Unsubscribe from input events
