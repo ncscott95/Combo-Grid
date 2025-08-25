@@ -25,6 +25,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
 
     [Header("Movement")]
     [SerializeField] protected float _maxSpeed;
+    [SerializeField] protected float _acceleration;
     [SerializeField] protected float _groundDrag;
     protected List<float> _speedModifiers = new();
     public float Speed { get { return _maxSpeed * _speedModifiers.Aggregate(1f, (acc, val) => acc * val); } }
@@ -71,17 +72,6 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     {
         // Ground check
         _isGrounded = Physics2D.Raycast(transform.position + Vector3.up * 0.01f, Vector3.down, 0.3f, _groundMask);
-
-        // Cap speed at max
-        Vector3 flatVelocity = new(_rb.linearVelocity.x, 0f);
-        if (flatVelocity.magnitude > Speed)
-        {
-            Vector3 limitedVelocity = flatVelocity.normalized * Speed;
-            _rb.linearVelocity = new(limitedVelocity.x, _rb.linearVelocity.y);
-        }
-
-        // Handle drag, naturally stops player movement
-        _rb.linearDamping = _isGrounded ? _groundDrag : 0f;
     }
 
     public virtual void FixedUpdate() { }

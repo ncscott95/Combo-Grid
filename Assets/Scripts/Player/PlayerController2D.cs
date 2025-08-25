@@ -10,6 +10,7 @@ public class PlayerController2D : PlayerControllerBase
     [SerializeField] private float _gravityGroundedScale = .5f;
     [SerializeField] private float _maxFallSpeed = 20f;
     [SerializeField] private float _jumpCooldown = 0.2f;
+    [SerializeField] private float _airDrag;
     private bool _isJumping = false;
     private bool _canJump = true;
     private bool _wasGroundedLastFrame = false;
@@ -33,19 +34,41 @@ public class PlayerController2D : PlayerControllerBase
     public override void Update()
     {
         base.Update();
-
-        // Check if the player just landed
-        if (!_wasGroundedLastFrame && _isGrounded)
-        {
-            // Player just landed on the ground, trigger jump cooldown
-            StartCoroutine(JumpCooldown());
-        }
-        _wasGroundedLastFrame = _isGrounded;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        // Handle player movement
+        float _frameVelocityX;
+        if (_moveInput.x == 0)
+        {
+            float deceleration = _isGrounded ? _groundDrag : _airDrag;
+            _frameVelocityX = Mathf.MoveTowards(_rb.linearVelocity.x, 0, deceleration * Time.fixedDeltaTime);
+        }
+        else
+        {
+            _frameVelocityX = Mathf.MoveTowards(_rb.linearVelocity.x, _moveInput.x * Speed, _acceleration * Time.fixedDeltaTime);
+        }
+        _rb.linearVelocityX = _frameVelocityX;
+
+        // Cap speed at max
+        float flatVelocity = _rb.linearVelocity.x;
+        if (Mathf.Abs(flatVelocity) > Speed)
+        {
+            float limitedVelocity = Mathf.Sign(flatVelocity) * Speed;
+            _rb.linearVelocity = new(limitedVelocity, _rb.linearVelocity.y);
+        }
+
+        // Check if the player just landed
+        if (!_wasGroundedLastFrame && _isGrounded)
+        {
+            // Player just landed on the ground, trigger jump cooldown
+            // StartCoroutine(JumpCooldown());
+            _canJump = true;
+        }
+        _wasGroundedLastFrame = _isGrounded;
 
         // Apply 2D gravity
         if (_isJumping && _rb.linearVelocityY > 0)
@@ -96,6 +119,7 @@ public class PlayerController2D : PlayerControllerBase
 
     private IEnumerator JumpCooldown()
     {
+        Debug.Log("Jump Cooldown Started");
         yield return new WaitForSeconds(_jumpCooldown);
         _canJump = true;
     }
