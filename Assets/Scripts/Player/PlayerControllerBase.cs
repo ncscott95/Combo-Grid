@@ -10,7 +10,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     public Transform Camera { get; protected set; }
 
     public InputSystem_Actions Actions { get; private set; }
-    protected Rigidbody _rb;
+    protected Rigidbody2D _rb;
     protected bool _canAct = true;
 
     [Header("Ground Check")]
@@ -26,7 +26,6 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     [Header("Movement")]
     [SerializeField] protected float _maxSpeed;
     [SerializeField] protected float _groundDrag;
-    [SerializeField] protected float _rotationSpeed;
     protected List<float> _speedModifiers = new();
     public float Speed { get { return _maxSpeed * _speedModifiers.Aggregate(1f, (acc, val) => acc * val); } }
     protected Vector2 _moveInput;
@@ -40,7 +39,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     public override void Awake()
     {
         base.Awake();
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
         Instance.Camera = UnityEngine.Camera.main.transform;
         Actions = new InputSystem_Actions();
     }
@@ -70,22 +69,19 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
 
     public virtual void Update()
     {
-        if (GameManager.Instance.IsInState(GameManager.GameState.Walking) || GameManager.Instance.IsInState(GameManager.GameState.Combat))
+        // Ground check
+        _isGrounded = Physics2D.Raycast(transform.position + Vector3.up * 0.01f, Vector3.down, 0.3f, _groundMask);
+
+        // Cap speed at max
+        Vector3 flatVelocity = new(_rb.linearVelocity.x, 0f);
+        if (flatVelocity.magnitude > Speed)
         {
-            // Ground check
-            _isGrounded = Physics.Raycast(transform.position + Vector3.up * 0.01f, Vector3.down, 0.3f, _groundMask);
-
-            // Cap speed at max
-            Vector3 flatVelocity = new(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
-            if (flatVelocity.magnitude > Speed)
-            {
-                Vector3 limitedVelocity = flatVelocity.normalized * Speed;
-                _rb.linearVelocity = new(limitedVelocity.x, _rb.linearVelocity.y, limitedVelocity.z);
-            }
-
-            // Handle drag, naturally stops player movement
-            _rb.linearDamping = _isGrounded ? _groundDrag : 0f;
+            Vector3 limitedVelocity = flatVelocity.normalized * Speed;
+            _rb.linearVelocity = new(limitedVelocity.x, _rb.linearVelocity.y);
         }
+
+        // Handle drag, naturally stops player movement
+        _rb.linearDamping = _isGrounded ? _groundDrag : 0f;
     }
 
     public virtual void FixedUpdate() { }
@@ -128,8 +124,8 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     public virtual void SpawnPlayer(Transform point)
     {
         transform.SetPositionAndRotation(point.position, point.rotation);
-        _rb.linearVelocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
         _isDead = false;
         Health = _maxHealth;
     }

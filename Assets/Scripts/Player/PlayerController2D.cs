@@ -1,12 +1,25 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController2D : PlayerControllerBase
 {
+    [Header("Jump")]
+    [SerializeField] private float _jumpForce = 15f;
+    [SerializeField] private float _gravityJumpingScale = 2f;
+    [SerializeField] private float _gravityFallingScale = 4f;
+    [SerializeField] private float _gravityGroundedScale = .5f;
+    [SerializeField] private float _maxFallSpeed = 20f;
+    [SerializeField] private float _jumpCooldown = 0.2f;
+    private bool _isJumping = false;
+    private bool _canJump = true;
+    private bool _wasGroundedLastFrame = false;
+
     public override void OnEnable()
     {
         base.OnEnable();
 
         Actions.Player.Jump.performed += ctx => Jump();
+        Actions.Player.Jump.canceled += ctx => StopJump();
     }
 
     public override void OnDisable()
@@ -14,11 +27,45 @@ public class PlayerController2D : PlayerControllerBase
         base.OnDisable();
 
         Actions.Player.Jump.performed -= ctx => Jump();
+        Actions.Player.Jump.canceled -= ctx => StopJump();
     }
 
     public override void Update()
     {
-        
+        base.Update();
+
+        // Check if the player just landed
+        if (!_wasGroundedLastFrame && _isGrounded)
+        {
+            // Player just landed on the ground, trigger jump cooldown
+            StartCoroutine(JumpCooldown());
+        }
+        _wasGroundedLastFrame = _isGrounded;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        // Apply 2D gravity
+        if (_isJumping && _rb.linearVelocityY > 0)
+        {
+            // Weaker gravity when jumping
+            _rb.gravityScale = _gravityJumpingScale;
+        }
+        else if (!_isGrounded)
+        {
+            // Stronger gravity when falling
+            _rb.gravityScale = _gravityFallingScale;
+        }
+        else
+        {
+            // Slight gravity when grounded
+            _rb.gravityScale = _gravityGroundedScale;
+        }
+
+        // Cap fall speed
+        if (_rb.linearVelocityY < -_maxFallSpeed) _rb.linearVelocityY = -_maxFallSpeed;
     }
 
     public override void Attack()
@@ -33,6 +80,23 @@ public class PlayerController2D : PlayerControllerBase
 
     public void Jump()
     {
-        // Implement 2D jump logic here
+        if (_isGrounded && _canJump)
+        {
+            Debug.Log("Jumped");
+            _isJumping = true;
+            _canJump = false;
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    public void StopJump()
+    {
+        _isJumping = false;
+    }
+
+    private IEnumerator JumpCooldown()
+    {
+        yield return new WaitForSeconds(_jumpCooldown);
+        _canJump = true;
     }
 }
