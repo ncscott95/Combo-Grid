@@ -40,25 +40,24 @@ public class PlayerController2D : PlayerControllerBase
     {
         base.FixedUpdate();
 
-        // Handle player movement
-        float _frameVelocityX;
+        // Work with a local velocity variable
+        Vector2 velocity = _rb.linearVelocity;
+
+        // Horizontal movement
         if (_moveInput.x == 0)
         {
             float deceleration = _isGrounded ? _groundDrag : _airDrag;
-            _frameVelocityX = Mathf.MoveTowards(_rb.linearVelocity.x, 0, deceleration * Time.fixedDeltaTime);
+            velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
         else
         {
-            _frameVelocityX = Mathf.MoveTowards(_rb.linearVelocity.x, _moveInput.x * Speed, _acceleration * Time.fixedDeltaTime);
+            velocity.x = Mathf.MoveTowards(velocity.x, _moveInput.x * Speed, _acceleration * Time.fixedDeltaTime);
         }
-        _rb.linearVelocityX = _frameVelocityX;
 
-        // Cap speed at max
-        float flatVelocity = _rb.linearVelocity.x;
-        if (Mathf.Abs(flatVelocity) > Speed)
+        // Cap horizontal speed
+        if (Mathf.Abs(velocity.x) > Speed)
         {
-            float limitedVelocity = Mathf.Sign(flatVelocity) * Speed;
-            _rb.linearVelocity = new(limitedVelocity, _rb.linearVelocity.y);
+            velocity.x = Mathf.Sign(velocity.x) * Speed;
         }
 
         // Check if the player just landed
@@ -71,24 +70,24 @@ public class PlayerController2D : PlayerControllerBase
         _wasGroundedLastFrame = _isGrounded;
 
         // Apply 2D gravity
-        if (_isJumping && _rb.linearVelocityY > 0)
+        if (_isJumping && velocity.y > 0)
         {
-            // Weaker gravity when jumping
             _rb.gravityScale = _gravityJumpingScale;
         }
         else if (!_isGrounded)
         {
-            // Stronger gravity when falling
             _rb.gravityScale = _gravityFallingScale;
         }
         else
         {
-            // Slight gravity when grounded
             _rb.gravityScale = _gravityGroundedScale;
         }
 
         // Cap fall speed
-        if (_rb.linearVelocityY < -_maxFallSpeed) _rb.linearVelocityY = -_maxFallSpeed;
+        if (velocity.y < -_maxFallSpeed) velocity.y = -_maxFallSpeed;
+
+        // Apply the final velocity
+        _rb.linearVelocity = velocity;
     }
 
     public override void Attack()
