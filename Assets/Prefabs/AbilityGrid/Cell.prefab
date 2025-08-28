@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8527736536596577589}
   - component: {fileID: 3574074532020966435}
   - component: {fileID: 8345950927623815612}
-  - component: {fileID: 2123371632192697598}
+  - component: {fileID: -8527941425997126246}
   m_Layer: 5
   m_Name: Cell
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2123371632192697598
+--- !u!114 &-8527941425997126246
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,75 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8079193255965733674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f87bbe0dea19c1b44a5560f99821fea1, type: 3}
+  m_Script: {fileID: 11500000, guid: e4bf81b4d4ef5c24c93f2e70ed2d6e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftAction:
-    m_Name: Left
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e7dfc702-a59f-48b3-b112-d7b5522d7fe0
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: bed7c2e6-4df4-4bbe-b5c1-f5ff66f2623b
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left
-      m_Flags: 0
-    m_Flags: 0
-  RightAction:
-    m_Name: Right
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: af42b854-84b0-4c74-aac9-b2a3112fbbe5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 46f63037-57b5-4bf3-940a-fd7adfeaeb41
-      m_Path: <Keyboard>/d
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Right
-      m_Flags: 0
-    m_Flags: 0
-  UpAction:
-    m_Name: Up
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1e79da42-220f-4fba-af11-19d8c69a8c2d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: ba8ab422-63b1-4bb8-8676-bc85b8d82d07
-      m_Path: <Keyboard>/w
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Up
-      m_Flags: 0
-    m_Flags: 0
-  DownAction:
-    m_Name: Down
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: c115526f-e32d-4de3-a6c3-590f198e446a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 4faa442a-103e-4933-9a69-9da7737689bf
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Down
-      m_Flags: 0
-    m_Flags: 0
-  CellImage: {fileID: 8345950927623815612}

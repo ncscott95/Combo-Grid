@@ -2,52 +2,59 @@ using System.Collections;
 using AbilitySystem;
 using UnityEngine;
 
-public class AbilityGridManager : MonoBehaviour
+public class AbilityGridManager : Singleton<AbilityGridManager>
 {
-    [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private int _gridWidth = 8;
-    [SerializeField] private int _gridHeight = 8;
-    private AbilityGridCell _currentCell;
-    private AbilityGridCell[,] _cellGrid;
+    [SerializeField] private AbilityGridCell _emptyCellPrefab;
+    [SerializeField] private AbilityGridCell _debugCellPrefab;
+
+    public int GridWidth { get; private set; } = 3;
+    public int GridHeight { get; private set; } = 3;
+    public AbilityGridCell[,] CellGrid { get; private set; }
+    public AbilityGridCell CurrentCell { get; private set; }
     private bool _canAct = true;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        InitializeGrid();
+    }
 
     void Start()
     {
-        InitializeGrid();
-        _currentCell = _cellGrid[0, 0];
-        _currentCell.EnterCell();
+        MoveCell(CellGrid[0, 0]);
     }
 
     public void MoveCell(AbilityGridCell newCell)
     {
         if (!_canAct) return;
 
-        _currentCell.ExitCell();
-        _currentCell = newCell;
-        _currentCell.EnterCell();
-        StartCoroutine(CooldownCoroutine(_currentCell));
+        if (CurrentCell != null) CurrentCell.ExitCell();
+        CurrentCell = newCell;
+        CurrentCell.EnterCell();
+        StartCoroutine(CooldownCoroutine(CurrentCell));
     }
 
     public void InitializeGrid()
     {
-        _cellGrid = new AbilityGridCell[_gridWidth, _gridHeight];
-        for (int y = 0; y < _gridHeight; y++)
+        CellGrid = new AbilityGridCell[GridWidth, GridHeight];
+        for (int y = 0; y < GridHeight; y++)
         {
-            for (int x = 0; x < _gridWidth; x++)
+            for (int x = 0; x < GridWidth; x++)
             {
-                AbilityGridCell cell = Instantiate(_cellPrefab, transform).GetComponent<AbilityGridCell>();
-                cell.DEBUGName = $"Cell ({x},{y})";
-                _cellGrid[x, y] = cell;
+                // AbilityGridCell cell = Instantiate(_emptyCellPrefab);
+                AbilityGridCell cell = Instantiate(_debugCellPrefab);
+                CellGrid[x, y] = cell;
             }
         }
 
         // Set up neighbors and input actions as before
-        for (int y = 0; y < _gridHeight; y++)
+        for (int y = 0; y < GridHeight; y++)
         {
-            for (int x = 0; x < _gridWidth; x++)
+            for (int x = 0; x < GridWidth; x++)
             {
-                AbilityGridCell cell = _cellGrid[x, y];
-                cell.DEBUGName = $"Cell ({x},{y})";
+                AbilityGridCell cell = CellGrid[x, y];
+                cell.GridPosition = new Vector2Int(x, y);
 
                 // Remove previous bindings if any (assuming we have stored delegates, otherwise this is a no-op)
                 cell.LeftAction.started -= ctx => MoveCell(null);
@@ -58,25 +65,25 @@ public class AbilityGridManager : MonoBehaviour
                 // Left neighbor
                 if (x > 0)
                 {
-                    AbilityGridCell leftCell = _cellGrid[x - 1, y];
+                    AbilityGridCell leftCell = CellGrid[x - 1, y];
                     cell.LeftAction.started += ctx => MoveCell(leftCell);
                 }
                 // Right neighbor
-                if (x < _gridWidth - 1)
+                if (x < GridWidth - 1)
                 {
-                    AbilityGridCell rightCell = _cellGrid[x + 1, y];
+                    AbilityGridCell rightCell = CellGrid[x + 1, y];
                     cell.RightAction.started += ctx => MoveCell(rightCell);
                 }
                 // Up neighbor
-                if (y < _gridHeight - 1)
+                if (y < GridHeight - 1)
                 {
-                    AbilityGridCell upCell = _cellGrid[x, y + 1];
+                    AbilityGridCell upCell = CellGrid[x, y + 1];
                     cell.UpAction.started += ctx => MoveCell(upCell);
                 }
                 // Down neighbor
                 if (y > 0)
                 {
-                    AbilityGridCell downCell = _cellGrid[x, y - 1];
+                    AbilityGridCell downCell = CellGrid[x, y - 1];
                     cell.DownAction.started += ctx => MoveCell(downCell);
                 }
             }
@@ -93,5 +100,6 @@ public class AbilityGridManager : MonoBehaviour
             yield return elapsed / cell.Cooldown;
         }
         _canAct = true;
+        CurrentCell.IdleCell();
     }
 }
