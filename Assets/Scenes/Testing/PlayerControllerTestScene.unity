@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 434201196}
   - component: {fileID: 434201197}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: BodySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,6 +530,7 @@ MonoBehaviour:
   _maxFallSpeed: 20
   _jumpCooldown: 0
   _airDrag: 25
+  _visuals: {fileID: 599350580}
 --- !u!50 &1217563965
 Rigidbody2D:
   serializedVersion: 5

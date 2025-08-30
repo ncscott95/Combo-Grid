@@ -11,9 +11,12 @@ public class PlayerController2D : PlayerControllerBase
     [SerializeField] private float _maxFallSpeed = 20f;
     [SerializeField] private float _jumpCooldown = 0.2f;
     [SerializeField] private float _airDrag;
+    [Header("Visuals")]
+    [SerializeField] private Transform _visuals;
     private bool _isJumping = false;
     private bool _canJump = true;
     private bool _wasGroundedLastFrame = false;
+    private int _facingDirection = 1; // 1 = right, -1 = left
 
     public override void OnEnable()
     {
@@ -34,6 +37,22 @@ public class PlayerController2D : PlayerControllerBase
     public override void Update()
     {
         base.Update();
+
+        // Flip visuals based on movement input
+        if (_moveInput.x > 0.01f && _facingDirection != 1)
+        {
+            _facingDirection = 1;
+            Vector3 scale = _visuals.localScale;
+            scale.x = Mathf.Abs(scale.x);
+            _visuals.localScale = scale;
+        }
+        else if (_moveInput.x < -0.01f && _facingDirection != -1)
+        {
+            _facingDirection = -1;
+            Vector3 scale = _visuals.localScale;
+            scale.x = -Mathf.Abs(scale.x);
+            _visuals.localScale = scale;
+        }
     }
 
     public override void FixedUpdate()
