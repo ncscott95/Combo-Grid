@@ -112,20 +112,20 @@ TextureImporter:
       name: Tiny Panda-Jump _0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 4
-        width: 30
-        height: 18
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 86db7aa86e3e6b6e0800000000000000
-      internalID: -1822018419916554904
+      spriteID: 6185a2a8d66c7ef42b68045edc84532f
+      internalID: 1855788012
       vertices: []
       indices: 
       edges: []
@@ -134,20 +134,20 @@ TextureImporter:
       name: Tiny Panda-Jump _1
       rect:
         serializedVersion: 2
-        x: 133
-        y: 4
-        width: 30
-        height: 18
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7aa7992c5d47dd380800000000000000
-      internalID: -8944864823446242649
+      spriteID: 9e01d4d80df810a48be0f24643c6e63b
+      internalID: 632877073
       vertices: []
       indices: 
       edges: []
@@ -156,20 +156,20 @@ TextureImporter:
       name: Tiny Panda-Jump _2
       rect:
         serializedVersion: 2
-        x: 236
-        y: 4
-        width: 30
-        height: 18
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 031e80d86ff00e3b0800000000000000
-      internalID: -5485366794534723280
+      spriteID: 0fdb6ae11435f0640bf4f04cfdaca30a
+      internalID: 1162053238
       vertices: []
       indices: 
       edges: []
@@ -178,20 +178,20 @@ TextureImporter:
       name: Tiny Panda-Jump _3
       rect:
         serializedVersion: 2
-        x: 339
-        y: 4
-        width: 30
-        height: 18
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 93bf2a8fd33281500800000000000000
-      internalID: 367082118702103353
+      spriteID: 76791a2baac745a4cb42862bd9ca48db
+      internalID: 680658032
       vertices: []
       indices: 
       edges: []
@@ -200,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: fed9fe84fed430c49bff62db68fff186
     internalID: 0
     vertices: []
     indices: 
@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Jump _0: 1855788012
+      Tiny Panda-Jump _1: 632877073
+      Tiny Panda-Jump _2: 1162053238
+      Tiny Panda-Jump _3: 680658032
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

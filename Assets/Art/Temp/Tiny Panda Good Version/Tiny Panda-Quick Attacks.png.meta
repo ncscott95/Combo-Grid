@@ -133,20 +133,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 3
-        width: 30
-        height: 18
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f8d774ccfe7790c00800000000000000
-      internalID: 867356275053657487
+      spriteID: 0b8cfface049f5947b4d3ea16cd5ac1a
+      internalID: -1179842725
       vertices: []
       indices: 
       edges: []
@@ -155,20 +155,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_1
       rect:
         serializedVersion: 2
-        x: 122
-        y: 3
-        width: 56
-        height: 16
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: be5d7e2101f07e170800000000000000
-      internalID: 8207545407617095147
+      spriteID: cca73420eb1e95d47bc9bb940b99b329
+      internalID: 315477849
       vertices: []
       indices: 
       edges: []
@@ -177,20 +177,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_2
       rect:
         serializedVersion: 2
-        x: 226
-        y: 3
-        width: 45
-        height: 16
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f892747f97948ed10800000000000000
-      internalID: 2155053209885288847
+      spriteID: 08177ce9b609b7249ab9b004906aea48
+      internalID: 132738311
       vertices: []
       indices: 
       edges: []
@@ -199,20 +199,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_3
       rect:
         serializedVersion: 2
-        x: 330
-        y: 3
-        width: 38
-        height: 17
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9c3100859df3a67e0800000000000000
-      internalID: -1771533300700015671
+      spriteID: 7e5144d4ca54fdd46aa389603d906ca3
+      internalID: 1089493370
       vertices: []
       indices: 
       edges: []
@@ -221,20 +221,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_4
       rect:
         serializedVersion: 2
-        x: 433
-        y: 3
-        width: 36
-        height: 17
+        x: 412
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ac2d939bb370655f0800000000000000
-      internalID: -768418733328051510
+      spriteID: effc59c08e2406d4c8ff7d74c4164de2
+      internalID: 202726590
       vertices: []
       indices: 
       edges: []
@@ -243,20 +243,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_5
       rect:
         serializedVersion: 2
-        x: 531
-        y: 3
-        width: 37
-        height: 15
+        x: 515
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4b87e93f41b1bbf90800000000000000
-      internalID: -6936921024233572172
+      spriteID: 3c632151a0773214087d6b055ea205a2
+      internalID: 525766032
       vertices: []
       indices: 
       edges: []
@@ -265,20 +265,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_6
       rect:
         serializedVersion: 2
-        x: 537
+        x: 618
         y: 0
-        width: 59
-        height: 13
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e08456edf70a64e90800000000000000
-      internalID: -7041764496294721522
+      spriteID: fe9538a8cf9eef043bf8b656ac5fbc73
+      internalID: 1700695210
       vertices: []
       indices: 
       edges: []
@@ -287,20 +287,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_7
       rect:
         serializedVersion: 2
-        x: 635
+        x: 721
         y: 0
-        width: 48
-        height: 19
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8943e9daaa08d6ae0800000000000000
-      internalID: -1554444825827330920
+      spriteID: 7bb2fd9c99afae84ab5f006264991df1
+      internalID: -912873450
       vertices: []
       indices: 
       edges: []
@@ -309,20 +309,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_8
       rect:
         serializedVersion: 2
-        x: 738
+        x: 824
         y: 0
-        width: 47
-        height: 20
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a80a0afa190172040800000000000000
-      internalID: 4622681760421945482
+      spriteID: 187e9a848d6f1014da43be05e969d9f6
+      internalID: -173252782
       vertices: []
       indices: 
       edges: []
@@ -331,42 +331,20 @@ TextureImporter:
       name: Tiny Panda-Quick Attacks_9
       rect:
         serializedVersion: 2
-        x: 842
+        x: 927
         y: 0
-        width: 44
-        height: 20
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6e218bdd277b33050800000000000000
-      internalID: 5779164450820461286
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiny Panda-Quick Attacks_10
-      rect:
-        serializedVersion: 2
-        x: 945
-        y: 0
-        width: 43
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 686c0835766e8fc80800000000000000
-      internalID: -8288621782718429562
+      spriteID: bfa513583d9ca4c41bfbb63319b52cce
+      internalID: 320817400
       vertices: []
       indices: 
       edges: []
@@ -375,7 +353,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 07a47cf573271ee4e811f7e37e7d5321
     internalID: 0
     vertices: []
     indices: 
@@ -384,7 +362,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Quick Attacks_0: -1179842725
+      Tiny Panda-Quick Attacks_1: 315477849
+      Tiny Panda-Quick Attacks_2: 132738311
+      Tiny Panda-Quick Attacks_3: 1089493370
+      Tiny Panda-Quick Attacks_4: 202726590
+      Tiny Panda-Quick Attacks_5: 525766032
+      Tiny Panda-Quick Attacks_6: 1700695210
+      Tiny Panda-Quick Attacks_7: -912873450
+      Tiny Panda-Quick Attacks_8: -173252782
+      Tiny Panda-Quick Attacks_9: 320817400
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

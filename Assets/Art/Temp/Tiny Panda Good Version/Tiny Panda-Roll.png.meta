@@ -112,20 +112,20 @@ TextureImporter:
       name: Tiny Panda-Roll_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 3
-        width: 29
-        height: 19
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f20e1fb25b3eb8530800000000000000
-      internalID: 3858427873038819375
+      spriteID: c7260f8845812224d8a65fda892f9fb4
+      internalID: -1583170775
       vertices: []
       indices: 
       edges: []
@@ -134,20 +134,20 @@ TextureImporter:
       name: Tiny Panda-Roll_1
       rect:
         serializedVersion: 2
-        x: 133
-        y: 3
-        width: 29
-        height: 19
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 60c74a64009e45b80800000000000000
-      internalID: -8406838416999416826
+      spriteID: 8b7b3fb04f9618c45b84c36302ad4237
+      internalID: 1976744661
       vertices: []
       indices: 
       edges: []
@@ -156,20 +156,20 @@ TextureImporter:
       name: Tiny Panda-Roll_2
       rect:
         serializedVersion: 2
-        x: 237
-        y: 3
-        width: 30
-        height: 19
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fc84911a98be678a0800000000000000
-      internalID: -6307595251739965233
+      spriteID: 2a72ef445a4eae44085afba6c6df5535
+      internalID: -1359387877
       vertices: []
       indices: 
       edges: []
@@ -178,20 +178,20 @@ TextureImporter:
       name: Tiny Panda-Roll_3
       rect:
         serializedVersion: 2
-        x: 340
-        y: 3
-        width: 30
-        height: 19
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2506d6c99fc4409d0800000000000000
-      internalID: -2809035632617365422
+      spriteID: e98d23409de890846921517e48d9fe1e
+      internalID: -1127929723
       vertices: []
       indices: 
       edges: []
@@ -200,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 56f75e1194afba34297284b481d67bb3
     internalID: 0
     vertices: []
     indices: 
@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Roll_0: -1583170775
+      Tiny Panda-Roll_1: 1976744661
+      Tiny Panda-Roll_2: -1359387877
+      Tiny Panda-Roll_3: -1127929723
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

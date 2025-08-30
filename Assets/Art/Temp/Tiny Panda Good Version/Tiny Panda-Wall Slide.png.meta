@@ -112,20 +112,20 @@ TextureImporter:
       name: Tiny Panda-Wall Slide_0
       rect:
         serializedVersion: 2
-        x: 36
-        y: 2
-        width: 12
-        height: 25
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 87a24fc54ddb4e6e0800000000000000
-      internalID: -1809112430505874824
+      spriteID: 86eb92ecab85e83438807fb88c2d9280
+      internalID: 797901693
       vertices: []
       indices: 
       edges: []
@@ -134,20 +134,20 @@ TextureImporter:
       name: Tiny Panda-Wall Slide_1
       rect:
         serializedVersion: 2
-        x: 139
-        y: 2
-        width: 12
-        height: 25
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d4e0545f97b0e1240800000000000000
-      internalID: 4764258074238455373
+      spriteID: 5e54792e936ebaa46a26cd6f8a5a8644
+      internalID: 1411648430
       vertices: []
       indices: 
       edges: []
@@ -156,20 +156,20 @@ TextureImporter:
       name: Tiny Panda-Wall Slide_2
       rect:
         serializedVersion: 2
-        x: 242
-        y: 2
-        width: 12
-        height: 25
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e8fe2e1da5a853490800000000000000
-      internalID: -7767149859657551986
+      spriteID: 6b70f3c571bda2343b119f596f829862
+      internalID: 1658832408
       vertices: []
       indices: 
       edges: []
@@ -178,20 +178,20 @@ TextureImporter:
       name: Tiny Panda-Wall Slide_3
       rect:
         serializedVersion: 2
-        x: 345
-        y: 2
-        width: 12
-        height: 25
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5c84efa0f907c26b0800000000000000
-      internalID: -5319753231444850491
+      spriteID: 0fd3e26dafba8b44ab29cb64562dad67
+      internalID: -245537795
       vertices: []
       indices: 
       edges: []
@@ -200,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 55ff2536214ef804b816572c1991d5ed
     internalID: 0
     vertices: []
     indices: 
@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Wall Slide_0: 797901693
+      Tiny Panda-Wall Slide_1: 1411648430
+      Tiny Panda-Wall Slide_2: 1658832408
+      Tiny Panda-Wall Slide_3: -245537795
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

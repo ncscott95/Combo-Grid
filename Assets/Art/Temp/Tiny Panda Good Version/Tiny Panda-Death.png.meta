@@ -130,20 +130,20 @@ TextureImporter:
       name: Tiny Panda-Death_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 3
-        width: 31
-        height: 18
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0a10868d70455c3e0800000000000000
-      internalID: -2034127264015711840
+      spriteID: 32a1604bf6cb6d64ba33ca0b77aa406f
+      internalID: -1217023056
       vertices: []
       indices: 
       edges: []
@@ -152,20 +152,20 @@ TextureImporter:
       name: Tiny Panda-Death_1
       rect:
         serializedVersion: 2
-        x: 134
-        y: 3
-        width: 31
-        height: 18
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e353d6f9a4c347650800000000000000
-      internalID: 6229670475760219454
+      spriteID: 0d30e0ab4f682ba4bb27800197d790f1
+      internalID: 1566250522
       vertices: []
       indices: 
       edges: []
@@ -174,20 +174,20 @@ TextureImporter:
       name: Tiny Panda-Death_2
       rect:
         serializedVersion: 2
-        x: 243
-        y: 3
-        width: 20
-        height: 25
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d3bd7457047205fa0800000000000000
-      internalID: -5814103961136276675
+      spriteID: 7a4d0dd61fe7637499e8feceffcb40af
+      internalID: 440975904
       vertices: []
       indices: 
       edges: []
@@ -196,20 +196,20 @@ TextureImporter:
       name: Tiny Panda-Death_3
       rect:
         serializedVersion: 2
-        x: 347
-        y: 3
-        width: 13
-        height: 26
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d309665d60293b3e0800000000000000
-      internalID: -2039125648220975043
+      spriteID: 195b383b4c001e14f88c73cdaf241fd3
+      internalID: 1439761208
       vertices: []
       indices: 
       edges: []
@@ -218,20 +218,20 @@ TextureImporter:
       name: Tiny Panda-Death_4
       rect:
         serializedVersion: 2
-        x: 450
-        y: 3
-        width: 13
-        height: 26
+        x: 412
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b2cdef347ee5bd150800000000000000
-      internalID: 5898412484343028779
+      spriteID: fdb33c3594733cd4b8959b973b0c703f
+      internalID: -1719700810
       vertices: []
       indices: 
       edges: []
@@ -240,20 +240,20 @@ TextureImporter:
       name: Tiny Panda-Death_5
       rect:
         serializedVersion: 2
-        x: 555
-        y: 3
-        width: 17
-        height: 26
+        x: 515
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a3f3ed5f882cf1e30800000000000000
-      internalID: 4476510448125886266
+      spriteID: 9dd2545355708f44bb741580eba6fa29
+      internalID: -1803849967
       vertices: []
       indices: 
       edges: []
@@ -262,20 +262,20 @@ TextureImporter:
       name: Tiny Panda-Death_6
       rect:
         serializedVersion: 2
-        x: 660
-        y: 3
-        width: 36
-        height: 11
+        x: 618
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0865c01356cfaf620800000000000000
-      internalID: 2808834829163714176
+      spriteID: ab150701ea81157429054cbcb8ffcedf
+      internalID: -974935251
       vertices: []
       indices: 
       edges: []
@@ -284,20 +284,20 @@ TextureImporter:
       name: Tiny Panda-Death_7
       rect:
         serializedVersion: 2
-        x: 763
-        y: 3
-        width: 37
-        height: 10
+        x: 721
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6c842bb78fd0c90d0800000000000000
-      internalID: -3414839056575346490
+      spriteID: 364ac332ec50c2b4cbd03e907d6f2bf8
+      internalID: -1213165918
       vertices: []
       indices: 
       edges: []
@@ -306,20 +306,20 @@ TextureImporter:
       name: Tiny Panda-Death_8
       rect:
         serializedVersion: 2
-        x: 866
-        y: 3
-        width: 38
-        height: 10
+        x: 824
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fd8c35b86e52d5b50800000000000000
-      internalID: 6583459902395762911
+      spriteID: c2e264e0bce4d6841bfc7309f45facc0
+      internalID: -1155413699
       vertices: []
       indices: 
       edges: []
@@ -328,20 +328,20 @@ TextureImporter:
       name: Tiny Panda-Death_9
       rect:
         serializedVersion: 2
-        x: 969
-        y: 3
-        width: 39
-        height: 9
+        x: 927
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ba203ffa9bbe0eff0800000000000000
-      internalID: -8748016501325141
+      spriteID: 8c498dd417a5b4840b4332daa85968c0
+      internalID: 542821179
       vertices: []
       indices: 
       edges: []
@@ -350,7 +350,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bb288381c6cd362409bd11b18872afe7
     internalID: 0
     vertices: []
     indices: 
@@ -359,7 +359,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Death_0: -1217023056
+      Tiny Panda-Death_1: 1566250522
+      Tiny Panda-Death_2: 440975904
+      Tiny Panda-Death_3: 1439761208
+      Tiny Panda-Death_4: -1719700810
+      Tiny Panda-Death_5: -1803849967
+      Tiny Panda-Death_6: -974935251
+      Tiny Panda-Death_7: -1213165918
+      Tiny Panda-Death_8: -1155413699
+      Tiny Panda-Death_9: 542821179
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

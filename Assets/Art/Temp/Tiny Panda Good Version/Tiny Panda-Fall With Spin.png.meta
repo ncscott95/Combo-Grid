@@ -112,20 +112,20 @@ TextureImporter:
       name: Tiny Panda-Fall With Spin_0
       rect:
         serializedVersion: 2
-        x: 29
-        y: 3
-        width: 29
-        height: 24
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a038ebc511bc05360800000000000000
-      internalID: 7156443083322589962
+      spriteID: 4193f30daeb4e9b48a8c7baeda1d4787
+      internalID: -1513331957
       vertices: []
       indices: 
       edges: []
@@ -134,20 +134,20 @@ TextureImporter:
       name: Tiny Panda-Fall With Spin_1
       rect:
         serializedVersion: 2
-        x: 131
-        y: 3
-        width: 29
-        height: 24
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7f466e6ef6c24b020800000000000000
-      internalID: 2356557364148462839
+      spriteID: a51d9e2f3e84927469c9496c44cc67e3
+      internalID: 212585579
       vertices: []
       indices: 
       edges: []
@@ -156,20 +156,20 @@ TextureImporter:
       name: Tiny Panda-Fall With Spin_2
       rect:
         serializedVersion: 2
-        x: 235
-        y: 3
-        width: 30
-        height: 24
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 082e3ebb7c93f7260800000000000000
-      internalID: 7097455067772740224
+      spriteID: ffb0d6942e7eda046abbe80c0915f349
+      internalID: 1560709423
       vertices: []
       indices: 
       edges: []
@@ -178,20 +178,20 @@ TextureImporter:
       name: Tiny Panda-Fall With Spin_3
       rect:
         serializedVersion: 2
-        x: 338
-        y: 3
-        width: 30
-        height: 24
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf570c5a086701610800000000000000
-      internalID: 1589900963370530299
+      spriteID: 56e8e1e8fa751ef4989f756874b31d32
+      internalID: -929497100
       vertices: []
       indices: 
       edges: []
@@ -200,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 75fd44ef905dba14e8cb4fcb4b9aab79
     internalID: 0
     vertices: []
     indices: 
@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Fall With Spin_0: -1513331957
+      Tiny Panda-Fall With Spin_1: 212585579
+      Tiny Panda-Fall With Spin_2: 1560709423
+      Tiny Panda-Fall With Spin_3: -929497100
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

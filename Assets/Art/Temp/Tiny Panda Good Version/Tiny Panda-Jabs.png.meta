@@ -136,20 +136,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 3
-        width: 30
-        height: 18
+        x: 0
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0cdbf4a0faaff8820800000000000000
-      internalID: 2922830312885960128
+      spriteID: de654f2134d9f624b8b01c07f936a062
+      internalID: 122745386
       vertices: []
       indices: 
       edges: []
@@ -158,20 +158,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_1
       rect:
         serializedVersion: 2
-        x: 134
-        y: 3
-        width: 30
-        height: 18
+        x: 103
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 98e9c9fc5ad708140800000000000000
-      internalID: 4719910560590503561
+      spriteID: 0ceea36c5593c64469247a4c24b2b824
+      internalID: -360614119
       vertices: []
       indices: 
       edges: []
@@ -180,20 +180,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_2
       rect:
         serializedVersion: 2
-        x: 234
-        y: 3
-        width: 30
-        height: 17
+        x: 206
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2be4b212a84b68ff0800000000000000
-      internalID: -34141441803727182
+      spriteID: 26b03ddcdd7080d46a5726ab7bd8de70
+      internalID: -285225202
       vertices: []
       indices: 
       edges: []
@@ -202,20 +202,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_3
       rect:
         serializedVersion: 2
-        x: 345
-        y: 3
-        width: 67
-        height: 16
+        x: 309
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a28612ae72e21e380800000000000000
-      internalID: -8943816636014434262
+      spriteID: 7f81cbf2f986a3241a704029279004d5
+      internalID: 586573075
       vertices: []
       indices: 
       edges: []
@@ -224,20 +224,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_4
       rect:
         serializedVersion: 2
-        x: 448
-        y: 3
-        width: 41
-        height: 16
+        x: 412
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 508f9ddeb44645ab0800000000000000
-      internalID: -5020277407335450619
+      spriteID: 5dc267c646a45904d97a39e20bacc87b
+      internalID: 1628386572
       vertices: []
       indices: 
       edges: []
@@ -246,20 +246,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_5
       rect:
         serializedVersion: 2
-        x: 498
-        y: 3
-        width: 18
-        height: 14
+        x: 515
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b36f7047492f91d90800000000000000
-      internalID: -7126398215921338821
+      spriteID: 9badfa475744e9b4eb37fa98b6259f3d
+      internalID: 1701852029
       vertices: []
       indices: 
       edges: []
@@ -268,20 +268,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_6
       rect:
         serializedVersion: 2
-        x: 552
-        y: 3
-        width: 41
-        height: 16
+        x: 618
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7cc7556eb03be7260800000000000000
-      internalID: 7097306926472854727
+      spriteID: a25e3fb94b3d24d4a9e13cef33089824
+      internalID: -149994233
       vertices: []
       indices: 
       edges: []
@@ -290,20 +290,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_7
       rect:
         serializedVersion: 2
-        x: 587
-        y: 3
-        width: 21
-        height: 14
+        x: 721
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 70e624d78e75bf530800000000000000
-      internalID: 3889799359210089991
+      spriteID: f56bfde79ecb4fd4cbff4313e977d3a7
+      internalID: 22113000
       vertices: []
       indices: 
       edges: []
@@ -312,86 +312,20 @@ TextureImporter:
       name: Tiny Panda-Jabs_8
       rect:
         serializedVersion: 2
-        x: 598
-        y: 3
-        width: 15
-        height: 6
+        x: 824
+        y: 0
+        width: 103
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7b11c34642c260670800000000000000
-      internalID: 8504533481147863479
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiny Panda-Jabs_9
-      rect:
-        serializedVersion: 2
-        x: 656
-        y: 3
-        width: 62
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c7a28071ab4af6c00800000000000000
-      internalID: 896115970027301500
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiny Panda-Jabs_10
-      rect:
-        serializedVersion: 2
-        x: 760
-        y: 3
-        width: 62
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d95b15f4a6c7563c0800000000000000
-      internalID: -4366947467626695267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiny Panda-Jabs_11
-      rect:
-        serializedVersion: 2
-        x: 863
-        y: 3
-        width: 63
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6fc952316aa6df8f0800000000000000
-      internalID: -505130321677280010
+      spriteID: 0a7e46d00c4d17841980595e5c7c28ae
+      internalID: -2017411976
       vertices: []
       indices: 
       edges: []
@@ -400,7 +334,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 90a34d2a7c1de0748b66a49fdc8e329e
     internalID: 0
     vertices: []
     indices: 
@@ -409,7 +343,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiny Panda-Jabs_0: 122745386
+      Tiny Panda-Jabs_1: -360614119
+      Tiny Panda-Jabs_2: -285225202
+      Tiny Panda-Jabs_3: 586573075
+      Tiny Panda-Jabs_4: 1628386572
+      Tiny Panda-Jabs_5: 1701852029
+      Tiny Panda-Jabs_6: -149994233
+      Tiny Panda-Jabs_7: 22113000
+      Tiny Panda-Jabs_8: -2017411976
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
