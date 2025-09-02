@@ -531,6 +531,7 @@ MonoBehaviour:
   _jumpCooldown: 0
   _airDrag: 25
   _visuals: {fileID: 599350580}
+  _animator: {fileID: 434201197}
 --- !u!50 &1217563965
 Rigidbody2D:
   serializedVersion: 5
@@ -592,8 +593,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0, y: 0.4}
+  m_Size: {x: 0.5, y: 0.8}
   m_Direction: 0
 --- !u!1 &1671793854
 GameObject:

@@ -11,8 +11,10 @@ public class PlayerController2D : PlayerControllerBase
     [SerializeField] private float _maxFallSpeed = 20f;
     [SerializeField] private float _jumpCooldown = 0.2f;
     [SerializeField] private float _airDrag;
+
     [Header("Visuals")]
     [SerializeField] private Transform _visuals;
+    [SerializeField] private Animator _animator;
     private bool _isJumping = false;
     private bool _canJump = true;
     private bool _wasGroundedLastFrame = false;
@@ -104,6 +106,11 @@ public class PlayerController2D : PlayerControllerBase
 
         // Cap fall speed
         if (velocity.y < -_maxFallSpeed) velocity.y = -_maxFallSpeed;
+
+        // Set animation state
+        _animator.SetBool("isRunning", velocity.x != 0);
+        _animator.SetBool("isJumping", _isJumping);
+        _animator.SetBool("isFalling", velocity.y < 0 && !_isGrounded);
 
         // Apply the final velocity
         _rb.linearVelocity = velocity;
