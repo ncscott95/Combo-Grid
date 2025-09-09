@@ -3,20 +3,30 @@ using UnityEngine;
 
 public class PlayerController2D : PlayerControllerBase
 {
+    [Header("Wall Slide")]
+    [SerializeField] private LayerMask _wallMask;
+    [SerializeField] private float _wallCheckDistance = 0.5f;
+    private bool _isWallSliding = false;
+
     [Header("Jump")]
+    [SerializeField] private int _airJumpsMax = 1;
     [SerializeField] private float _jumpForce = 15f;
     [SerializeField] private float _gravityJumpingScale = 2f;
     [SerializeField] private float _gravityFallingScale = 4f;
     [SerializeField] private float _gravityGroundedScale = .5f;
+    [SerializeField] private float _gravityWallSlidingScale = 2f;
     [SerializeField] private float _maxFallSpeed = 20f;
-    [SerializeField] private float _jumpCooldown = 0.2f;
+    [SerializeField] private float _jumpAirCooldown = 0.2f;
+    [SerializeField] private float _jumpLandCooldown = 0.1f;
     [SerializeField] private float _airDrag;
+    private int _airJumpsRemaining;
+    private Coroutine _jumpCooldownCoroutine;
 
     [Header("Visuals")]
     [SerializeField] private Transform _visuals;
     [SerializeField] private Animator _animator;
     private bool _isJumping = false;
-    private bool _canJump = true;
+    private bool _isJumpReady = true;
     private bool _wasGroundedLastFrame = false;
     private int _facingDirection = 1; // 1 = right, -1 = left
 
@@ -26,6 +36,7 @@ public class PlayerController2D : PlayerControllerBase
 
         Actions.Player.Jump.performed += ctx => Jump();
         Actions.Player.Jump.canceled += ctx => StopJump();
+        _airJumpsRemaining = _airJumpsMax;
     }
 
     public override void OnDisable()
@@ -81,12 +92,25 @@ public class PlayerController2D : PlayerControllerBase
             velocity.x = Mathf.Sign(velocity.x) * Speed;
         }
 
+        // Wall sliding
+        if (!_isGrounded && velocity.y < 0)
+        {
+            RaycastHit2D wallCheck = Physics2D.Raycast(transform.position, Vector2.right * _facingDirection, _wallCheckDistance, _wallMask);
+            _isWallSliding = wallCheck;
+        }
+        else
+        {
+            _isWallSliding = false;
+        }
+
         // Check if the player just landed
         if (!_wasGroundedLastFrame && _isGrounded)
         {
-            // Player just landed on the ground, trigger jump cooldown
-            // StartCoroutine(JumpCooldown());
-            _canJump = true;
+            // Player just landed on the ground, reset air jumps
+            _airJumpsRemaining = _airJumpsMax;
+            _isJumping = false;
+            if (_jumpCooldownCoroutine != null) StopCoroutine(_jumpCooldownCoroutine);
+            _jumpCooldownCoroutine = StartCoroutine(JumpCooldown(_jumpLandCooldown));
         }
         _wasGroundedLastFrame = _isGrounded;
 
@@ -94,6 +118,10 @@ public class PlayerController2D : PlayerControllerBase
         if (_isJumping && velocity.y > 0)
         {
             _rb.gravityScale = _gravityJumpingScale;
+        }
+        else if (_isWallSliding)
+        {
+            _rb.gravityScale = _gravityGroundedScale;
         }
         else if (!_isGrounded)
         {
@@ -111,6 +139,7 @@ public class PlayerController2D : PlayerControllerBase
         _animator.SetBool("isRunning", velocity.x != 0);
         _animator.SetBool("isJumping", _isJumping);
         _animator.SetBool("isFalling", velocity.y < 0 && !_isGrounded);
+        _animator.SetBool("isWallSliding", _isWallSliding);
 
         // Apply the final velocity
         _rb.linearVelocity = velocity;
@@ -118,22 +147,40 @@ public class PlayerController2D : PlayerControllerBase
 
     public override void Attack()
     {
-        // Implement 2D attack logic here
+        _animator.SetInteger("attackIdx", Random.Range(0, 4));
+        _animator.SetTrigger("attack");
     }
 
     public override void Dodge()
     {
-        // Implement 2D dodge logic here
+        _animator.SetTrigger("roll");
     }
 
     public void Jump()
     {
-        if (_isGrounded && _canJump)
+        if (_isGrounded && _isJumpReady)
         {
+            _animator.SetTrigger("jump");
             Debug.Log("Jumped");
             _isJumping = true;
-            _canJump = false;
+            _isJumpReady = false;
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            StartCoroutine(JumpCooldown(_jumpAirCooldown));
+        }
+        else if (!_isGrounded && _airJumpsRemaining > 0)
+        {
+            _animator.SetTrigger("airJump");
+            Debug.Log("Air Jumped");
+            _isJumping = true;
+            _airJumpsRemaining--;
+            _rb.linearVelocityY = 0; // Reset vertical velocity before jumping again
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            if (_jumpCooldownCoroutine != null) StopCoroutine(_jumpCooldownCoroutine);
+            _jumpCooldownCoroutine = StartCoroutine(JumpCooldown(_jumpAirCooldown));
+        }
+        else
+        {
+            Debug.Log("Jump not ready");
         }
     }
 
@@ -142,10 +189,9 @@ public class PlayerController2D : PlayerControllerBase
         _isJumping = false;
     }
 
-    private IEnumerator JumpCooldown()
+    private IEnumerator JumpCooldown(float duration)
     {
-        Debug.Log("Jump Cooldown Started");
-        yield return new WaitForSeconds(_jumpCooldown);
-        _canJump = true;
+        yield return new WaitForSeconds(duration);
+        _isJumpReady = true;
     }
 }
