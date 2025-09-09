@@ -95,6 +95,7 @@ public class PlayerController2D : PlayerControllerBase
         // Wall sliding
         if (!_isGrounded && velocity.y < 0)
         {
+            // TODO: most likely broken because wall check needs to face opposite direction of player facing
             RaycastHit2D wallCheck = Physics2D.Raycast(transform.position, Vector2.right * _facingDirection, _wallCheckDistance, _wallMask);
             _isWallSliding = wallCheck;
         }
