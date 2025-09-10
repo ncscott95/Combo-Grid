@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26834e9c5bd5e2541b0c8c4e19c2e5bd, type: 3}
-  m_Name: TestSkill 1
+  m_Name: JumpSlash
   m_EditorClassIdentifier: 
-  _animation: {fileID: 7400000, guid: ac50d1ef07a14724a96d3a1b5c0c982d, type: 2}
+  _animation: {fileID: 7400000, guid: 4d586858974852341a7e2b62aa7272aa, type: 2}
   _startActiveFrame: 7
   _endActiveFrame: 10

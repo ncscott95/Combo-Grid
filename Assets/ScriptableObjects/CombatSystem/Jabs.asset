@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26834e9c5bd5e2541b0c8c4e19c2e5bd, type: 3}
-  m_Name: TestSkill
+  m_Name: Jabs
   m_EditorClassIdentifier: 
-  _animation: {fileID: 7400000, guid: c00c79a01577c3a46987cce51f4a6f82, type: 2}
+  _animation: {fileID: 7400000, guid: b0954cb53b6cede46b92487c5f48d088, type: 2}
   _startActiveFrame: 3
   _endActiveFrame: 7
