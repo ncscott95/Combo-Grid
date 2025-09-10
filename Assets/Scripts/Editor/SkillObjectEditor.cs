@@ -19,7 +19,7 @@ public class SkillObjectEditor : Editor
 
     public override VisualElement CreateInspectorGUI()
     {
-    VisualElement root = new VisualElement();
+        VisualElement root = new();
         serializedObject.Update();
         _animationProp = serializedObject.FindProperty("_animation");
         _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
@@ -34,7 +34,7 @@ public class SkillObjectEditor : Editor
 
     private ObjectField CreateAnimationClipField()
     {
-        ObjectField animationField = new ObjectField("Animation")
+        ObjectField animationField = new("Animation")
         {
             objectType = typeof(AnimationClip),
             value = _animationProp.objectReferenceValue as AnimationClip
@@ -50,7 +50,7 @@ public class SkillObjectEditor : Editor
 
     private void DrawCustomAnimationPreview()
     {
-    AnimationClip clip = _animationProp.objectReferenceValue as AnimationClip;
+        AnimationClip clip = _animationProp.objectReferenceValue as AnimationClip;
         if (clip != null)
         {
             // Try to get the Sprite keyframes (for 2D sprite animations)
@@ -73,20 +73,20 @@ public class SkillObjectEditor : Editor
                             {
                                 // Draw background
                                 Color prevColor = GUI.color;
-                                Color bgColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+                                Color bgColor = new(0.15f, 0.15f, 0.15f, 1f);
                                 EditorGUI.DrawRect(rect, bgColor);
 
                                 // Draw border
                                 Handles.color = Color.gray;
                                 Handles.DrawAAPolyLine(2f, new Vector3[] {
-                                    new Vector3(rect.xMin, rect.yMin), new Vector3(rect.xMax, rect.yMin),
-                                    new Vector3(rect.xMax, rect.yMax), new Vector3(rect.xMin, rect.yMax), new Vector3(rect.xMin, rect.yMin)
+                                    new(rect.xMin, rect.yMin), new(rect.xMax, rect.yMin),
+                                    new(rect.xMax, rect.yMax), new(rect.xMin, rect.yMax), new(rect.xMin, rect.yMin)
                                 });
 
                                 // Draw sprite
                                 Texture2D tex = sprite.texture;
                                 Rect spriteRect = sprite.rect;
-                                Rect uv = new Rect(
+                                Rect uv = new(
                                     spriteRect.x / tex.width,
                                     spriteRect.y / tex.height,
                                     spriteRect.width / tex.width,
@@ -116,25 +116,10 @@ public class SkillObjectEditor : Editor
                             float sliderWidth = EditorGUIUtility.currentViewWidth - LabelWidth - ValueWidth - 50f; // fudge factor for padding/scrollbar
                             Rect sliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
                             _previewFrame = (int)GUI.HorizontalSlider(sliderRect, _previewFrame, 0, _maxFrame);
-                            GUILayout.Label($"{_previewFrame + 1} / {keyframes.Length}", GUILayout.Width(ValueWidth));
+                            GUILayout.Label($"{_previewFrame} / {_maxFrame}", GUILayout.Width(ValueWidth));
                             GUILayout.EndHorizontal();
-                            // Draw ticks for each frame, vertically centered on the slider
-                            if (Event.current.type == EventType.Repaint)
-                            {
-                                Handles.color = Color.gray;
-                                int tickCount = _maxFrame + 1;
-                                float tickHeight = 6f;
-                                float yOffset = 1f; // Nudge up for better centering
-                                float yCenter = sliderRect.center.y - yOffset;
-                                float yMin = yCenter - tickHeight / 2f;
-                                float yMax = yCenter + tickHeight / 2f;
-                                for (int i = 0; i < tickCount; i++)
-                                {
-                                    float t = (float)i / _maxFrame;
-                                    float x = Mathf.Lerp(sliderRect.xMin, sliderRect.xMax, t);
-                                    Handles.DrawLine(new Vector3(x, yMin), new Vector3(x, yMax));
-                                }
-                            }
+                            // Draw ticks for each frame, aligned with slider snap points
+                            DrawSliderTicks(sliderRect, _maxFrame + 1);
 
                             // Active phase MinMaxSlider
                             int start = _startActiveFrameProp.intValue;
@@ -150,28 +135,13 @@ public class SkillObjectEditor : Editor
                             Rect minMaxSliderRect = GUILayoutUtility.GetRect(minMaxSliderWidth, SliderHeight);
                             EditorGUI.MinMaxSlider(minMaxSliderRect, ref min, ref max, 0, _maxFrame);
 
-                            // Draw ticks for each frame, vertically centered on the slider
-                            if (Event.current.type == EventType.Repaint)
-                            {
-                                Handles.color = Color.gray;
-                                int tickCount = _maxFrame + 1;
-                                float tickHeight = 6f;
-                                float yOffset = 1f; // Nudge up for better centering
-                                float yCenter = minMaxSliderRect.center.y - yOffset;
-                                float yMin = yCenter - tickHeight / 2f;
-                                float yMax = yCenter + tickHeight / 2f;
-                                for (int i = 0; i < tickCount; i++)
-                                {
-                                    float t = (float)i / _maxFrame;
-                                    float x = Mathf.Lerp(minMaxSliderRect.xMin, minMaxSliderRect.xMax, t);
-                                    Handles.DrawLine(new Vector3(x, yMin), new Vector3(x, yMax));
-                                }
-                            }
+                            // Draw ticks for each frame, aligned with slider snap points
+                            DrawSliderTicks(minMaxSliderRect, _maxFrame + 1);
 
                             // After dragging, clamp and round for display and saving
                             int newStart = Mathf.Clamp(Mathf.RoundToInt(min), 0, Mathf.Max(0, Mathf.RoundToInt(max) - 1));
                             int newEnd = Mathf.Clamp(Mathf.RoundToInt(max), Mathf.Min(newStart + 1, _maxFrame), _maxFrame);
-                            GUILayout.Label($"{newStart + 1} - {newEnd + 1}", GUILayout.Width(ValueWidth));
+                            GUILayout.Label($"{newStart} - {newEnd}", GUILayout.Width(ValueWidth));
                             GUILayout.EndHorizontal();
 
                             // Save changes if needed
@@ -195,6 +165,26 @@ public class SkillObjectEditor : Editor
         else
         {
             GUILayout.Label("No AnimationClip assigned.");
+        }
+    }
+
+    private void DrawSliderTicks(Rect rect, int tickCount)
+    {
+        if (Event.current.type != EventType.Repaint) return;
+        Handles.color = Color.gray;
+        float tickHeight = 6f;
+        float yOffset = 1f; // Nudge up for better centering
+        float yCenter = rect.center.y - yOffset;
+        float yMin = yCenter - tickHeight / 2f;
+        float yMax = yCenter + tickHeight / 2f;
+        float handleWidth = 10f; // Unity IMGUI slider handle width
+        float xStart = rect.xMin + handleWidth / 2f;
+        float xEnd = rect.xMax - handleWidth / 2f;
+        for (int i = 0; i < tickCount; i++)
+        {
+            float t = (tickCount == 1) ? 0.5f : (float)i / (tickCount - 1);
+            float x = Mathf.Lerp(xStart, xEnd, t);
+            Handles.DrawLine(new Vector3(x, yMin), new Vector3(x, yMax));
         }
     }
 }

@@ -10,7 +10,6 @@ public class Skill : ScriptableObject
     public AnimationClip Animation => _animation;
     public int StartActiveFrame => _startActiveFrame;
     public int EndActiveFrame => _endActiveFrame;
-    private int _currentFrame = 0;
     private DamageHitbox _hitbox;
 
     public void StartSkill(Animator animator, DamageHitbox hitbox)
@@ -22,10 +21,18 @@ public class Skill : ScriptableObject
     public void StartActivePhase()
     {
         Debug.Log("Start Active Phase");
+        if (_hitbox != null)
+        {
+            _hitbox.SetHitboxActive(true);
+        }
     }
 
     public void EndActivePhase()
     {
         Debug.Log("End Active Phase");
+        if (_hitbox != null)
+        {
+            _hitbox.SetHitboxActive(false);
+        }
     }
 }
