@@ -33,6 +33,8 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
 
     [Header("Combat")]
     public AbilityManager AbilityManager;
+    [SerializeField] protected SkillSequencer _skillSequencer;
+    [SerializeField] protected Skill _testSkill;
 
     // [Header("Interacting")]
     // [SerializeField] private InteractHitbox _interactHitbox;

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TestSkill 1
   m_EditorClassIdentifier: 
   _animation: {fileID: 7400000, guid: ac50d1ef07a14724a96d3a1b5c0c982d, type: 2}
-  _startActiveFrame: 8
-  _endActiveFrame: 12
+  _startActiveFrame: 7
+  _endActiveFrame: 10

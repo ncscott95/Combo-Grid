@@ -148,8 +148,12 @@ public class PlayerController2D : PlayerControllerBase
 
     public override void Attack()
     {
-        _animator.SetInteger("attackIdx", Random.Range(0, 4));
-        _animator.SetTrigger("attack");
+        // _animator.SetInteger("attackIdx", Random.Range(0, 4));
+        // _animator.SetTrigger("attack");
+        if (_skillSequencer != null && _testSkill != null)
+        {
+            _skillSequencer.StartSkill(_testSkill, null);
+        }
     }
 
     public override void Dodge()

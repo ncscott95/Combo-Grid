@@ -7,6 +7,9 @@ public class Skill : ScriptableObject
     [SerializeField] private AnimationClip _animation;
     [SerializeField] private int _startActiveFrame;
     [SerializeField] private int _endActiveFrame;
+    public AnimationClip Animation => _animation;
+    public int StartActiveFrame => _startActiveFrame;
+    public int EndActiveFrame => _endActiveFrame;
     private int _currentFrame = 0;
     private DamageHitbox _hitbox;
 
@@ -16,6 +19,13 @@ public class Skill : ScriptableObject
         animator.Play(_animation.name);
     }
 
-    public AnimationClip GetAnimationClip() => _animation;
-    public void SetAnimationClip(AnimationClip clip) => _animation = clip;
+    public void StartActivePhase()
+    {
+        Debug.Log("Start Active Phase");
+    }
+
+    public void EndActivePhase()
+    {
+        Debug.Log("End Active Phase");
+    }
 }

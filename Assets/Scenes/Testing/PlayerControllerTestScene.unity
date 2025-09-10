@@ -455,6 +455,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1217563963}
   - component: {fileID: 1217563964}
+  - component: {fileID: 1217563968}
   - component: {fileID: 1217563967}
   - component: {fileID: 1217563965}
   - component: {fileID: 1217563966}
@@ -501,6 +502,8 @@ MonoBehaviour:
   _acceleration: 100
   _groundDrag: 100
   AbilityManager: {fileID: 0}
+  _skillSequencer: {fileID: 1217563968}
+  _testSkill: {fileID: 11400000, guid: ed7bc94032d9b724e8930826d85721eb, type: 2}
   _wallMask:
     serializedVersion: 2
     m_Bits: 0
@@ -603,6 +606,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1217563968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217563962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38e3beea9fa28d4e8b36a6d37dcdc36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 1217563967}
 --- !u!1 &1671793854
 GameObject:
   m_ObjectHideFlags: 0
