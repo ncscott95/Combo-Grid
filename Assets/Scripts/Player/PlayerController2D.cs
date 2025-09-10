@@ -110,6 +110,8 @@ public class PlayerController2D : PlayerControllerBase
             // Player just landed on the ground, reset air jumps
             _airJumpsRemaining = _airJumpsMax;
             _isJumping = false;
+
+            // Start a short cooldown before the player can jump again
             if (_jumpCooldownCoroutine != null) StopCoroutine(_jumpCooldownCoroutine);
             _jumpCooldownCoroutine = StartCoroutine(JumpCooldown(_jumpLandCooldown));
         }
@@ -140,6 +142,7 @@ public class PlayerController2D : PlayerControllerBase
         _animator.SetBool("isRunning", velocity.x != 0);
         _animator.SetBool("isJumping", _isJumping);
         _animator.SetBool("isFalling", velocity.y < 0 && !_isGrounded);
+        _animator.SetBool("isGrounded", _isGrounded);
         _animator.SetBool("isWallSliding", _isWallSliding);
 
         // Apply the final velocity
@@ -165,8 +168,6 @@ public class PlayerController2D : PlayerControllerBase
     {
         if (_isGrounded && _isJumpReady)
         {
-            _animator.SetTrigger("jump");
-            Debug.Log("Jumped");
             _isJumping = true;
             _isJumpReady = false;
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
@@ -175,7 +176,6 @@ public class PlayerController2D : PlayerControllerBase
         else if (!_isGrounded && _airJumpsRemaining > 0)
         {
             _animator.SetTrigger("airJump");
-            Debug.Log("Air Jumped");
             _isJumping = true;
             _airJumpsRemaining--;
             _rb.linearVelocityY = 0; // Reset vertical velocity before jumping again
