@@ -1,0 +1,175 @@
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+[CustomEditor(typeof(Skill))]
+public class SkillObjectEditor : Editor
+{
+    private int _previewFrame = 0;
+    private int _maxFrame = 0;
+
+    private SerializedProperty _animationProp;
+    private SerializedProperty _startActiveFrameProp;
+    private SerializedProperty _endActiveFrameProp;
+
+    private const float LabelWidth = 120f;
+    private const float ValueWidth = 30f;
+    private const float SliderHeight = 20f;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        var root = new VisualElement();
+        serializedObject.Update();
+        _animationProp = serializedObject.FindProperty("_animation");
+        _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
+        _endActiveFrameProp = serializedObject.FindProperty("_endActiveFrame");
+
+        root.Add(CreateAnimationClipField());
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+        root.Add(new IMGUIContainer(() => DrawCustomAnimationPreview()));
+
+        return root;
+    }
+
+    private ObjectField CreateAnimationClipField()
+    {
+        var animationField = new ObjectField("Animation")
+        {
+            objectType = typeof(AnimationClip),
+            value = _animationProp.objectReferenceValue as AnimationClip
+        };
+        animationField.RegisterValueChangedCallback(evt =>
+        {
+            serializedObject.Update();
+            _animationProp.objectReferenceValue = evt.newValue as AnimationClip;
+            serializedObject.ApplyModifiedProperties();
+        });
+        return animationField;
+    }
+
+    private void DrawCustomAnimationPreview()
+    {
+        var clip = _animationProp.objectReferenceValue as AnimationClip;
+        if (clip != null)
+        {
+            // Try to get the Sprite keyframes (for 2D sprite animations)
+            var bindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
+            foreach (var binding in bindings)
+            {
+                if (binding.propertyName.Contains("m_Sprite"))
+                {
+                    var keyframes = AnimationUtility.GetObjectReferenceCurve(clip, binding);
+                    if (keyframes != null && keyframes.Length > 0)
+                    {
+                        _maxFrame = keyframes.Length - 1;
+                        _previewFrame = Mathf.Clamp(_previewFrame, 0, _maxFrame);
+                        var sprite = keyframes[_previewFrame].value as Sprite;
+                        if (sprite != null)
+                        {
+                            float previewHeight = 180f;
+                            Rect rect = GUILayoutUtility.GetRect(10, previewHeight, GUILayout.ExpandWidth(true));
+                            if (Event.current.type == EventType.Repaint)
+                            {
+                                // Draw background
+                                Color prevColor = GUI.color;
+                                Color bgColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+                                EditorGUI.DrawRect(rect, bgColor);
+
+                                // Draw border
+                                Handles.color = Color.gray;
+                                Handles.DrawAAPolyLine(2f, new Vector3[] {
+                                    new Vector3(rect.xMin, rect.yMin), new Vector3(rect.xMax, rect.yMin),
+                                    new Vector3(rect.xMax, rect.yMax), new Vector3(rect.xMin, rect.yMax), new Vector3(rect.xMin, rect.yMin)
+                                });
+
+                                // Draw sprite
+                                var tex = sprite.texture;
+                                var spriteRect = sprite.rect;
+                                Rect uv = new Rect(
+                                    spriteRect.x / tex.width,
+                                    spriteRect.y / tex.height,
+                                    spriteRect.width / tex.width,
+                                    spriteRect.height / tex.height
+                                );
+
+                                // Maintain aspect ratio
+                                float aspect = spriteRect.width / spriteRect.height;
+                                float targetWidth = rect.height * aspect;
+                                if (targetWidth > rect.width)
+                                {
+                                    rect.height = rect.width / aspect;
+                                }
+                                else
+                                {
+                                    rect.width = targetWidth;
+                                }
+                                GUI.DrawTextureWithTexCoords(rect, tex, uv, true);
+                                GUI.color = prevColor;
+                            }
+
+                            GUILayout.Space(8);
+
+                            // Frame slider
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label($"Frame: {_previewFrame + 1} / {keyframes.Length}", GUILayout.Width(LabelWidth));
+                            float sliderWidth = EditorGUIUtility.currentViewWidth - LabelWidth - ValueWidth - 50f; // fudge factor for padding/scrollbar
+                            Rect sliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
+                            _previewFrame = (int)GUI.HorizontalSlider(sliderRect, _previewFrame, 0, _maxFrame);
+                            GUILayout.Label((_previewFrame + 1).ToString(), GUILayout.Width(ValueWidth));
+                            GUILayout.EndHorizontal();
+
+                            // Active phase frame sliders
+
+                            int start = _startActiveFrameProp.intValue;
+                            int end = _endActiveFrameProp.intValue;
+
+                            // Clamp to valid range
+                            start = Mathf.Clamp(start, 0, Mathf.Max(0, end - 1));
+                            end = Mathf.Clamp(end, Mathf.Min(start + 1, _maxFrame), _maxFrame);
+
+                            GUILayout.Space(8);
+                            GUILayout.Label("Active Phase Frames:");
+
+                            // Start slider
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label("Start", GUILayout.Width(LabelWidth));
+                            Rect startSliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
+                            int newStart = (int)GUI.HorizontalSlider(startSliderRect, start, 0, _maxFrame);
+                            newStart = Mathf.Min(newStart, end - 1); // Prevent crossing
+                            GUILayout.Label((newStart + 1).ToString(), GUILayout.Width(ValueWidth));
+                            GUILayout.EndHorizontal();
+
+                            // End slider
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label("End", GUILayout.Width(LabelWidth));
+                            Rect endSliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
+                            int newEnd = (int)GUI.HorizontalSlider(endSliderRect, end, 0, _maxFrame);
+                            newEnd = Mathf.Max(newEnd, newStart + 1); // Prevent crossing
+                            GUILayout.Label((newEnd + 1).ToString(), GUILayout.Width(ValueWidth));
+                            GUILayout.EndHorizontal();
+
+                            // Save changes
+                            if (newStart != _startActiveFrameProp.intValue || newEnd != _endActiveFrameProp.intValue)
+                            {
+                                _startActiveFrameProp.intValue = newStart;
+                                _endActiveFrameProp.intValue = newEnd;
+                                serializedObject.ApplyModifiedProperties();
+                            }
+                        }
+                        else
+                        {
+                            GUILayout.Label("No sprite found for this frame.");
+                        }
+                        return;
+                    }
+                }
+            }
+            GUILayout.Label("No sprite preview available for this AnimationClip.");
+        }
+        else
+        {
+            GUILayout.Label("No AnimationClip assigned.");
+        }
+    }
+}
