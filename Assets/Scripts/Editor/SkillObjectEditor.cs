@@ -19,7 +19,7 @@ public class SkillObjectEditor : Editor
 
     public override VisualElement CreateInspectorGUI()
     {
-        var root = new VisualElement();
+    VisualElement root = new VisualElement();
         serializedObject.Update();
         _animationProp = serializedObject.FindProperty("_animation");
         _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
@@ -34,7 +34,7 @@ public class SkillObjectEditor : Editor
 
     private ObjectField CreateAnimationClipField()
     {
-        var animationField = new ObjectField("Animation")
+        ObjectField animationField = new ObjectField("Animation")
         {
             objectType = typeof(AnimationClip),
             value = _animationProp.objectReferenceValue as AnimationClip
@@ -50,21 +50,21 @@ public class SkillObjectEditor : Editor
 
     private void DrawCustomAnimationPreview()
     {
-        var clip = _animationProp.objectReferenceValue as AnimationClip;
+    AnimationClip clip = _animationProp.objectReferenceValue as AnimationClip;
         if (clip != null)
         {
             // Try to get the Sprite keyframes (for 2D sprite animations)
-            var bindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
+            EditorCurveBinding[] bindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
             foreach (var binding in bindings)
             {
                 if (binding.propertyName.Contains("m_Sprite"))
                 {
-                    var keyframes = AnimationUtility.GetObjectReferenceCurve(clip, binding);
+                    ObjectReferenceKeyframe[] keyframes = AnimationUtility.GetObjectReferenceCurve(clip, binding);
                     if (keyframes != null && keyframes.Length > 0)
                     {
                         _maxFrame = keyframes.Length - 1;
                         _previewFrame = Mathf.Clamp(_previewFrame, 0, _maxFrame);
-                        var sprite = keyframes[_previewFrame].value as Sprite;
+                        Sprite sprite = keyframes[_previewFrame].value as Sprite;
                         if (sprite != null)
                         {
                             float previewHeight = 180f;
@@ -84,8 +84,8 @@ public class SkillObjectEditor : Editor
                                 });
 
                                 // Draw sprite
-                                var tex = sprite.texture;
-                                var spriteRect = sprite.rect;
+                                Texture2D tex = sprite.texture;
+                                Rect spriteRect = sprite.rect;
                                 Rect uv = new Rect(
                                     spriteRect.x / tex.width,
                                     spriteRect.y / tex.height,

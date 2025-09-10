@@ -2,21 +2,27 @@ using UnityEngine;
 
 public class SkillSequencer : MonoBehaviour
 {
+    public enum SkillPhase
+    {
+        Inactive,
+        Anticipation,
+        Active,
+        Recovery
+    }
+
     [Header("Skill Execution")]
     [SerializeField] private Animator _animator;
+
+    public SkillPhase CurrentPhase { get; private set; } = SkillPhase.Inactive;
     private Skill _skill;
     private DamageHitbox _hitbox;
+    private int _lastFrame = -1;
 
-    private bool isSkillActive = false;
-    private int lastFrame = -1;
-    private bool activePhaseStarted = false;
-    private bool activePhaseEnded = false;
-
-    // Update is called once per frame
     void Update()
     {
-        if (!isSkillActive || _skill == null || _animator == null) return;
-        var clip = _skill.Animation;
+        if (CurrentPhase == SkillPhase.Inactive || _skill == null || _animator == null) return;
+
+        AnimationClip clip = _skill.Animation;
         if (clip == null) return;
 
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
@@ -29,27 +35,29 @@ public class SkillSequencer : MonoBehaviour
         int currentFrame = Mathf.FloorToInt(Mathf.Clamp01(normalizedTime % 1f) * totalFrames);
 
         // Only process if frame changed
-        if (currentFrame != lastFrame)
+        if (currentFrame != _lastFrame)
         {
-            lastFrame = currentFrame;
+            _lastFrame = currentFrame;
             // Start active phase
-            if (!activePhaseStarted && currentFrame == _skill.StartActiveFrame)
+            if (CurrentPhase == SkillPhase.Anticipation && currentFrame == _skill.StartActiveFrame)
             {
                 _skill.StartActivePhase();
-                activePhaseStarted = true;
+                CurrentPhase = SkillPhase.Active;
             }
             // End active phase
-            if (!activePhaseEnded && currentFrame == _skill.EndActiveFrame)
+            if (CurrentPhase == SkillPhase.Active && currentFrame == _skill.EndActiveFrame)
             {
                 _skill.EndActivePhase();
-                activePhaseEnded = true;
+                CurrentPhase = SkillPhase.Recovery;
             }
         }
 
         // End skill when animation finishes
         if (normalizedTime >= 1f)
         {
-            isSkillActive = false;
+            _skill = null;
+            _hitbox = null;
+            CurrentPhase = SkillPhase.Inactive;
         }
     }
 
@@ -60,9 +68,7 @@ public class SkillSequencer : MonoBehaviour
         if (_skill == null || _animator == null) return;
 
         _skill.StartSkill(_animator, _hitbox);
-        isSkillActive = true;
-        lastFrame = -1;
-        activePhaseStarted = false;
-        activePhaseEnded = false;
+        _lastFrame = -1;
+        CurrentPhase = SkillPhase.Anticipation;
     }
 }

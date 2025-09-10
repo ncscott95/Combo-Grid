@@ -49,7 +49,7 @@ namespace AbilitySystem
             if (clockwise)
             {
                 // Shift actions clockwise
-                var temp = UpAction;
+                UnityEngine.InputSystem.InputAction temp = UpAction;
                 UpAction = RightAction;
                 RightAction = DownAction;
                 DownAction = LeftAction;
@@ -58,7 +58,7 @@ namespace AbilitySystem
             else
             {
                 // Shift actions counter-clockwise
-                var temp = UpAction;
+                UnityEngine.InputSystem.InputAction temp = UpAction;
                 UpAction = LeftAction;
                 LeftAction = DownAction;
                 DownAction = RightAction;
