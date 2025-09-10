@@ -14,7 +14,7 @@ public class SkillObjectEditor : Editor
     private SerializedProperty _endActiveFrameProp;
 
     private const float LabelWidth = 120f;
-    private const float ValueWidth = 30f;
+    private const float ValueWidth = 45f;
     private const float SliderHeight = 20f;
 
     public override VisualElement CreateInspectorGUI()
@@ -112,44 +112,35 @@ public class SkillObjectEditor : Editor
 
                             // Frame slider
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label($"Frame: {_previewFrame + 1} / {keyframes.Length}", GUILayout.Width(LabelWidth));
+                            GUILayout.Label($"Frame Preview: ", GUILayout.Width(LabelWidth));
                             float sliderWidth = EditorGUIUtility.currentViewWidth - LabelWidth - ValueWidth - 50f; // fudge factor for padding/scrollbar
                             Rect sliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
                             _previewFrame = (int)GUI.HorizontalSlider(sliderRect, _previewFrame, 0, _maxFrame);
-                            GUILayout.Label((_previewFrame + 1).ToString(), GUILayout.Width(ValueWidth));
+                            GUILayout.Label($"{_previewFrame + 1} / {keyframes.Length}", GUILayout.Width(ValueWidth)); // Padding only, no number label
                             GUILayout.EndHorizontal();
 
-                            // Active phase frame sliders
-
+                            // Active phase MinMaxSlider
                             int start = _startActiveFrameProp.intValue;
                             int end = _endActiveFrameProp.intValue;
+                            float min = start;
+                            float max = end;
 
-                            // Clamp to valid range
-                            start = Mathf.Clamp(start, 0, Mathf.Max(0, end - 1));
-                            end = Mathf.Clamp(end, Mathf.Min(start + 1, _maxFrame), _maxFrame);
-
-                            GUILayout.Space(8);
-                            GUILayout.Label("Active Phase Frames:");
-
-                            // Start slider
+                            // Snap to int and clamp before drawing label and slider
+                            // Let the slider use the original float values for smooth dragging
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label("Start", GUILayout.Width(LabelWidth));
-                            Rect startSliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
-                            int newStart = (int)GUI.HorizontalSlider(startSliderRect, start, 0, _maxFrame);
-                            newStart = Mathf.Min(newStart, end - 1); // Prevent crossing
-                            GUILayout.Label((newStart + 1).ToString(), GUILayout.Width(ValueWidth));
+                            GUILayout.Label($"Active Phase: ", GUILayout.Width(LabelWidth));
+                            float minMaxSliderWidth = EditorGUIUtility.currentViewWidth - LabelWidth - ValueWidth - 50f;
+                            Rect minMaxSliderRect = GUILayoutUtility.GetRect(minMaxSliderWidth, SliderHeight);
+                            EditorGUI.MinMaxSlider(minMaxSliderRect, ref min, ref max, 0, _maxFrame);
+                            
+                            // After dragging, clamp and round for display and saving
+                            int newStart = Mathf.Clamp(Mathf.RoundToInt(min), 0, Mathf.Max(0, Mathf.RoundToInt(max) - 1));
+                            int newEnd = Mathf.Clamp(Mathf.RoundToInt(max), Mathf.Min(newStart + 1, _maxFrame), _maxFrame);
+
+                            GUILayout.Label($"{newStart + 1} - {newEnd + 1}", GUILayout.Width(ValueWidth)); // Padding to match the preview frame slider
                             GUILayout.EndHorizontal();
 
-                            // End slider
-                            GUILayout.BeginHorizontal();
-                            GUILayout.Label("End", GUILayout.Width(LabelWidth));
-                            Rect endSliderRect = GUILayoutUtility.GetRect(sliderWidth, SliderHeight);
-                            int newEnd = (int)GUI.HorizontalSlider(endSliderRect, end, 0, _maxFrame);
-                            newEnd = Mathf.Max(newEnd, newStart + 1); // Prevent crossing
-                            GUILayout.Label((newEnd + 1).ToString(), GUILayout.Width(ValueWidth));
-                            GUILayout.EndHorizontal();
-
-                            // Save changes
+                            // Save changes if needed
                             if (newStart != _startActiveFrameProp.intValue || newEnd != _endActiveFrameProp.intValue)
                             {
                                 _startActiveFrameProp.intValue = newStart;
