@@ -501,10 +501,10 @@ MonoBehaviour:
   _maxSpeed: 7
   _acceleration: 100
   _groundDrag: 100
-  AbilityManager: {fileID: 0}
+  AbilityManager: {fileID: 1810289918}
   _skillSequencer: {fileID: 1217563968}
-  _testSkill1: {fileID: 11400000, guid: 482eff8d3ae5c084fa7524c48ac02e1d, type: 2}
-  _testSkill2: {fileID: 11400000, guid: ed7bc94032d9b724e8930826d85721eb, type: 2}
+  _testAbility1: {fileID: 11400000, guid: 953f86a02bff2b14cb2f78fad88649ab, type: 2}
+  _testAbility2: {fileID: 11400000, guid: 21552e8e70c28ce4d8b3dd616aa2049c, type: 2}
   _wallMask:
     serializedVersion: 2
     m_Bits: 0
@@ -1256,6 +1256,51 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 1671793854}
+--- !u!1 &1810289916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1810289917}
+  - component: {fileID: 1810289918}
+  m_Layer: 0
+  m_Name: AbilityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1810289917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810289916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1810289918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810289916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18c32d8c9ccdd44da27c0c451319293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSkillSequencer: {fileID: 1217563968}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1263,3 +1308,4 @@ SceneRoots:
   - {fileID: 975710160}
   - {fileID: 166476759}
   - {fileID: 1217563963}
+  - {fileID: 1810289917}

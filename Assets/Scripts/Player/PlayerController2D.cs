@@ -157,13 +157,15 @@ public class PlayerController2D : PlayerControllerBase
         // TODO: replace with ability grid usage
         if (_skillSequencer != null)
         {
-            if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testSkill1 != null)
+            if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testAbility1 != null)
             {
-                _skillSequencer.TryStartSkill(_testSkill1, null);
+                Debug.Log("Using ability 1");
+                AbilityManager.Instance.DebugUseAbility(_testAbility1);
             }
-            else if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testSkill2 != null)
+            else if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testAbility2 != null)
             {
-                _skillSequencer.TryStartSkill(_testSkill2, null);
+                Debug.Log("Using ability 2");
+                AbilityManager.Instance.DebugUseAbility(_testAbility2);
             }
         }
     }

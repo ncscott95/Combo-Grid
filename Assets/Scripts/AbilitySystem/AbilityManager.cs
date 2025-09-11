@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class AbilityManager : Singleton<AbilityManager>
 {
-    private bool _canUseAbility;
+    [SerializeField] private SkillSequencer _playerSkillSequencer;
+    public SkillSequencer PlayerSkillSequencer => _playerSkillSequencer;
+    private bool _canUseAbility = true;
 
     public void RegisterAbility(Ability ability, int index)
     {
@@ -41,11 +43,18 @@ public class AbilityManager : Singleton<AbilityManager>
 
     private void UseAbility(Ability ability)
     {
+        Debug.Log("Attempting to use ability: " + ability.name);
         if (_canUseAbility)
         {
+            Debug.Log("Using ability: " + ability.name);
             ability.Activate();
             StartCoroutine(AbilityCooldownCoroutine(ability));
         }
+    }
+
+    public void DebugUseAbility(Ability ability)
+    {
+        UseAbility(ability);
     }
 
     private IEnumerator AbilityCooldownCoroutine(Ability ability)

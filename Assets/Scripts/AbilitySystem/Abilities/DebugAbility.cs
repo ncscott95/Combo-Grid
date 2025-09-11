@@ -7,6 +7,8 @@ namespace AbilitySystem
     {
         public override void Activate()
         {
+            base.Activate();
+
             Debug.Log("DebugAbility activated");
         }
     }
