@@ -503,8 +503,8 @@ MonoBehaviour:
   _groundDrag: 100
   AbilityManager: {fileID: 0}
   _skillSequencer: {fileID: 1217563968}
-  _testSkill1: {fileID: 11400000, guid: ec1332d51a6a8744aa9344be19fe4eca, type: 2}
-  _testSkill2: {fileID: 11400000, guid: ec1332d51a6a8744aa9344be19fe4eca, type: 2}
+  _testSkill1: {fileID: 11400000, guid: 482eff8d3ae5c084fa7524c48ac02e1d, type: 2}
+  _testSkill2: {fileID: 11400000, guid: ed7bc94032d9b724e8930826d85721eb, type: 2}
   _wallMask:
     serializedVersion: 2
     m_Bits: 0
