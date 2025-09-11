@@ -12,10 +12,9 @@ public class Skill : ScriptableObject
     public int EndActiveFrame => _endActiveFrame;
     private DamageHitbox _hitbox;
 
-    public void StartSkill(Animator animator, DamageHitbox hitbox)
+    public void StartSkill(DamageHitbox hitbox)
     {
         _hitbox = hitbox;
-        animator.Play(_animation.name);
     }
 
     public void StartActivePhase()
@@ -33,6 +32,30 @@ public class Skill : ScriptableObject
         if (_hitbox != null)
         {
             _hitbox.SetHitboxActive(false);
+        }
+    }
+
+    public void InterruptSkill()
+    {
+        Debug.Log("Skill Interrupted");
+        if (_hitbox != null)
+        {
+            _hitbox.SetHitboxActive(false);
+        }
+        ClearData();
+    }
+
+    public void EndSkill()
+    {
+        Debug.Log("Skill Ended");
+        ClearData();
+    }
+
+    private void ClearData()
+    {
+        if (_hitbox != null)
+        {
+            _hitbox = null;
         }
     }
 }

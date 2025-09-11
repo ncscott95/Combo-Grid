@@ -153,9 +153,18 @@ public class PlayerController2D : PlayerControllerBase
     {
         // _animator.SetInteger("attackIdx", Random.Range(0, 4));
         // _animator.SetTrigger("attack");
-        if (_skillSequencer != null && _testSkill != null)
+
+        // TODO: replace with ability grid usage
+        if (_skillSequencer != null)
         {
-            _skillSequencer.StartSkill(_testSkill, null);
+            if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testSkill1 != null)
+            {
+                _skillSequencer.TryStartSkill(_testSkill1, null);
+            }
+            else if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testSkill2 != null)
+            {
+                _skillSequencer.TryStartSkill(_testSkill2, null);
+            }
         }
     }
 

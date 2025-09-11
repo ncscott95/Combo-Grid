@@ -14,19 +14,31 @@ public class SkillSequencer : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     public SkillPhase CurrentPhase { get; private set; } = SkillPhase.Inactive;
-    private Skill _skill;
+    private Skill _currentSkill;
     private DamageHitbox _hitbox;
     private int _lastFrame = -1;
 
     void Update()
     {
-        if (CurrentPhase == SkillPhase.Inactive || _skill == null || _animator == null) return;
+        // Debug.Log($"{CurrentPhase} {_skill} {_animator}");
+        if (CurrentPhase == SkillPhase.Inactive || _currentSkill == null || _animator == null) return;
 
-        AnimationClip clip = _skill.Animation;
+        AnimationClip clip = _currentSkill.Animation;
         if (clip == null) return;
 
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        if (!stateInfo.IsName(clip.name)) return;
+        if (!stateInfo.IsName(clip.name))
+        {
+            // End skill when animation is no longer playing the assigned clip
+            if (CurrentPhase == SkillPhase.Recovery)
+            {
+                _currentSkill.EndSkill();
+                _currentSkill = null;
+                _hitbox = null;
+                CurrentPhase = SkillPhase.Inactive;
+            }
+            return;
+        }
 
         float normalizedTime = stateInfo.normalizedTime;
         float animLength = clip.length;
@@ -39,35 +51,57 @@ public class SkillSequencer : MonoBehaviour
         {
             _lastFrame = currentFrame;
             // Start active phase
-            if (CurrentPhase == SkillPhase.Anticipation && currentFrame == _skill.StartActiveFrame)
+            if (CurrentPhase == SkillPhase.Anticipation && currentFrame == _currentSkill.StartActiveFrame)
             {
-                _skill.StartActivePhase();
+                _currentSkill.StartActivePhase();
                 CurrentPhase = SkillPhase.Active;
             }
             // End active phase
-            if (CurrentPhase == SkillPhase.Active && currentFrame == _skill.EndActiveFrame)
+            if (CurrentPhase == SkillPhase.Active && currentFrame == _currentSkill.EndActiveFrame)
             {
-                _skill.EndActivePhase();
+                _currentSkill.EndActivePhase();
                 CurrentPhase = SkillPhase.Recovery;
             }
         }
-
-        // End skill when animation finishes
-        if (normalizedTime >= 1f)
-        {
-            _skill = null;
-            _hitbox = null;
-            CurrentPhase = SkillPhase.Inactive;
-        }
     }
 
-    public void StartSkill(Skill skill, DamageHitbox hitbox = null)
+    public bool TryStartSkill(Skill skill, DamageHitbox hitbox = null)
     {
-        _skill = skill;
-        _hitbox = hitbox;
-        if (_skill == null || _animator == null) return;
+        if (CurrentPhase == SkillPhase.Inactive)
+        {
+            // From idle or movement
+            Debug.Log("Starting skill");
+            StartSkill(skill, hitbox);
+            return true;
+        }
+        else if (CurrentPhase == SkillPhase.Recovery)
+        {
+            // Combo
+            Debug.Log("Comboing skill");
+            InterruptCurrentSkill();
+            StartSkill(skill, hitbox);
+            return true;
+        }
 
-        _skill.StartSkill(_animator, _hitbox);
+        Debug.Log($"Current phase: {CurrentPhase} Cannot start skill: {skill.name}");
+        return false;
+    }
+
+    private void InterruptCurrentSkill()
+    {
+        if (_currentSkill == null) return;
+
+        _currentSkill.InterruptSkill();
+    }
+
+    private void StartSkill(Skill skill, DamageHitbox hitbox = null)
+    {
+        _currentSkill = skill;
+        _hitbox = hitbox;
+        if (_currentSkill == null || _animator == null) return;
+
+        _currentSkill.StartSkill(_hitbox);
+        _animator.Play(_currentSkill.Animation.name, 0, 0f);
         _lastFrame = -1;
         CurrentPhase = SkillPhase.Anticipation;
     }
