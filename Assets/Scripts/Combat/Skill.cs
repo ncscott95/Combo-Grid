@@ -19,7 +19,6 @@ public class Skill : ScriptableObject
 
     public void StartActivePhase()
     {
-        Debug.Log("Start Active Phase");
         if (_hitbox != null)
         {
             _hitbox.SetHitboxActive(true);
@@ -28,7 +27,6 @@ public class Skill : ScriptableObject
 
     public void EndActivePhase()
     {
-        Debug.Log("End Active Phase");
         if (_hitbox != null)
         {
             _hitbox.SetHitboxActive(false);
@@ -37,7 +35,6 @@ public class Skill : ScriptableObject
 
     public void InterruptSkill()
     {
-        Debug.Log("Skill Interrupted");
         if (_hitbox != null)
         {
             _hitbox.SetHitboxActive(false);
@@ -47,7 +44,6 @@ public class Skill : ScriptableObject
 
     public void EndSkill()
     {
-        Debug.Log("Skill Ended");
         ClearData();
     }
 

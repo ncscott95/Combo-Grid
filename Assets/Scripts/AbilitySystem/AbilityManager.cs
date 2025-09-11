@@ -43,10 +43,8 @@ public class AbilityManager : Singleton<AbilityManager>
 
     private void UseAbility(Ability ability)
     {
-        Debug.Log("Attempting to use ability: " + ability.name);
         if (_canUseAbility)
         {
-            Debug.Log("Using ability: " + ability.name);
             ability.Activate();
             StartCoroutine(AbilityCooldownCoroutine(ability));
         }

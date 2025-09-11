@@ -20,7 +20,6 @@ public class SkillSequencer : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log($"{CurrentPhase} {_skill} {_animator}");
         if (CurrentPhase == SkillPhase.Inactive || _currentSkill == null || _animator == null) return;
 
         AnimationClip clip = _currentSkill.Animation;
@@ -70,20 +69,17 @@ public class SkillSequencer : MonoBehaviour
         if (CurrentPhase == SkillPhase.Inactive)
         {
             // From idle or movement
-            Debug.Log("Starting skill");
             StartSkill(skill, hitbox);
             return true;
         }
         else if (CurrentPhase == SkillPhase.Recovery)
         {
             // Combo
-            Debug.Log("Comboing skill");
             InterruptCurrentSkill();
             StartSkill(skill, hitbox);
             return true;
         }
 
-        Debug.Log($"Current phase: {CurrentPhase} Cannot start skill: {skill.name}");
         return false;
     }
 

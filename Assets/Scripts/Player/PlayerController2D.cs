@@ -159,12 +159,10 @@ public class PlayerController2D : PlayerControllerBase
         {
             if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testAbility1 != null)
             {
-                Debug.Log("Using ability 1");
                 AbilityManager.Instance.DebugUseAbility(_testAbility1);
             }
             else if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testAbility2 != null)
             {
-                Debug.Log("Using ability 2");
                 AbilityManager.Instance.DebugUseAbility(_testAbility2);
             }
         }
@@ -193,10 +191,6 @@ public class PlayerController2D : PlayerControllerBase
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             if (_jumpCooldownCoroutine != null) StopCoroutine(_jumpCooldownCoroutine);
             _jumpCooldownCoroutine = StartCoroutine(JumpCooldown(_jumpAirCooldown));
-        }
-        else
-        {
-            Debug.Log("Jump not ready");
         }
     }
 
