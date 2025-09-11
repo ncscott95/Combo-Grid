@@ -510,7 +510,7 @@ MonoBehaviour:
     m_Bits: 0
   _wallCheckDistance: 0.5
   _airJumpsMax: 1
-  _jumpForce: 15
+  _jumpForce: 15.5
   _gravityJumpingScale: 3.5
   _gravityFallingScale: 10
   _gravityGroundedScale: 0.5
