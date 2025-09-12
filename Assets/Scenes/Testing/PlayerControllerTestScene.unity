@@ -1160,7 +1160,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _emptyCellPrefab: {fileID: 11400000, guid: a45dc4309fd26e342a80789f2fbce5bb, type: 2}
-  _debugCellPrefab: {fileID: 11400000, guid: ec00e6e2804bd194b9300a99725c863e, type: 2}
+  _debugCellPrefabs:
+  - {fileID: 11400000, guid: f913682581caa614d818d67fdc3d8004, type: 2}
+  - {fileID: 11400000, guid: 840b86ba20e6aa24bb9e609bcf52c339, type: 2}
+  - {fileID: 11400000, guid: ec00e6e2804bd194b9300a99725c863e, type: 2}
 --- !u!1 &1671793854
 GameObject:
   m_ObjectHideFlags: 0

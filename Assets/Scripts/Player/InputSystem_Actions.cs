@@ -600,6 +600,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""None"",
+                    ""type"": ""Button"",
+                    ""id"": ""68f63a0a-6d1c-418b-8e86-7410362f8670"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -688,6 +697,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""South"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee345a38-2700-4cdd-aaca-c542a8a2e68e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""None"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1290,6 +1310,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Abilities_East = m_Abilities.FindAction("East", throwIfNotFound: true);
         m_Abilities_North = m_Abilities.FindAction("North", throwIfNotFound: true);
         m_Abilities_South = m_Abilities.FindAction("South", throwIfNotFound: true);
+        m_Abilities_None = m_Abilities.FindAction("None", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1572,6 +1593,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Abilities_East;
     private readonly InputAction m_Abilities_North;
     private readonly InputAction m_Abilities_South;
+    private readonly InputAction m_Abilities_None;
     /// <summary>
     /// Provides access to input actions defined in input action map "Abilities".
     /// </summary>
@@ -1599,6 +1621,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Abilities/South".
         /// </summary>
         public InputAction @South => m_Wrapper.m_Abilities_South;
+        /// <summary>
+        /// Provides access to the underlying input action "Abilities/None".
+        /// </summary>
+        public InputAction @None => m_Wrapper.m_Abilities_None;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1637,6 +1663,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @South.started += instance.OnSouth;
             @South.performed += instance.OnSouth;
             @South.canceled += instance.OnSouth;
+            @None.started += instance.OnNone;
+            @None.performed += instance.OnNone;
+            @None.canceled += instance.OnNone;
         }
 
         /// <summary>
@@ -1660,6 +1689,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @South.started -= instance.OnSouth;
             @South.performed -= instance.OnSouth;
             @South.canceled -= instance.OnSouth;
+            @None.started -= instance.OnNone;
+            @None.performed -= instance.OnNone;
+            @None.canceled -= instance.OnNone;
         }
 
         /// <summary>
@@ -2059,6 +2091,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSouth(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "None" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNone(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

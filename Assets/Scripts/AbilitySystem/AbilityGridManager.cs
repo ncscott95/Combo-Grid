@@ -1,11 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using AbilitySystem;
 using UnityEngine;
 
 public class AbilityGridManager : Singleton<AbilityGridManager>
 {
     [SerializeField] private AbilityGridCell _emptyCellPrefab;
-    [SerializeField] private AbilityGridCell _debugCellPrefab;
+    [SerializeField] private List<AbilityGridCell> _debugCellPrefabs;
 
     public int GridWidth { get; private set; } = 3;
     public int GridHeight { get; private set; } = 3;
@@ -21,6 +22,14 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
 
     void Start()
     {
+        for (int y = 0; y < GridHeight; y++)
+        {
+            for (int x = 0; x < GridWidth; x++)
+            {
+                int rotations = Random.Range(0, 4);
+                for (int i = 0; i < rotations; i++) CellGrid[x, y].RotateCell(true);
+            }
+        }
         MoveCell(CellGrid[0, 0]);
     }
 
@@ -42,7 +51,7 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
             for (int x = 0; x < GridWidth; x++)
             {
                 // AbilityGridCell cell = Instantiate(_emptyCellPrefab);
-                AbilityGridCell cell = Instantiate(_debugCellPrefab);
+                AbilityGridCell cell = Instantiate(_debugCellPrefabs[Random.Range(0, _debugCellPrefabs.Count)]);
                 CellGrid[x, y] = cell;
                 cell.GridPosition = new Vector2Int(x, y);
             }
@@ -55,7 +64,6 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
             {
                 AbilityGridCell cell = CellGrid[x, y];
                 cell.GridPosition = new Vector2Int(x, y);
-                cell.UpdateActions();
 
                 AbilityGridCell[] neighbors = new AbilityGridCell[4];
 
@@ -69,6 +77,7 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
         }
     }
 
+    // TODO: enter waiting state when combo finishes
     // private IEnumerator EndComboCheckCoroutine()
     // {
     //     while (PlayerControllerBase.Instance.SkillSequencer.CurrentPhase != SkillSequencer.SkillPhase.Inactive)

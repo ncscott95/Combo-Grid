@@ -514,6 +514,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "None",
+                    "type": "Button",
+                    "id": "68f63a0a-6d1c-418b-8e86-7410362f8670",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -602,6 +611,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "South",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee345a38-2700-4cdd-aaca-c542a8a2e68e",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "None",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

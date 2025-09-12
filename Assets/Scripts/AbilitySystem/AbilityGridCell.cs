@@ -28,6 +28,7 @@ namespace AbilitySystem
 
         public void InitializeActions(AbilityGridCell[] neighbors)
         {
+            UpdateActions();
             ClearAllActions();
             _neighbors = neighbors;
 
@@ -36,14 +37,6 @@ namespace AbilitySystem
             if (_neighbors[1] != null) RightAction.started += ctx => MoveRight();
             if (_neighbors[2] != null) UpAction.started += ctx => MoveUp();
             if (_neighbors[3] != null) DownAction.started += ctx => MoveDown();
-        }
-
-        private void ClearAllActions()
-        {
-            if (LeftAction != null) LeftAction.started -= ctx => MoveLeft();
-            if (RightAction != null) RightAction.started -= ctx => MoveRight();
-            if (UpAction != null) UpAction.started -= ctx => MoveUp();
-            if (DownAction != null) DownAction.started -= ctx => MoveDown();
         }
 
         public void SetUICell(AbilityGridUICell uiCell) { UIElement = uiCell; }
@@ -86,24 +79,25 @@ namespace AbilitySystem
             if (clockwise)
             {
                 // Shift actions clockwise
-                InputAction temp = UpAction;
-                UpAction = RightAction;
-                RightAction = DownAction;
-                DownAction = LeftAction;
-                LeftAction = temp;
+                string temp = _upActionName;
+                _upActionName = _leftActionName;
+                _leftActionName = _downActionName;
+                _downActionName = _rightActionName;
+                _rightActionName = temp;
             }
             else
             {
                 // Shift actions counter-clockwise
-                InputAction temp = UpAction;
-                UpAction = LeftAction;
-                LeftAction = DownAction;
-                DownAction = RightAction;
-                RightAction = temp;
+                string temp = _upActionName;
+                _upActionName = _rightActionName;
+                _rightActionName = _downActionName;
+                _downActionName = _leftActionName;
+                _leftActionName = temp;
             }
+            InitializeActions(_neighbors);
         }
 
-        public void UpdateActions()
+        private void UpdateActions()
         {
             LeftAction = ResolveInputAction(_leftActionName);
             RightAction = ResolveInputAction(_rightActionName);
@@ -147,6 +141,14 @@ namespace AbilitySystem
             }
 
             return newAction;
+        }
+
+        private void ClearAllActions()
+        {
+            if (LeftAction != null) LeftAction.started -= ctx => MoveLeft();
+            if (RightAction != null) RightAction.started -= ctx => MoveRight();
+            if (UpAction != null) UpAction.started -= ctx => MoveUp();
+            if (DownAction != null) DownAction.started -= ctx => MoveDown();
         }
     }
 }

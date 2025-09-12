@@ -33,7 +33,6 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     protected Vector2 _moveInput;
 
     [Header("Combat")]
-    // public AbilityManager AbilityManager;
     public SkillSequencer SkillSequencer { get; private set; }
 
     // [Header("Interacting")]
