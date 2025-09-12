@@ -149,24 +149,21 @@ public class PlayerController2D : PlayerControllerBase
         _rb.linearVelocity = velocity;
     }
 
-    public override void Attack()
-    {
-        // _animator.SetInteger("attackIdx", Random.Range(0, 4));
-        // _animator.SetTrigger("attack");
-
-        // TODO: replace with ability grid usage
-        if (_skillSequencer != null)
-        {
-            if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testAbility1 != null)
-            {
-                AbilityManager.Instance.DebugUseAbility(_testAbility1);
-            }
-            else if (_skillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testAbility2 != null)
-            {
-                AbilityManager.Instance.DebugUseAbility(_testAbility2);
-            }
-        }
-    }
+    // Obsolete attack method, replaced by AbilityGrid and SkillSequencer
+    // public override void Attack()
+    // {
+    //     if (SkillSequencer != null)
+    //     {
+    //         if (SkillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Inactive && _testAbility1 != null)
+    //         {
+    //             AbilityManager.Instance.DebugUseAbility(_testAbility1);
+    //         }
+    //         else if (SkillSequencer.CurrentPhase == SkillSequencer.SkillPhase.Recovery && _testAbility2 != null)
+    //         {
+    //             AbilityManager.Instance.DebugUseAbility(_testAbility2);
+    //         }
+    //     }
+    // }
 
     public override void Dodge()
     {

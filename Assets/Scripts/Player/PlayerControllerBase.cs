@@ -1,8 +1,9 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SkillSequencer))]
 public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, IDamageable
 {
     protected const float WALKING_THRESHOLD = 1f;
@@ -32,10 +33,8 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     protected Vector2 _moveInput;
 
     [Header("Combat")]
-    public AbilityManager AbilityManager;
-    [SerializeField] protected SkillSequencer _skillSequencer;
-    [SerializeField] protected AbilitySystem.Ability _testAbility1;
-    [SerializeField] protected AbilitySystem.Ability _testAbility2;
+    // public AbilityManager AbilityManager;
+    public SkillSequencer SkillSequencer { get; private set; }
 
     // [Header("Interacting")]
     // [SerializeField] private InteractHitbox _interactHitbox;
@@ -44,6 +43,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     {
         base.Awake();
         _rb = GetComponent<Rigidbody2D>();
+        SkillSequencer = GetComponent<SkillSequencer>();
         Instance.Camera = UnityEngine.Camera.main.transform;
         Actions = new InputSystem_Actions();
     }
@@ -59,7 +59,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         // Subscribe to input events
         Actions.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         Actions.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
-        Actions.Player.Attack.performed += ctx => Attack();
+        // Actions.Player.Attack.performed += ctx => Attack();
     }
 
     public virtual void OnDisable()
@@ -68,7 +68,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         // Unsubscribe from input events
         Actions.Player.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
         Actions.Player.Move.canceled -= ctx => _moveInput = Vector2.zero;
-        Actions.Player.Attack.performed -= ctx => Attack();
+        // Actions.Player.Attack.performed -= ctx => Attack();
     }
 
     public virtual void Update()
@@ -78,7 +78,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     }
 
     public virtual void FixedUpdate() { }
-    public abstract void Attack();
+    // public abstract void Attack();
     public abstract void Dodge();
     public virtual void SetCameraControlActive(bool active) { }
     public void AddSpeedModifier(float modifier) { _speedModifiers.Add(modifier); }

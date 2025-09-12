@@ -12,72 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87bbe0dea19c1b44a5560f99821fea1, type: 3}
   m_Name: TEMPLATE
   m_EditorClassIdentifier: 
-  LeftAction:
-    m_Name: Left
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: a7b6cdc5-c8cd-4bec-8bbb-258f3435b709
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 8696557f-19e4-435e-809b-25c900086ace
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left
-      m_Flags: 0
-    m_Flags: 0
-  RightAction:
-    m_Name: Right
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1d624d29-d083-4752-8533-c4e6ffb4d854
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 6f1afff8-cef1-49cc-8b83-c72983ce8465
-      m_Path: <Keyboard>/d
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Right
-      m_Flags: 0
-    m_Flags: 0
-  UpAction:
-    m_Name: Up
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: aa4f70be-663b-403d-b06b-94b7ae5317c5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 9f65473c-e2a1-4300-8c68-fd0f1c3fd147
-      m_Path: <Keyboard>/w
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Up
-      m_Flags: 0
-    m_Flags: 0
-  DownAction:
-    m_Name: Down
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e7c4c70a-ed09-4761-a4b3-304c21920188
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: e00d5369-c3a6-43b5-b6d6-8afe26f27f96
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Down
-      m_Flags: 0
-    m_Flags: 0
+  Ability: {fileID: 0}
+  _inputActionsAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _selectedActionMapName: Abilities
+  _leftActionName: West
+  _rightActionName: East
+  _upActionName: North
+  _downActionName: South
   Cooldown: 0.5

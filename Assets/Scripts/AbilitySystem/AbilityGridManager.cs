@@ -11,7 +11,6 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
     public int GridHeight { get; private set; } = 3;
     public AbilityGridCell[,] CellGrid { get; private set; }
     public AbilityGridCell CurrentCell { get; private set; }
-    private bool _canAct = true;
 
     public override void Awake()
     {
@@ -27,16 +26,16 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
 
     public void MoveCell(AbilityGridCell newCell)
     {
-        if (!_canAct) return;
+        if (!PlayerControllerBase.Instance.SkillSequencer.CanStartSkill) return;
 
         if (CurrentCell != null) CurrentCell.ExitCell();
         CurrentCell = newCell;
         CurrentCell.EnterCell();
-        StartCoroutine(CooldownCoroutine(CurrentCell));
     }
 
     public void InitializeGrid()
     {
+        // Create grid and instantiate cells
         CellGrid = new AbilityGridCell[GridWidth, GridHeight];
         for (int y = 0; y < GridHeight; y++)
         {
@@ -45,61 +44,39 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
                 // AbilityGridCell cell = Instantiate(_emptyCellPrefab);
                 AbilityGridCell cell = Instantiate(_debugCellPrefab);
                 CellGrid[x, y] = cell;
+                cell.GridPosition = new Vector2Int(x, y);
             }
         }
 
-        // Set up neighbors and input actions as before
+        // Assign cell neighbors
         for (int y = 0; y < GridHeight; y++)
         {
             for (int x = 0; x < GridWidth; x++)
             {
                 AbilityGridCell cell = CellGrid[x, y];
                 cell.GridPosition = new Vector2Int(x, y);
+                cell.UpdateActions();
 
-                // Remove previous bindings if any (assuming we have stored delegates, otherwise this is a no-op)
-                cell.LeftAction.started -= ctx => MoveCell(null);
-                cell.RightAction.started -= ctx => MoveCell(null);
-                cell.UpAction.started -= ctx => MoveCell(null);
-                cell.DownAction.started -= ctx => MoveCell(null);
+                AbilityGridCell[] neighbors = new AbilityGridCell[4];
 
-                // Left neighbor
-                if (x > 0)
-                {
-                    AbilityGridCell leftCell = CellGrid[x - 1, y];
-                    cell.LeftAction.started += ctx => MoveCell(leftCell);
-                }
-                // Right neighbor
-                if (x < GridWidth - 1)
-                {
-                    AbilityGridCell rightCell = CellGrid[x + 1, y];
-                    cell.RightAction.started += ctx => MoveCell(rightCell);
-                }
-                // Up neighbor
-                if (y < GridHeight - 1)
-                {
-                    AbilityGridCell upCell = CellGrid[x, y + 1];
-                    cell.UpAction.started += ctx => MoveCell(upCell);
-                }
-                // Down neighbor
-                if (y > 0)
-                {
-                    AbilityGridCell downCell = CellGrid[x, y - 1];
-                    cell.DownAction.started += ctx => MoveCell(downCell);
-                }
+                if (x > 0) neighbors[0] = CellGrid[x - 1, y]; // Left neighbor
+                if (x < GridWidth - 1) neighbors[1] = CellGrid[x + 1, y]; // Right neighbor
+                if (y < GridHeight - 1) neighbors[2] = CellGrid[x, y + 1]; // Up neighbor
+                if (y > 0) neighbors[3] = CellGrid[x, y - 1]; // Down neighbor
+
+                cell.InitializeActions(neighbors);
             }
         }
     }
 
-    private IEnumerator CooldownCoroutine(AbilityGridCell cell)
-    {
-        _canAct = false;
-        float elapsed = 0f;
-        while (elapsed < cell.Cooldown)
-        {
-            elapsed += Time.deltaTime;
-            yield return elapsed / cell.Cooldown;
-        }
-        _canAct = true;
-        CurrentCell.IdleCell();
-    }
+    // private IEnumerator EndComboCheckCoroutine()
+    // {
+    //     while (PlayerControllerBase.Instance.SkillSequencer.CurrentPhase != SkillSequencer.SkillPhase.Inactive)
+    //     {
+    //         yield return null;
+    //     }
+
+    //     CurrentCell.ExitCell();
+    //     CurrentCell = null;
+    // }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3777c097602b694a9360030304bd3e6, type: 3}
   m_Name: JabsAbility
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 4ffde3efc5bfb654fbea595bb388ed62, type: 3}
   Skill: {fileID: 11400000, guid: ec1332d51a6a8744aa9344be19fe4eca, type: 2}
-  Cooldown: 0
+  Cooldown: 0.5

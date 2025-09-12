@@ -14,6 +14,7 @@ public class SkillSequencer : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     public SkillPhase CurrentPhase { get; private set; } = SkillPhase.Inactive;
+    public bool CanStartSkill => CurrentPhase == SkillPhase.Inactive || CurrentPhase == SkillPhase.Recovery;
     private Skill _currentSkill;
     private DamageHitbox _hitbox;
     private int _lastFrame = -1;
