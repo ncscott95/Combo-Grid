@@ -34,6 +34,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
 
     [Header("Combat")]
     public SkillSequencer SkillSequencer { get; private set; }
+    public AbilityGridUIManager AbilityGridUIManager;
 
     // [Header("Interacting")]
     // [SerializeField] private InteractHitbox _interactHitbox;
@@ -58,6 +59,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         // Subscribe to input events
         Actions.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         Actions.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
+        Actions.Player.ShowGrid.performed += ctx => ToggleGridUI();
         // Actions.Player.Attack.performed += ctx => Attack();
     }
 
@@ -67,6 +69,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         // Unsubscribe from input events
         Actions.Player.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
         Actions.Player.Move.canceled -= ctx => _moveInput = Vector2.zero;
+        Actions.Player.ShowGrid.performed -= ctx => ToggleGridUI();
         // Actions.Player.Attack.performed -= ctx => Attack();
     }
 
@@ -98,6 +101,11 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     //         _interactHitbox.TryInteract();
     //     }
     // }
+
+    public virtual void ToggleGridUI()
+    {
+        AbilityGridUIManager.gameObject.SetActive(!AbilityGridUIManager.gameObject.activeSelf);
+    }
 
     public virtual void TakeDamage(int damage)
     {

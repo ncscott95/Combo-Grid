@@ -5,14 +5,19 @@ public class AbilityGridUIManager : MonoBehaviour
     private AbilityGridUICell[,] _uiCellGrid;
     private bool _isInitialized = false;
 
+    void Start()
+    {
+        InitializeGrid();
+        _isInitialized = true;
+        UpdateGridUI();
+    }
+
     void OnEnable()
     {
-        if (!_isInitialized)
+        if (_isInitialized)
         {
-            InitializeGrid();
-            _isInitialized = true;
+            UpdateGridUI();
         }
-        UpdateGridUI();
     }
 
     private void InitializeGrid()
