@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using AbilitySystem;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityGridManager : Singleton<AbilityGridManager>
@@ -19,6 +17,9 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
         base.Awake();
 
         InitializeGrid();
+        List<int> test = new() { 0, 1, 2, 3 };
+        test = ListRotator.RotateList(test, true, 1);
+        Debug.Log(string.Join(", ", test));
     }
 
     void Start()
@@ -68,10 +69,10 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
 
                 AbilityGridCell[] neighbors = new AbilityGridCell[4];
 
-                if (x > 0) neighbors[0] = CellGrid[x - 1, y]; // Left neighbor
-                if (x < GridWidth - 1) neighbors[1] = CellGrid[x + 1, y]; // Right neighbor
-                if (y < GridHeight - 1) neighbors[2] = CellGrid[x, y + 1]; // Up neighbor
-                if (y > 0) neighbors[3] = CellGrid[x, y - 1]; // Down neighbor
+                if (y < GridHeight - 1) neighbors[0] = CellGrid[x, y + 1]; // Up neighbor
+                if (x > 0) neighbors[1] = CellGrid[x - 1, y]; // Left neighbor
+                if (y > 0) neighbors[2] = CellGrid[x, y - 1]; // Down neighbor
+                if (x < GridWidth - 1) neighbors[3] = CellGrid[x + 1, y]; // Right neighbor
 
                 cell.InitializeActions(neighbors);
             }

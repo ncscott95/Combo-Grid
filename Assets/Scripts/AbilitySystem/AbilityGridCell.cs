@@ -3,6 +3,7 @@ namespace AbilitySystem
     using UnityEngine;
     using UnityEngine.InputSystem;
     using System.Linq;
+    using System.Collections.Generic;
 
     [CreateAssetMenu(fileName = "NewAbilityGridCell", menuName = "AbilitySystem/AbilityGridCell")]
     public class AbilityGridCell : ScriptableObject
@@ -11,25 +12,23 @@ namespace AbilitySystem
         public Ability Ability;
         [SerializeField] private InputActionAsset _inputActionsAsset;
         [SerializeField] private string _selectedActionMapName;
-        [SerializeField] private string _leftActionName;
-        [SerializeField] private string _rightActionName;
-        [SerializeField] private string _upActionName;
-        [SerializeField] private string _downActionName;
+        [SerializeField] private List<string> _actionNames = new() { "", "", "", "" }; // Up, Left, Down, Right
 
         // Runtime properties to resolve InputActions
-        public InputAction LeftAction { get; private set; }
-        public InputAction RightAction { get; private set; }
         public InputAction UpAction { get; private set; }
+        public InputAction LeftAction { get; private set; }
         public InputAction DownAction { get; private set; }
+        public InputAction RightAction { get; private set; }
+        public List<string> ActionNames => _actionNames;
 
-        public bool HasLeftAction { get; private set; }
-        public bool HasRightAction { get; private set; }
         public bool HasUpAction { get; private set; }
+        public bool HasLeftAction { get; private set; }
         public bool HasDownAction { get; private set; }
+        public bool HasRightAction { get; private set; }
 
         public Vector2Int GridPosition { get; set; }
         public AbilityGridUICell UIElement { get; private set; }
-        private AbilityGridCell[] _neighbors = new AbilityGridCell[4]; // Left, Right, Up, Down
+        private AbilityGridCell[] _neighbors = new AbilityGridCell[4]; // Up, Left, Down, Right
 
         public void InitializeActions(AbilityGridCell[] neighbors)
         {
@@ -37,23 +36,23 @@ namespace AbilitySystem
             ClearAllActions();
             _neighbors = neighbors;
 
-            // neighbors[0] = Left, neighbors[1] = Right, neighbors[2] = Up, neighbors[3] = Down
-            if (_neighbors[0] != null) LeftAction.started += ctx => MoveLeft();
-            if (_neighbors[1] != null) RightAction.started += ctx => MoveRight();
-            if (_neighbors[2] != null) UpAction.started += ctx => MoveUp();
-            if (_neighbors[3] != null) DownAction.started += ctx => MoveDown();
+            // neighbors[0] = Up, neighbors[1] = Left, neighbors[2] = Down, neighbors[3] = Right
+            if (_neighbors[0] != null) UpAction.started += ctx => MoveUp();
+            if (_neighbors[1] != null) LeftAction.started += ctx => MoveLeft();
+            if (_neighbors[2] != null) DownAction.started += ctx => MoveDown();
+            if (_neighbors[3] != null) RightAction.started += ctx => MoveRight();
 
-            HasLeftAction = _neighbors[0] != null;
-            HasRightAction = _neighbors[1] != null;
-            HasUpAction = _neighbors[2] != null;
-            HasDownAction = _neighbors[3] != null;
+            HasUpAction = _neighbors[0] != null;
+            HasLeftAction = _neighbors[1] != null;
+            HasDownAction = _neighbors[2] != null;
+            HasRightAction = _neighbors[3] != null;
         }
 
         public void SetUICell(AbilityGridUICell uiCell) { UIElement = uiCell; }
-        private void MoveLeft() { AbilityGridManager.Instance.MoveCell(_neighbors[0]); }
-        private void MoveRight() { AbilityGridManager.Instance.MoveCell(_neighbors[1]); }
-        private void MoveUp() { AbilityGridManager.Instance.MoveCell(_neighbors[2]); }
-        private void MoveDown() { AbilityGridManager.Instance.MoveCell(_neighbors[3]); }
+        private void MoveUp() { AbilityGridManager.Instance.MoveCell(_neighbors[0]); }
+        private void MoveLeft() { AbilityGridManager.Instance.MoveCell(_neighbors[1]); }
+        private void MoveDown() { AbilityGridManager.Instance.MoveCell(_neighbors[2]); }
+        private void MoveRight() { AbilityGridManager.Instance.MoveCell(_neighbors[3]); }
 
         public void EnterCell()
         {
@@ -61,20 +60,20 @@ namespace AbilitySystem
 
             if (Ability != null) Ability.Activate();
 
-            LeftAction.Enable();
-            RightAction.Enable();
             UpAction.Enable();
+            LeftAction.Enable();
             DownAction.Enable();
+            RightAction.Enable();
         }
 
         public void ExitCell()
         {
             if (UIElement != null) UIElement.ExitCell();
 
-            LeftAction.Disable();
-            RightAction.Disable();
             UpAction.Disable();
+            LeftAction.Disable();
             DownAction.Disable();
+            RightAction.Disable();
         }
 
         public void IdleCell()
@@ -85,34 +84,16 @@ namespace AbilitySystem
         public void RotateCell(bool clockwise)
         {
             if (UIElement != null) UIElement.RotateCell(clockwise);
-
-            if (clockwise)
-            {
-                // Shift actions clockwise
-                string temp = _upActionName;
-                _upActionName = _leftActionName;
-                _leftActionName = _downActionName;
-                _downActionName = _rightActionName;
-                _rightActionName = temp;
-            }
-            else
-            {
-                // Shift actions counter-clockwise
-                string temp = _upActionName;
-                _upActionName = _rightActionName;
-                _rightActionName = _downActionName;
-                _downActionName = _leftActionName;
-                _leftActionName = temp;
-            }
+            _actionNames = ListRotator.RotateList(_actionNames, clockwise, 1);
             InitializeActions(_neighbors);
         }
 
         private void UpdateActions()
         {
-            LeftAction = ResolveInputAction(_leftActionName);
-            RightAction = ResolveInputAction(_rightActionName);
-            UpAction = ResolveInputAction(_upActionName);
-            DownAction = ResolveInputAction(_downActionName);
+            UpAction = ResolveInputAction(_actionNames[0]);
+            LeftAction = ResolveInputAction(_actionNames[1]);
+            DownAction = ResolveInputAction(_actionNames[2]);
+            RightAction = ResolveInputAction(_actionNames[3]);
         }
 
         private InputAction ResolveInputAction(string actionName)
@@ -155,10 +136,10 @@ namespace AbilitySystem
 
         private void ClearAllActions()
         {
-            if (LeftAction != null) LeftAction.started -= ctx => MoveLeft();
-            if (RightAction != null) RightAction.started -= ctx => MoveRight();
             if (UpAction != null) UpAction.started -= ctx => MoveUp();
+            if (LeftAction != null) LeftAction.started -= ctx => MoveLeft();
             if (DownAction != null) DownAction.started -= ctx => MoveDown();
+            if (RightAction != null) RightAction.started -= ctx => MoveRight();
         }
     }
 }

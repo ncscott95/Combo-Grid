@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AbilitySystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,10 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class AbilityGridUICell : MonoBehaviour
 {
-    [SerializeField] private Image LeftActionImage;
-    [SerializeField] private Image RightActionImage;
-    [SerializeField] private Image UpActionImage;
-    [SerializeField] private Image DownActionImage;
+    [SerializeField] private List<Image> _actionImages = new() { null, null, null, null }; // Up, Left, Down, Right
 
     public Image CellImage { get; private set; }
     private AbilityGridUIManager _manager;
@@ -27,10 +25,10 @@ public class AbilityGridUICell : MonoBehaviour
         {
             CellImage.sprite = linkedCell.Ability.Icon;
 
-            LeftActionImage.gameObject.SetActive(linkedCell.HasLeftAction);
-            RightActionImage.gameObject.SetActive(linkedCell.HasRightAction);
-            UpActionImage.gameObject.SetActive(linkedCell.HasUpAction);
-            DownActionImage.gameObject.SetActive(linkedCell.HasDownAction);
+            _actionImages[0].gameObject.SetActive(linkedCell.HasUpAction);
+            _actionImages[1].gameObject.SetActive(linkedCell.HasLeftAction);
+            _actionImages[2].gameObject.SetActive(linkedCell.HasDownAction);
+            _actionImages[3].gameObject.SetActive(linkedCell.HasRightAction);
         }
         else
         {
@@ -55,26 +53,9 @@ public class AbilityGridUICell : MonoBehaviour
 
     public void RotateCell(bool clockwise)
     {
-        if (clockwise)
-        {
-            CellImage.transform.Rotate(0, 0, -90);
-
-            Image temp = UpActionImage;
-            UpActionImage = LeftActionImage;
-            LeftActionImage = DownActionImage;
-            DownActionImage = RightActionImage;
-            RightActionImage = temp;
-        }
-        else
-        {
-            CellImage.transform.Rotate(0, 0, 90);
-
-            Image temp = UpActionImage;
-            UpActionImage = RightActionImage;
-            RightActionImage = DownActionImage;
-            DownActionImage = LeftActionImage;
-            LeftActionImage = temp;
-        }
+        float rotationAngle = clockwise ? -90f : 90f;
+        CellImage.transform.Rotate(0, 0, rotationAngle);
+        _actionImages = ListRotator.RotateList(_actionImages, clockwise, 1);
 
         _manager.UpdateGridUI();
     }

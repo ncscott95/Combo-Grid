@@ -586,18 +586,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""id"": ""224fe53c-04c9-4e46-bce0-bd2562ce960f"",
             ""actions"": [
                 {
-                    ""name"": ""West"",
+                    ""name"": ""None"",
                     ""type"": ""Button"",
-                    ""id"": ""770d7917-1ca7-44d5-b73f-4bdc34190304"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""East"",
-                    ""type"": ""Button"",
-                    ""id"": ""2fb46acf-9eab-435f-8919-37a3246a839a"",
+                    ""id"": ""68f63a0a-6d1c-418b-8e86-7410362f8670"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -613,6 +604,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""West"",
+                    ""type"": ""Button"",
+                    ""id"": ""770d7917-1ca7-44d5-b73f-4bdc34190304"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""South"",
                     ""type"": ""Button"",
                     ""id"": ""e2bbdf2c-c0cc-4dc9-8e5c-59042d5a341d"",
@@ -622,9 +622,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""None"",
+                    ""name"": ""East"",
                     ""type"": ""Button"",
-                    ""id"": ""68f63a0a-6d1c-418b-8e86-7410362f8670"",
+                    ""id"": ""2fb46acf-9eab-435f-8919-37a3246a839a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1327,11 +1327,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_ShowGrid = m_Player.FindAction("ShowGrid", throwIfNotFound: true);
         // Abilities
         m_Abilities = asset.FindActionMap("Abilities", throwIfNotFound: true);
-        m_Abilities_West = m_Abilities.FindAction("West", throwIfNotFound: true);
-        m_Abilities_East = m_Abilities.FindAction("East", throwIfNotFound: true);
-        m_Abilities_North = m_Abilities.FindAction("North", throwIfNotFound: true);
-        m_Abilities_South = m_Abilities.FindAction("South", throwIfNotFound: true);
         m_Abilities_None = m_Abilities.FindAction("None", throwIfNotFound: true);
+        m_Abilities_North = m_Abilities.FindAction("North", throwIfNotFound: true);
+        m_Abilities_West = m_Abilities.FindAction("West", throwIfNotFound: true);
+        m_Abilities_South = m_Abilities.FindAction("South", throwIfNotFound: true);
+        m_Abilities_East = m_Abilities.FindAction("East", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1621,11 +1621,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     // Abilities
     private readonly InputActionMap m_Abilities;
     private List<IAbilitiesActions> m_AbilitiesActionsCallbackInterfaces = new List<IAbilitiesActions>();
-    private readonly InputAction m_Abilities_West;
-    private readonly InputAction m_Abilities_East;
-    private readonly InputAction m_Abilities_North;
-    private readonly InputAction m_Abilities_South;
     private readonly InputAction m_Abilities_None;
+    private readonly InputAction m_Abilities_North;
+    private readonly InputAction m_Abilities_West;
+    private readonly InputAction m_Abilities_South;
+    private readonly InputAction m_Abilities_East;
     /// <summary>
     /// Provides access to input actions defined in input action map "Abilities".
     /// </summary>
@@ -1638,25 +1638,25 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public AbilitiesActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Abilities/West".
+        /// Provides access to the underlying input action "Abilities/None".
         /// </summary>
-        public InputAction @West => m_Wrapper.m_Abilities_West;
-        /// <summary>
-        /// Provides access to the underlying input action "Abilities/East".
-        /// </summary>
-        public InputAction @East => m_Wrapper.m_Abilities_East;
+        public InputAction @None => m_Wrapper.m_Abilities_None;
         /// <summary>
         /// Provides access to the underlying input action "Abilities/North".
         /// </summary>
         public InputAction @North => m_Wrapper.m_Abilities_North;
         /// <summary>
+        /// Provides access to the underlying input action "Abilities/West".
+        /// </summary>
+        public InputAction @West => m_Wrapper.m_Abilities_West;
+        /// <summary>
         /// Provides access to the underlying input action "Abilities/South".
         /// </summary>
         public InputAction @South => m_Wrapper.m_Abilities_South;
         /// <summary>
-        /// Provides access to the underlying input action "Abilities/None".
+        /// Provides access to the underlying input action "Abilities/East".
         /// </summary>
-        public InputAction @None => m_Wrapper.m_Abilities_None;
+        public InputAction @East => m_Wrapper.m_Abilities_East;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1683,21 +1683,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_AbilitiesActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_AbilitiesActionsCallbackInterfaces.Add(instance);
-            @West.started += instance.OnWest;
-            @West.performed += instance.OnWest;
-            @West.canceled += instance.OnWest;
-            @East.started += instance.OnEast;
-            @East.performed += instance.OnEast;
-            @East.canceled += instance.OnEast;
-            @North.started += instance.OnNorth;
-            @North.performed += instance.OnNorth;
-            @North.canceled += instance.OnNorth;
-            @South.started += instance.OnSouth;
-            @South.performed += instance.OnSouth;
-            @South.canceled += instance.OnSouth;
             @None.started += instance.OnNone;
             @None.performed += instance.OnNone;
             @None.canceled += instance.OnNone;
+            @North.started += instance.OnNorth;
+            @North.performed += instance.OnNorth;
+            @North.canceled += instance.OnNorth;
+            @West.started += instance.OnWest;
+            @West.performed += instance.OnWest;
+            @West.canceled += instance.OnWest;
+            @South.started += instance.OnSouth;
+            @South.performed += instance.OnSouth;
+            @South.canceled += instance.OnSouth;
+            @East.started += instance.OnEast;
+            @East.performed += instance.OnEast;
+            @East.canceled += instance.OnEast;
         }
 
         /// <summary>
@@ -1709,21 +1709,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="AbilitiesActions" />
         private void UnregisterCallbacks(IAbilitiesActions instance)
         {
-            @West.started -= instance.OnWest;
-            @West.performed -= instance.OnWest;
-            @West.canceled -= instance.OnWest;
-            @East.started -= instance.OnEast;
-            @East.performed -= instance.OnEast;
-            @East.canceled -= instance.OnEast;
-            @North.started -= instance.OnNorth;
-            @North.performed -= instance.OnNorth;
-            @North.canceled -= instance.OnNorth;
-            @South.started -= instance.OnSouth;
-            @South.performed -= instance.OnSouth;
-            @South.canceled -= instance.OnSouth;
             @None.started -= instance.OnNone;
             @None.performed -= instance.OnNone;
             @None.canceled -= instance.OnNone;
+            @North.started -= instance.OnNorth;
+            @North.performed -= instance.OnNorth;
+            @North.canceled -= instance.OnNorth;
+            @West.started -= instance.OnWest;
+            @West.performed -= instance.OnWest;
+            @West.canceled -= instance.OnWest;
+            @South.started -= instance.OnSouth;
+            @South.performed -= instance.OnSouth;
+            @South.canceled -= instance.OnSouth;
+            @East.started -= instance.OnEast;
+            @East.performed -= instance.OnEast;
+            @East.canceled -= instance.OnEast;
         }
 
         /// <summary>
@@ -2103,19 +2103,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     public interface IAbilitiesActions
     {
         /// <summary>
-        /// Method invoked when associated input action "West" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "None" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnWest(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "East" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnEast(InputAction.CallbackContext context);
+        void OnNone(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "North" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -2124,6 +2117,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNorth(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "West" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWest(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "South" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -2131,12 +2131,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSouth(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "None" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "East" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNone(InputAction.CallbackContext context);
+        void OnEast(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -23,6 +23,9 @@ public class AbilityGridCellEditor : Editor
 
         SerializedProperty selectedMapProp = serializedObject.FindProperty("_selectedActionMapName");
 
+        SerializedProperty actionNamesProp = serializedObject.FindProperty("_actionNames");
+        string[] directions = { "Up Action", "Left Action", "Down Action", "Right Action" };
+
         if (asset != null)
         {
             string[] mapNames = asset.actionMaps.Select(map => map.name).ToArray();
@@ -32,7 +35,6 @@ public class AbilityGridCellEditor : Editor
             }
             else
             {
-                // Find the current index from the serialized property
                 int selectedMapIndex = Mathf.Max(0, System.Array.IndexOf(mapNames, selectedMapProp.stringValue));
                 selectedMapIndex = EditorGUILayout.Popup("Action Map", selectedMapIndex, mapNames);
                 string selectedMapName = mapNames[selectedMapIndex];
@@ -41,13 +43,19 @@ public class AbilityGridCellEditor : Editor
                     selectedMapProp.stringValue = selectedMapName;
                 }
                 InputActionMap selectedMap = asset.actionMaps[selectedMapIndex];
-                string[] actionNames = selectedMap.actions.Select(a => a.name).ToArray();
+                string[] availableActions = selectedMap.actions.Select(a => a.name).ToArray();
 
-                // For each direction, show a dropdown filtered by map
-                DrawActionDropdown(serializedObject, "_leftActionName", "Left Action", actionNames);
-                DrawActionDropdown(serializedObject, "_rightActionName", "Right Action", actionNames);
-                DrawActionDropdown(serializedObject, "_upActionName", "Up Action", actionNames);
-                DrawActionDropdown(serializedObject, "_downActionName", "Down Action", actionNames);
+                // Draw dropdowns for each direction using the list
+                for (int i = 0; i < directions.Length; i++)
+                {
+                    SerializedProperty actionNameProp = actionNamesProp.GetArrayElementAtIndex(i);
+                    int currentIndex = Mathf.Max(0, System.Array.IndexOf(availableActions, actionNameProp.stringValue));
+                    int newIndex = EditorGUILayout.Popup(directions[i], currentIndex, availableActions);
+                    if (newIndex != currentIndex)
+                    {
+                        actionNameProp.stringValue = availableActions[newIndex];
+                    }
+                }
             }
         }
         else

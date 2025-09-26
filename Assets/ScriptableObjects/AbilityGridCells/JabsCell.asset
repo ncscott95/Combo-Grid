@@ -15,8 +15,8 @@ MonoBehaviour:
   Ability: {fileID: 11400000, guid: ca943bc0b41149545b4bc0d98d63939d, type: 2}
   _inputActionsAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _selectedActionMapName: Abilities
-  _leftActionName: West
-  _rightActionName: East
-  _upActionName: North
-  _downActionName: South
-  Cooldown: 0.5
+  _actionNames:
+  - North
+  - West
+  - South
+  - East

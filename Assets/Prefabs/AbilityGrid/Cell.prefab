@@ -392,7 +392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bf81b4d4ef5c24c93f2e70ed2d6e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftActionImage: {fileID: 3307507349447088462}
-  RightActionImage: {fileID: 16665486371999066}
-  UpActionImage: {fileID: 8829471548840598778}
-  DownActionImage: {fileID: 4860479829574420386}
+  _actionImages:
+  - {fileID: 8829471548840598778}
+  - {fileID: 3307507349447088462}
+  - {fileID: 4860479829574420386}
+  - {fileID: 16665486371999066}

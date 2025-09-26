@@ -500,18 +500,9 @@
             "id": "224fe53c-04c9-4e46-bce0-bd2562ce960f",
             "actions": [
                 {
-                    "name": "West",
+                    "name": "None",
                     "type": "Button",
-                    "id": "770d7917-1ca7-44d5-b73f-4bdc34190304",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "East",
-                    "type": "Button",
-                    "id": "2fb46acf-9eab-435f-8919-37a3246a839a",
+                    "id": "68f63a0a-6d1c-418b-8e86-7410362f8670",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -527,6 +518,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "West",
+                    "type": "Button",
+                    "id": "770d7917-1ca7-44d5-b73f-4bdc34190304",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "South",
                     "type": "Button",
                     "id": "e2bbdf2c-c0cc-4dc9-8e5c-59042d5a341d",
@@ -536,9 +536,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "None",
+                    "name": "East",
                     "type": "Button",
-                    "id": "68f63a0a-6d1c-418b-8e86-7410362f8670",
+                    "id": "2fb46acf-9eab-435f-8919-37a3246a839a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
