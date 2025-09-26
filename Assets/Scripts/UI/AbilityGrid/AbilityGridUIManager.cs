@@ -1,3 +1,4 @@
+using AbilitySystem;
 using UnityEngine;
 
 public class AbilityGridUIManager : MonoBehaviour
@@ -20,6 +21,11 @@ public class AbilityGridUIManager : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        AssignUICells(false);
+    }
+
     private void InitializeGrid()
     {
         AbilityGridUICell[] _uiCells = GetComponentsInChildren<AbilityGridUICell>();
@@ -39,11 +45,26 @@ public class AbilityGridUIManager : MonoBehaviour
             {
                 _uiCellGrid[x, y] = _uiCells[x + y * width];
                 AbilityGridManager.Instance.CellGrid[x, y].SetUICell(_uiCellGrid[x, y]);
+                _uiCellGrid[x, y].SetManager(this);
             }
         }
     }
 
-    private void UpdateGridUI()
+    private void AssignUICells(bool haveUI)
+    {
+        if (AbilityGridManager.Instance == null) return;
+
+        for (int y = 0; y < _uiCellGrid.GetLength(1); y++)
+        {
+            for (int x = 0; x < _uiCellGrid.GetLength(0); x++)
+            {
+                AbilityGridUICell cellValue = haveUI ? _uiCellGrid[x, y] : null;
+                AbilityGridManager.Instance.CellGrid[x, y].SetUICell(cellValue);
+            }
+        }
+    }
+
+    public void UpdateGridUI()
     {
         for (int y = 0; y < _uiCellGrid.GetLength(1); y++)
         {

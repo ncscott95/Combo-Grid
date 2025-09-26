@@ -22,6 +22,11 @@ namespace AbilitySystem
         public InputAction UpAction { get; private set; }
         public InputAction DownAction { get; private set; }
 
+        public bool HasLeftAction { get; private set; }
+        public bool HasRightAction { get; private set; }
+        public bool HasUpAction { get; private set; }
+        public bool HasDownAction { get; private set; }
+
         public Vector2Int GridPosition { get; set; }
         public AbilityGridUICell UIElement { get; private set; }
         private AbilityGridCell[] _neighbors = new AbilityGridCell[4]; // Left, Right, Up, Down
@@ -37,6 +42,11 @@ namespace AbilitySystem
             if (_neighbors[1] != null) RightAction.started += ctx => MoveRight();
             if (_neighbors[2] != null) UpAction.started += ctx => MoveUp();
             if (_neighbors[3] != null) DownAction.started += ctx => MoveDown();
+
+            HasLeftAction = _neighbors[0] != null;
+            HasRightAction = _neighbors[1] != null;
+            HasUpAction = _neighbors[2] != null;
+            HasDownAction = _neighbors[3] != null;
         }
 
         public void SetUICell(AbilityGridUICell uiCell) { UIElement = uiCell; }
@@ -47,7 +57,7 @@ namespace AbilitySystem
 
         public void EnterCell()
         {
-            UIElement.EnterCell();
+            if (UIElement != null) UIElement.EnterCell();
 
             if (Ability != null) Ability.Activate();
 
@@ -59,7 +69,7 @@ namespace AbilitySystem
 
         public void ExitCell()
         {
-            UIElement.ExitCell();
+            if (UIElement != null) UIElement.ExitCell();
 
             LeftAction.Disable();
             RightAction.Disable();
@@ -69,12 +79,12 @@ namespace AbilitySystem
 
         public void IdleCell()
         {
-            UIElement.IdleCell();
+            if (UIElement != null) UIElement.IdleCell();
         }
 
         public void RotateCell(bool clockwise)
         {
-            UIElement.RotateCell(clockwise);
+            if (UIElement != null) UIElement.RotateCell(clockwise);
 
             if (clockwise)
             {
