@@ -17,9 +17,6 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
         base.Awake();
 
         InitializeGrid();
-        List<int> test = new() { 0, 1, 2, 3 };
-        test = ListRotator.RotateList(test, true, 1);
-        Debug.Log(string.Join(", ", test));
     }
 
     void Start()

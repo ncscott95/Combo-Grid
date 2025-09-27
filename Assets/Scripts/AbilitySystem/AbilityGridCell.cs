@@ -4,22 +4,25 @@ namespace AbilitySystem
     using UnityEngine.InputSystem;
     using System.Linq;
     using System.Collections.Generic;
+    using UnityEditorInternal;
 
     [CreateAssetMenu(fileName = "NewAbilityGridCell", menuName = "AbilitySystem/AbilityGridCell")]
     public class AbilityGridCell : ScriptableObject
     {
         // Fields to be serialized and shown in the inspector
         public Ability Ability;
-        [SerializeField] private InputActionAsset _inputActionsAsset;
-        [SerializeField] private string _selectedActionMapName;
-        [SerializeField] private List<string> _actionNames = new() { "", "", "", "" }; // Up, Left, Down, Right
+        // [SerializeField] private InputActionAsset _inputActionsAsset;
+        // [SerializeField] private string _selectedActionMapName;
+        // [SerializeField] private List<string> _actionNames = new() { "", "", "", "" }; // Up, Left, Down, Right
+        [SerializeField] private List<AbilityGridTransition> _transitions = new() { null, null, null, null }; // Up, Left, Down, Right
 
         // Runtime properties to resolve InputActions
         public InputAction UpAction { get; private set; }
         public InputAction LeftAction { get; private set; }
         public InputAction DownAction { get; private set; }
         public InputAction RightAction { get; private set; }
-        public List<string> ActionNames => _actionNames;
+        // public List<string> ActionNames => _actionNames;
+        public List<AbilityGridTransition> Transitions => _transitions;
 
         public bool HasUpAction { get; private set; }
         public bool HasLeftAction { get; private set; }
@@ -84,37 +87,41 @@ namespace AbilitySystem
         public void RotateCell(bool clockwise)
         {
             if (UIElement != null) UIElement.RotateCell(clockwise);
-            _actionNames = ListRotator.RotateList(_actionNames, clockwise, 1);
+            _transitions = ListRotator.RotateList(_transitions, clockwise, 1);
             InitializeActions(_neighbors);
         }
 
         private void UpdateActions()
         {
-            UpAction = ResolveInputAction(_actionNames[0]);
-            LeftAction = ResolveInputAction(_actionNames[1]);
-            DownAction = ResolveInputAction(_actionNames[2]);
-            RightAction = ResolveInputAction(_actionNames[3]);
+            UpAction = ResolveInputAction(_transitions[0]);
+            LeftAction = ResolveInputAction(_transitions[1]);
+            DownAction = ResolveInputAction(_transitions[2]);
+            RightAction = ResolveInputAction(_transitions[3]);
         }
 
-        private InputAction ResolveInputAction(string actionName)
+        private InputAction ResolveInputAction(AbilityGridTransition transition)
         {
-            if (_inputActionsAsset == null || string.IsNullOrEmpty(_selectedActionMapName) || string.IsNullOrEmpty(actionName))
+            InputActionAsset inputActionsAsset = transition.InputActionsAsset;
+            string selectedActionMapName = transition.SelectedActionMapName;
+            string actionName = transition.ActionName;
+
+            if (inputActionsAsset == null || string.IsNullOrEmpty(selectedActionMapName) || string.IsNullOrEmpty(actionName))
             {
                 Debug.LogWarning("InputActionAsset, ActionMap name, or Action name is not set properly.");
                 return null;
             }
 
-            InputActionMap map = _inputActionsAsset.actionMaps.FirstOrDefault(m => m.name == _selectedActionMapName);
+            InputActionMap map = inputActionsAsset.actionMaps.FirstOrDefault(m => m.name == selectedActionMapName);
             if (map == null)
             {
-                Debug.LogWarning($"ActionMap '{_selectedActionMapName}' not found in the InputActionAsset.");
+                Debug.LogWarning($"ActionMap '{selectedActionMapName}' not found in the InputActionAsset.");
                 return null;
             }
 
             var original = map.actions.FirstOrDefault(a => a.name == actionName);
             if (original == null)
             {
-                Debug.LogWarning($"Action '{actionName}' not found in ActionMap '{_selectedActionMapName}'.");
+                Debug.LogWarning($"Action '{actionName}' not found in ActionMap '{selectedActionMapName}'.");
                 return null;
             }
 

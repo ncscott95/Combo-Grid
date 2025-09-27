@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: EmptyCell
   m_EditorClassIdentifier: 
   Ability: {fileID: 0}
-  _inputActionsAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _selectedActionMapName: Abilities
-  _actionNames:
-  - North
-  - West
-  - South
-  - East
+  _transitions:
+  - {fileID: 11400000, guid: 5b2718eff1a097f48920713664c5aa9c, type: 2}
+  - {fileID: 11400000, guid: 2badbb6db9cc68840b0a9d9e5fe50074, type: 2}
+  - {fileID: 11400000, guid: 7c1f6a3c4e8b5d74c889d32422deac60, type: 2}
+  - {fileID: 11400000, guid: a442365ba0d544f48ad440ce5f3b981e, type: 2}

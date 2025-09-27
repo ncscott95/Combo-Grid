@@ -25,10 +25,10 @@ public class AbilityGridUICell : MonoBehaviour
         {
             CellImage.sprite = linkedCell.Ability.Icon;
 
-            _actionImages[0].gameObject.SetActive(linkedCell.HasUpAction);
-            _actionImages[1].gameObject.SetActive(linkedCell.HasLeftAction);
-            _actionImages[2].gameObject.SetActive(linkedCell.HasDownAction);
-            _actionImages[3].gameObject.SetActive(linkedCell.HasRightAction);
+            SetTransitionVisuals(linkedCell.HasUpAction, linkedCell, 0);
+            SetTransitionVisuals(linkedCell.HasLeftAction, linkedCell, 1);
+            SetTransitionVisuals(linkedCell.HasDownAction, linkedCell, 2);
+            SetTransitionVisuals(linkedCell.HasRightAction, linkedCell, 3);
         }
         else
         {
@@ -58,5 +58,18 @@ public class AbilityGridUICell : MonoBehaviour
         _actionImages = ListRotator.RotateList(_actionImages, clockwise, 1);
 
         _manager.UpdateGridUI();
+    }
+
+    private void SetTransitionVisuals(bool active, AbilityGridCell linkedCell, int index)
+    {
+        if (!active)
+        {
+            _actionImages[index].gameObject.SetActive(false);
+            return;
+        }
+
+        _actionImages[index].sprite = linkedCell.Transitions[index].Icon;
+        _actionImages[index].color = linkedCell.Transitions[index].Color;
+        _actionImages[index].gameObject.SetActive(true);
     }
 }

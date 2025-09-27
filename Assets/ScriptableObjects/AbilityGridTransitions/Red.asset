@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 035086c3b6b88484ba15ce3e63e4d200, type: 3}
+  m_Name: Red
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 21300000, guid: 5f84de582b2485e418c243af9bf0be85, type: 3}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+  _inputActionsAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _selectedActionMapName: Abilities
+  _actionName: East
