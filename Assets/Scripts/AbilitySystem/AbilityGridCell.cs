@@ -4,16 +4,12 @@ namespace AbilitySystem
     using UnityEngine.InputSystem;
     using System.Linq;
     using System.Collections.Generic;
-    using UnityEditorInternal;
 
     [CreateAssetMenu(fileName = "NewAbilityGridCell", menuName = "AbilitySystem/AbilityGridCell")]
     public class AbilityGridCell : ScriptableObject
     {
         // Fields to be serialized and shown in the inspector
         public Ability Ability;
-        // [SerializeField] private InputActionAsset _inputActionsAsset;
-        // [SerializeField] private string _selectedActionMapName;
-        // [SerializeField] private List<string> _actionNames = new() { "", "", "", "" }; // Up, Left, Down, Right
         [SerializeField] private List<AbilityGridTransition> _transitions = new() { null, null, null, null }; // Up, Left, Down, Right
 
         // Runtime properties to resolve InputActions
@@ -21,7 +17,6 @@ namespace AbilitySystem
         public InputAction LeftAction { get; private set; }
         public InputAction DownAction { get; private set; }
         public InputAction RightAction { get; private set; }
-        // public List<string> ActionNames => _actionNames;
         public List<AbilityGridTransition> Transitions => _transitions;
 
         public bool HasUpAction { get; private set; }

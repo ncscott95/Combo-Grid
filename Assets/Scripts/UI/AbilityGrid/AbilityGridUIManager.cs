@@ -1,7 +1,7 @@
 using AbilitySystem;
 using UnityEngine;
 
-public class AbilityGridUIManager : MonoBehaviour
+public class AbilityGridUIManager : Singleton<AbilityGridUIManager>
 {
     private AbilityGridUICell[,] _uiCellGrid;
     private bool _isInitialized = false;
@@ -23,7 +23,7 @@ public class AbilityGridUIManager : MonoBehaviour
 
     void OnDisable()
     {
-        AssignUICells(false);
+        ClearUICells();
     }
 
     private void InitializeGrid()
@@ -50,7 +50,7 @@ public class AbilityGridUIManager : MonoBehaviour
         }
     }
 
-    private void AssignUICells(bool haveUI)
+    private void ClearUICells()
     {
         if (AbilityGridManager.Instance == null) return;
 
@@ -58,8 +58,7 @@ public class AbilityGridUIManager : MonoBehaviour
         {
             for (int x = 0; x < _uiCellGrid.GetLength(0); x++)
             {
-                AbilityGridUICell cellValue = haveUI ? _uiCellGrid[x, y] : null;
-                AbilityGridManager.Instance.CellGrid[x, y].SetUICell(cellValue);
+                AbilityGridManager.Instance.CellGrid[x, y].SetUICell(null);
             }
         }
     }

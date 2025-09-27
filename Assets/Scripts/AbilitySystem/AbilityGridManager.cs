@@ -29,6 +29,10 @@ public class AbilityGridManager : Singleton<AbilityGridManager>
                 for (int i = 0; i < rotations; i++) CellGrid[x, y].RotateCell(true);
             }
         }
+
+        AbilityGridUIManager.Instance.UpdateGridUI();
+
+        // TODO: start in idle state instead of entering first cell
         MoveCell(CellGrid[0, 0]);
     }
 

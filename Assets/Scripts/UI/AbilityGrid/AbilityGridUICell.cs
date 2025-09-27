@@ -57,7 +57,8 @@ public class AbilityGridUICell : MonoBehaviour
         CellImage.transform.Rotate(0, 0, rotationAngle);
         _actionImages = ListRotator.RotateList(_actionImages, clockwise, 1);
 
-        _manager.UpdateGridUI();
+        // TODO: allow individual rotations when the player is editing the grid
+        // _manager.UpdateGridUI();
     }
 
     private void SetTransitionVisuals(bool active, AbilityGridCell linkedCell, int index)
@@ -68,8 +69,9 @@ public class AbilityGridUICell : MonoBehaviour
             return;
         }
 
-        _actionImages[index].sprite = linkedCell.Transitions[index].Icon;
-        _actionImages[index].color = linkedCell.Transitions[index].Color;
+        var transition = linkedCell.Transitions[index];
+        _actionImages[index].sprite = transition != null ? transition.Icon : null;
+        _actionImages[index].color = transition != null ? transition.Color : Color.clear;
         _actionImages[index].gameObject.SetActive(true);
     }
 }
