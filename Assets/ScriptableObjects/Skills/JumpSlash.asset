@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26834e9c5bd5e2541b0c8c4e19c2e5bd, type: 3}
   m_Name: JumpSlash
   m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 9cc058af156d74e41b9c22f35c9b6e84, type: 3}
+  _cooldown: 5
+  _staminaCost: 1
   _animation: {fileID: 7400000, guid: 4d586858974852341a7e2b62aa7272aa, type: 2}
   _startActiveFrame: 7
   _endActiveFrame: 10

@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using AbilitySystem;
 
 [CustomEditor(typeof(AbilityGridCell))]
 [CanEditMultipleObjects]
@@ -12,7 +11,7 @@ public class AbilityGridCellEditor : Editor
         serializedObject.Update();
 
         // Ability field
-        SerializedProperty abilityProp = serializedObject.FindProperty("Ability");
+        SerializedProperty abilityProp = serializedObject.FindProperty("Skill");
         EditorGUILayout.PropertyField(abilityProp);
 
         // Transition fields

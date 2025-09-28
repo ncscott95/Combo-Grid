@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87bbe0dea19c1b44a5560f99821fea1, type: 3}
   m_Name: JumpSlashCell
   m_EditorClassIdentifier: 
-  Ability: {fileID: 11400000, guid: 21552e8e70c28ce4d8b3dd616aa2049c, type: 2}
+  Skill: {fileID: 11400000, guid: ed7bc94032d9b724e8930826d85721eb, type: 2}
   _transitions:
   - {fileID: 11400000, guid: 5b2718eff1a097f48920713664c5aa9c, type: 2}
   - {fileID: 11400000, guid: 2badbb6db9cc68840b0a9d9e5fe50074, type: 2}

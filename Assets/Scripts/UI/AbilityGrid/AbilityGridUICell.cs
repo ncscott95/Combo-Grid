@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using AbilitySystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +22,7 @@ public class AbilityGridUICell : MonoBehaviour
     {
         if (linkedCell != null)
         {
-            CellImage.sprite = linkedCell.Ability.Icon;
+            CellImage.sprite = linkedCell.Skill.Icon;
 
             SetTransitionVisuals(linkedCell.HasUpAction, linkedCell, 0);
             SetTransitionVisuals(linkedCell.HasLeftAction, linkedCell, 1);

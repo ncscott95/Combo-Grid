@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87bbe0dea19c1b44a5560f99821fea1, type: 3}
   m_Name: SlashesCell
   m_EditorClassIdentifier: 
-  Ability: {fileID: 11400000, guid: 953f86a02bff2b14cb2f78fad88649ab, type: 2}
+  Skill: {fileID: 11400000, guid: 482eff8d3ae5c084fa7524c48ac02e1d, type: 2}
   _transitions:
   - {fileID: 11400000, guid: 5b2718eff1a097f48920713664c5aa9c, type: 2}
   - {fileID: 11400000, guid: 2badbb6db9cc68840b0a9d9e5fe50074, type: 2}

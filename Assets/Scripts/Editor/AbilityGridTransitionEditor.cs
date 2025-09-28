@@ -2,7 +2,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
-using AbilitySystem;
 
 [CustomEditor(typeof(AbilityGridTransition))]
 public class AbilityGridTransitionEditor : Editor

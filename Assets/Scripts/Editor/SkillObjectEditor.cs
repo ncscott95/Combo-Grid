@@ -21,31 +21,62 @@ public class SkillObjectEditor : Editor
     {
         VisualElement root = new();
         serializedObject.Update();
+
+        // Icon field
+        var iconProp = serializedObject.FindProperty("_icon");
+        root.Add(CreateObjectField("Icon", iconProp, typeof(Sprite)));
+
+        // Cooldown field
+        var cooldownProp = serializedObject.FindProperty("_cooldown");
+        root.Add(CreateFloatField("Cooldown", cooldownProp));
+
+        // StaminaCost field
+        var staminaCostProp = serializedObject.FindProperty("_staminaCost");
+        root.Add(CreateFloatField("Stamina Cost", staminaCostProp));
+
+        // Animation fields
         _animationProp = serializedObject.FindProperty("_animation");
         _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
         _endActiveFrameProp = serializedObject.FindProperty("_endActiveFrame");
 
-        root.Add(CreateAnimationClipField());
+        root.Add(CreateObjectField("Animation", _animationProp, typeof(AnimationClip)));
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
         root.Add(new IMGUIContainer(() => DrawCustomAnimationPreview()));
 
         return root;
     }
 
-    private ObjectField CreateAnimationClipField()
+    // Helper to create an ObjectField for a SerializedProperty
+    private ObjectField CreateObjectField(string label, SerializedProperty prop, System.Type objectType)
     {
-        ObjectField animationField = new("Animation")
+        ObjectField field = new(label)
         {
-            objectType = typeof(AnimationClip),
-            value = _animationProp.objectReferenceValue as AnimationClip
+            objectType = objectType,
+            value = prop.objectReferenceValue
         };
-        animationField.RegisterValueChangedCallback(evt =>
+        field.RegisterValueChangedCallback(evt =>
         {
             serializedObject.Update();
-            _animationProp.objectReferenceValue = evt.newValue as AnimationClip;
+            prop.objectReferenceValue = evt.newValue;
             serializedObject.ApplyModifiedProperties();
         });
-        return animationField;
+        return field;
+    }
+
+    // Helper to create a FloatField for a SerializedProperty
+    private FloatField CreateFloatField(string label, SerializedProperty prop)
+    {
+        FloatField field = new(label)
+        {
+            value = prop.floatValue
+        };
+        field.RegisterValueChangedCallback(evt =>
+        {
+            serializedObject.Update();
+            prop.floatValue = evt.newValue;
+            serializedObject.ApplyModifiedProperties();
+        });
+        return field;
     }
 
     private void DrawCustomAnimationPreview()

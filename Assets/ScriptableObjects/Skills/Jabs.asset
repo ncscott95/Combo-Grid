@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26834e9c5bd5e2541b0c8c4e19c2e5bd, type: 3}
   m_Name: Jabs
   m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 4ffde3efc5bfb654fbea595bb388ed62, type: 3}
+  _cooldown: 5
+  _staminaCost: 1
   _animation: {fileID: 7400000, guid: b0954cb53b6cede46b92487c5f48d088, type: 2}
   _startActiveFrame: 3
   _endActiveFrame: 7
