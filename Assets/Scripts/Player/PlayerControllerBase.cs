@@ -18,9 +18,13 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     [SerializeField] protected LayerMask _groundMask;
     protected bool _isGrounded;
 
-    [Header("Health")]
-    [SerializeField] protected int _maxHealth;
-    public int Health { get; protected set; }
+    [Header("Attributes")]
+    [SerializeField] private Attribute _healthAttribute;
+    [SerializeField] private AttributeUI _healthUI;
+    public Attribute HealthAttribute { get; private set; }
+    [SerializeField] private Attribute _staminaAttribute;
+    [SerializeField] private AttributeUI _staminaUI;
+    public Attribute StaminaAttribute { get; private set; }
     protected bool _isInvincible = false;
     protected bool _isDead = false;
 
@@ -46,11 +50,18 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         SkillSequencer = GetComponent<SkillSequencer>();
         Instance.Camera = UnityEngine.Camera.main.transform;
         Actions = new InputSystem_Actions();
+
+        HealthAttribute = Instantiate(_healthAttribute);
+        StaminaAttribute = Instantiate(_staminaAttribute);
+
+        if (_healthUI != null) _healthUI.SetAttribute(HealthAttribute);
+        if (_staminaUI != null) _staminaUI.SetAttribute(StaminaAttribute);
     }
 
     void Start()
     {
-        Health = _maxHealth;
+        HealthAttribute.Initialize();
+        StaminaAttribute.Initialize();
     }
 
     public virtual void OnEnable()
@@ -111,8 +122,8 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     {
         if (_isInvincible) return;
 
-        Health -= damage;
-        if (Health <= 0)
+        HealthAttribute.ModifyCurrentValue(-damage);
+        if (HealthAttribute.CurrentValue <= 0)
         {
             _isDead = true;
             StopAllCoroutines();
@@ -127,6 +138,8 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         _rb.linearVelocity = Vector2.zero;
         _rb.angularVelocity = 0f;
         _isDead = false;
-        Health = _maxHealth;
+
+        HealthAttribute.Initialize();
+        StaminaAttribute.Initialize();
     }
 }
