@@ -8,7 +8,6 @@ public class AbilityGridTransitionEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        AbilityGridTransition transition = (AbilityGridTransition)target;
         serializedObject.Update();
 
         EditorGUILayout.LabelField("Transition Properties", EditorStyles.boldLabel);

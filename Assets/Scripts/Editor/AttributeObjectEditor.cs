@@ -6,7 +6,6 @@ public class AttributeObjectEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        Attribute attribute = (Attribute)target;
         serializedObject.Update();
 
         EditorGUILayout.LabelField("Attribute Properties", EditorStyles.boldLabel);

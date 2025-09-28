@@ -1,7 +1,5 @@
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [CustomEditor(typeof(Skill))]
 public class SkillObjectEditor : Editor
@@ -17,137 +15,67 @@ public class SkillObjectEditor : Editor
     private const float ValueWidth = 45f;
     private const float SliderHeight = 20f;
 
-    public override VisualElement CreateInspectorGUI()
+    public override void OnInspectorGUI()
     {
-        VisualElement root = new();
         serializedObject.Update();
 
-        // Skill properties
-        root.Add(new Label("Skill Properties") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
-        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+        EditorGUILayout.LabelField("Skill Properties", EditorStyles.boldLabel);
+        EditorGUILayout.Space(8);
 
-        root.Add(CreateSkillPropertiesContainer());
+        // Horizontal container for Icon, Cooldown, StaminaCost, and thumbnail
+        EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+        EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
+        SerializedProperty iconProp = serializedObject.FindProperty("_icon");
+        EditorGUILayout.PropertyField(iconProp);
+        SerializedProperty cooldownProp = serializedObject.FindProperty("_cooldown");
+        EditorGUILayout.PropertyField(cooldownProp);
+        SerializedProperty staminaCostProp = serializedObject.FindProperty("_staminaCost");
+        EditorGUILayout.PropertyField(staminaCostProp);
+        EditorGUILayout.EndVertical();
+
+        // Thumbnail preview
+        Sprite sprite = iconProp.objectReferenceValue as Sprite;
+        EditorGUILayout.BeginVertical(GUILayout.Width(84), GUILayout.Height(84));
+        Rect previewRect = GUILayoutUtility.GetRect(72, 72, GUILayout.Width(72), GUILayout.Height(72));
+        Color prevColor = GUI.color;
+        EditorGUI.DrawRect(previewRect, new Color(0.15f, 0.15f, 0.15f, 1f));
+        Handles.color = Color.gray;
+        Handles.DrawAAPolyLine(2f, new Vector3[] {
+            new Vector3(previewRect.xMin, previewRect.yMin), new Vector3(previewRect.xMax, previewRect.yMin),
+            new Vector3(previewRect.xMax, previewRect.yMax), new Vector3(previewRect.xMin, previewRect.yMax), new Vector3(previewRect.xMin, previewRect.yMin)
+        });
+        if (sprite != null && sprite.texture != null)
+        {
+            Texture2D tex = sprite.texture;
+            Rect spriteRect = sprite.rect;
+            Rect uv = new Rect(
+                spriteRect.x / tex.width,
+                spriteRect.y / tex.height,
+                spriteRect.width / tex.width,
+                spriteRect.height / tex.height
+            );
+            GUI.DrawTextureWithTexCoords(previewRect, tex, uv, true);
+        }
+        else
+        {
+            EditorGUI.LabelField(previewRect, "No Icon", new GUIStyle() { alignment = TextAnchor.MiddleCenter, normal = { textColor = Color.gray } });
+        }
+        GUI.color = prevColor;
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
 
         // Animation sequencer
         _animationProp = serializedObject.FindProperty("_animation");
         _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
         _endActiveFrameProp = serializedObject.FindProperty("_endActiveFrame");
 
-        root.Add(new Label("Animation Sequencer") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
-        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
-        root.Add(CreateObjectField("Animation", _animationProp, typeof(AnimationClip)));
-        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
-        root.Add(new IMGUIContainer(() => DrawCustomAnimationPreview()));
+        EditorGUILayout.LabelField("Animation Sequencer", EditorStyles.boldLabel);
+        EditorGUILayout.Space(8);
+        EditorGUILayout.PropertyField(_animationProp);
+        EditorGUILayout.Space(8);
+        DrawCustomAnimationPreview();
 
-        return root;
-    }
-
-    private VisualElement CreateSkillPropertiesContainer()
-    {
-        // Horizontal container
-        var horizontalContainer = new VisualElement();
-        horizontalContainer.style.flexDirection = FlexDirection.Row;
-        horizontalContainer.style.marginBottom = 8;
-
-        // Left section: vertical fields
-        var leftSection = new VisualElement();
-        leftSection.style.flexDirection = FlexDirection.Column;
-        leftSection.style.flexGrow = 1;
-        leftSection.style.marginRight = 8;
-
-        var iconProp = serializedObject.FindProperty("_icon");
-        var iconField = CreateObjectField("Icon", iconProp, typeof(Sprite));
-        leftSection.Add(iconField);
-
-        var cooldownProp = serializedObject.FindProperty("_cooldown");
-        leftSection.Add(CreateFloatField("Cooldown", cooldownProp));
-
-        var staminaCostProp = serializedObject.FindProperty("_staminaCost");
-        leftSection.Add(CreateFloatField("Stamina Cost", staminaCostProp));
-
-        // Right section: thumbnail preview
-        var rightSection = new VisualElement();
-        rightSection.style.flexDirection = FlexDirection.Column;
-        rightSection.style.alignItems = Align.Center;
-        rightSection.style.justifyContent = Justify.Center;
-        rightSection.style.width = 72;
-        rightSection.style.height = 72;
-        rightSection.style.backgroundColor = new Color(0.15f, 0.15f, 0.15f, 1f);
-        rightSection.style.borderTopWidth = 2;
-        rightSection.style.borderBottomWidth = 2;
-        rightSection.style.borderLeftWidth = 2;
-        rightSection.style.borderRightWidth = 2;
-        rightSection.style.borderTopColor = Color.gray;
-        rightSection.style.borderBottomColor = Color.gray;
-        rightSection.style.borderLeftColor = Color.gray;
-        rightSection.style.borderRightColor = Color.gray;
-        rightSection.style.marginTop = 4;
-
-        // Image preview
-        var iconImage = new Image();
-        iconImage.style.width = 72;
-        iconImage.style.height = 72;
-        iconImage.style.marginTop = 6;
-        iconImage.style.marginBottom = 6;
-        iconImage.scaleMode = ScaleMode.ScaleToFit;
-        rightSection.Add(iconImage);
-
-        // Update image when icon changes
-        void UpdateIconPreview()
-        {
-            Sprite sprite = iconProp.objectReferenceValue as Sprite;
-            if (sprite != null && sprite.texture != null)
-            {
-                iconImage.image = sprite.texture;
-            }
-            else
-            {
-                iconImage.image = null;
-            }
-        }
-        UpdateIconPreview();
-        iconField.RegisterValueChangedCallback(evt =>
-        {
-            serializedObject.Update();
-            iconProp.objectReferenceValue = evt.newValue;
-            serializedObject.ApplyModifiedProperties();
-            UpdateIconPreview();
-        });
-
-        horizontalContainer.Add(leftSection);
-        horizontalContainer.Add(rightSection);
-        return horizontalContainer;
-    }
-
-    private ObjectField CreateObjectField(string label, SerializedProperty prop, System.Type objectType)
-    {
-        ObjectField field = new(label)
-        {
-            objectType = objectType,
-            value = prop.objectReferenceValue
-        };
-        field.RegisterValueChangedCallback(evt =>
-        {
-            serializedObject.Update();
-            prop.objectReferenceValue = evt.newValue;
-            serializedObject.ApplyModifiedProperties();
-        });
-        return field;
-    }
-
-    private FloatField CreateFloatField(string label, SerializedProperty prop)
-    {
-        FloatField field = new(label)
-        {
-            value = prop.floatValue
-        };
-        field.RegisterValueChangedCallback(evt =>
-        {
-            serializedObject.Update();
-            prop.floatValue = evt.newValue;
-            serializedObject.ApplyModifiedProperties();
-        });
-        return field;
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void DrawCustomAnimationPreview()
