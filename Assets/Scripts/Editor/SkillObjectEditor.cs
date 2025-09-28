@@ -22,23 +22,19 @@ public class SkillObjectEditor : Editor
         VisualElement root = new();
         serializedObject.Update();
 
-        // Icon field
-        var iconProp = serializedObject.FindProperty("_icon");
-        root.Add(CreateObjectField("Icon", iconProp, typeof(Sprite)));
+        // Skill properties
+        root.Add(new Label("Skill Properties") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
 
-        // Cooldown field
-        var cooldownProp = serializedObject.FindProperty("_cooldown");
-        root.Add(CreateFloatField("Cooldown", cooldownProp));
+        root.Add(CreateSkillPropertiesContainer());
 
-        // StaminaCost field
-        var staminaCostProp = serializedObject.FindProperty("_staminaCost");
-        root.Add(CreateFloatField("Stamina Cost", staminaCostProp));
-
-        // Animation fields
+        // Animation sequencer
         _animationProp = serializedObject.FindProperty("_animation");
         _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
         _endActiveFrameProp = serializedObject.FindProperty("_endActiveFrame");
 
+        root.Add(new Label("Animation Sequencer") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
         root.Add(CreateObjectField("Animation", _animationProp, typeof(AnimationClip)));
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
         root.Add(new IMGUIContainer(() => DrawCustomAnimationPreview()));
@@ -46,7 +42,83 @@ public class SkillObjectEditor : Editor
         return root;
     }
 
-    // Helper to create an ObjectField for a SerializedProperty
+    private VisualElement CreateSkillPropertiesContainer()
+    {
+        // Horizontal container
+        var horizontalContainer = new VisualElement();
+        horizontalContainer.style.flexDirection = FlexDirection.Row;
+        horizontalContainer.style.marginBottom = 8;
+
+        // Left section: vertical fields
+        var leftSection = new VisualElement();
+        leftSection.style.flexDirection = FlexDirection.Column;
+        leftSection.style.flexGrow = 1;
+        leftSection.style.marginRight = 8;
+
+        var iconProp = serializedObject.FindProperty("_icon");
+        var iconField = CreateObjectField("Icon", iconProp, typeof(Sprite));
+        leftSection.Add(iconField);
+
+        var cooldownProp = serializedObject.FindProperty("_cooldown");
+        leftSection.Add(CreateFloatField("Cooldown", cooldownProp));
+
+        var staminaCostProp = serializedObject.FindProperty("_staminaCost");
+        leftSection.Add(CreateFloatField("Stamina Cost", staminaCostProp));
+
+        // Right section: thumbnail preview
+        var rightSection = new VisualElement();
+        rightSection.style.flexDirection = FlexDirection.Column;
+        rightSection.style.alignItems = Align.Center;
+        rightSection.style.justifyContent = Justify.Center;
+        rightSection.style.width = 72;
+        rightSection.style.height = 72;
+        rightSection.style.backgroundColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+        rightSection.style.borderTopWidth = 2;
+        rightSection.style.borderBottomWidth = 2;
+        rightSection.style.borderLeftWidth = 2;
+        rightSection.style.borderRightWidth = 2;
+        rightSection.style.borderTopColor = Color.gray;
+        rightSection.style.borderBottomColor = Color.gray;
+        rightSection.style.borderLeftColor = Color.gray;
+        rightSection.style.borderRightColor = Color.gray;
+        rightSection.style.marginTop = 4;
+
+        // Image preview
+        var iconImage = new Image();
+        iconImage.style.width = 72;
+        iconImage.style.height = 72;
+        iconImage.style.marginTop = 6;
+        iconImage.style.marginBottom = 6;
+        iconImage.scaleMode = ScaleMode.ScaleToFit;
+        rightSection.Add(iconImage);
+
+        // Update image when icon changes
+        void UpdateIconPreview()
+        {
+            Sprite sprite = iconProp.objectReferenceValue as Sprite;
+            if (sprite != null && sprite.texture != null)
+            {
+                iconImage.image = sprite.texture;
+            }
+            else
+            {
+                iconImage.image = null;
+            }
+        }
+        UpdateIconPreview();
+        iconField.RegisterValueChangedCallback(evt =>
+        {
+            serializedObject.Update();
+            iconProp.objectReferenceValue = evt.newValue;
+            serializedObject.ApplyModifiedProperties();
+            UpdateIconPreview();
+        });
+
+        horizontalContainer.Add(leftSection);
+        horizontalContainer.Add(rightSection);
+        return horizontalContainer;
+    }
+
     private ObjectField CreateObjectField(string label, SerializedProperty prop, System.Type objectType)
     {
         ObjectField field = new(label)
@@ -63,7 +135,6 @@ public class SkillObjectEditor : Editor
         return field;
     }
 
-    // Helper to create a FloatField for a SerializedProperty
     private FloatField CreateFloatField(string label, SerializedProperty prop)
     {
         FloatField field = new(label)
