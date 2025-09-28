@@ -2,107 +2,129 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 [CustomEditor(typeof(AbilityGridTransition))]
 public class AbilityGridTransitionEditor : Editor
 {
-    public override void OnInspectorGUI()
+    public override VisualElement CreateInspectorGUI()
     {
-        serializedObject.Update();
+        var root = new VisualElement();
+        root.Add(new Label("Transition Properties") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
 
-        EditorGUILayout.LabelField("Transition Properties", EditorStyles.boldLabel);
-        EditorGUILayout.Space(8);
+        var horizontalContainer = new VisualElement();
+        horizontalContainer.style.flexDirection = FlexDirection.Row;
+        horizontalContainer.style.marginBottom = 8;
 
-        // Horizontal container for Icon/Color and thumbnail
-        EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-        EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
-        SerializedProperty iconProp = serializedObject.FindProperty("Icon");
-        EditorGUILayout.PropertyField(iconProp);
-        SerializedProperty colorProp = serializedObject.FindProperty("Color");
-        EditorGUILayout.PropertyField(colorProp);
-        EditorGUILayout.EndVertical();
+        // Left section: vertical fields
+        var leftSection = new VisualElement();
+        leftSection.style.flexDirection = FlexDirection.Column;
+        leftSection.style.flexGrow = 1;
+        leftSection.style.marginRight = 8;
 
-        // Thumbnail preview
-        SerializedProperty iconPreviewProp = serializedObject.FindProperty("Icon");
-        Sprite sprite = iconPreviewProp.objectReferenceValue as Sprite;
-        EditorGUILayout.BeginVertical(GUILayout.Width(84), GUILayout.Height(84));
-        Rect previewRect = GUILayoutUtility.GetRect(72, 72, GUILayout.Width(72), GUILayout.Height(72));
-        Color prevColor = GUI.color;
-        EditorGUI.DrawRect(previewRect, new Color(0.15f, 0.15f, 0.15f, 1f));
-        Handles.color = Color.gray;
-        Handles.DrawAAPolyLine(2f, new Vector3[] {
-            new Vector3(previewRect.xMin, previewRect.yMin), new Vector3(previewRect.xMax, previewRect.yMin),
-            new Vector3(previewRect.xMax, previewRect.yMax), new Vector3(previewRect.xMin, previewRect.yMax), new Vector3(previewRect.xMin, previewRect.yMin)
-        });
-        if (sprite != null && sprite.texture != null)
+        var iconProp = serializedObject.FindProperty("Icon");
+        var iconField = new PropertyField(iconProp, "Icon");
+        leftSection.Add(iconField);
+
+        var colorProp = serializedObject.FindProperty("Color");
+        var colorField = new PropertyField(colorProp, "Color");
+        leftSection.Add(colorField);
+
+        // Right section: thumbnail preview
+        var rightSection = new VisualElement();
+        rightSection.style.width = 84;
+        rightSection.style.height = 84;
+        rightSection.style.backgroundColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+        rightSection.style.borderTopWidth = 2;
+        rightSection.style.borderBottomWidth = 2;
+        rightSection.style.borderLeftWidth = 2;
+        rightSection.style.borderRightWidth = 2;
+        rightSection.style.borderTopColor = Color.gray;
+        rightSection.style.borderBottomColor = Color.gray;
+        rightSection.style.borderLeftColor = Color.gray;
+        rightSection.style.borderRightColor = Color.gray;
+        rightSection.style.marginTop = 4;
+        rightSection.style.justifyContent = Justify.Center;
+        rightSection.style.alignItems = Align.Center;
+
+        var iconImage = new Image();
+        iconImage.style.width = 72;
+        iconImage.style.height = 72;
+        iconImage.scaleMode = ScaleMode.ScaleToFit;
+        rightSection.Add(iconImage);
+
+        void UpdateIconPreview()
         {
-            Texture2D tex = sprite.texture;
-            Rect spriteRect = sprite.rect;
-            Rect uv = new Rect(
-                spriteRect.x / tex.width,
-                spriteRect.y / tex.height,
-                spriteRect.width / tex.width,
-                spriteRect.height / tex.height
-            );
-            // Tint with assigned color
-            colorProp = serializedObject.FindProperty("Color");
-            Color tintColor = colorProp.colorValue;
-            GUI.color = tintColor;
-            GUI.DrawTextureWithTexCoords(previewRect, tex, uv, true);
-            GUI.color = prevColor;
-        }
-        else
-        {
-            EditorGUI.LabelField(previewRect, "No Icon", new GUIStyle() { alignment = TextAnchor.MiddleCenter, normal = { textColor = Color.gray } });
-        }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.EndHorizontal();
-
-        // InputActionAsset and related fields below
-
-        EditorGUILayout.LabelField("Input Action", EditorStyles.boldLabel);
-        EditorGUILayout.Space(8);
-
-        SerializedProperty assetProp = serializedObject.FindProperty("_inputActionsAsset");
-        EditorGUILayout.PropertyField(assetProp);
-        InputActionAsset asset = assetProp.objectReferenceValue as InputActionAsset;
-
-        SerializedProperty selectedMapProp = serializedObject.FindProperty("_selectedActionMapName");
-        SerializedProperty actionNameProp = serializedObject.FindProperty("_actionName");
-
-        if (asset != null)
-        {
-            string[] mapNames = asset.actionMaps.Select(map => map.name).ToArray();
-            if (mapNames.Length == 0)
+            Sprite sprite = iconProp.objectReferenceValue as Sprite;
+            if (sprite != null && sprite.texture != null)
             {
-                EditorGUILayout.HelpBox("No action maps found in asset.", MessageType.Warning);
+                iconImage.image = sprite.texture;
             }
             else
             {
-                int selectedMapIndex = Mathf.Max(0, System.Array.IndexOf(mapNames, selectedMapProp.stringValue));
-                selectedMapIndex = EditorGUILayout.Popup("Action Map", selectedMapIndex, mapNames);
-                string selectedMapName = mapNames[selectedMapIndex];
-                if (selectedMapProp.stringValue != selectedMapName)
-                {
-                    selectedMapProp.stringValue = selectedMapName;
-                }
-                InputActionMap selectedMap = asset.actionMaps[selectedMapIndex];
-                string[] availableActions = selectedMap.actions.Select(a => a.name).ToArray();
-
-                // Draw dropdown for the action name
-                int currentIndex = Mathf.Max(0, System.Array.IndexOf(availableActions, actionNameProp.stringValue));
-                int newIndex = EditorGUILayout.Popup("Action Name", currentIndex, availableActions);
-                if (newIndex != currentIndex)
-                {
-                    actionNameProp.stringValue = availableActions[newIndex];
-                }
+                iconImage.image = null;
             }
         }
-        else
+        UpdateIconPreview();
+        iconField.RegisterValueChangeCallback(evt =>
         {
-            EditorGUILayout.HelpBox("Assign an InputActions asset to select actions.", MessageType.Info);
-        }
+            UpdateIconPreview();
+        });
 
-        serializedObject.ApplyModifiedProperties();
+        horizontalContainer.Add(leftSection);
+        horizontalContainer.Add(rightSection);
+        root.Add(horizontalContainer);
+
+        root.Add(new Label("Input Action") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+
+        // InputActionAsset and related fields below
+        var assetProp = serializedObject.FindProperty("_inputActionsAsset");
+        root.Add(new PropertyField(assetProp, "Input Actions Asset"));
+
+        var selectedMapProp = serializedObject.FindProperty("_selectedActionMapName");
+        var actionNameProp = serializedObject.FindProperty("_actionName");
+
+        // Use IMGUIContainer for dynamic dropdowns
+        root.Add(new IMGUIContainer(() =>
+        {
+            InputActionAsset asset = assetProp.objectReferenceValue as InputActionAsset;
+            if (asset != null)
+            {
+                string[] mapNames = asset.actionMaps.Select(map => map.name).ToArray();
+                if (mapNames.Length == 0)
+                {
+                    EditorGUILayout.HelpBox("No action maps found in asset.", MessageType.Warning);
+                }
+                else
+                {
+                    int selectedMapIndex = Mathf.Max(0, System.Array.IndexOf(mapNames, selectedMapProp.stringValue));
+                    selectedMapIndex = EditorGUILayout.Popup("Action Map", selectedMapIndex, mapNames);
+                    string selectedMapName = mapNames[selectedMapIndex];
+                    if (selectedMapProp.stringValue != selectedMapName)
+                    {
+                        selectedMapProp.stringValue = selectedMapName;
+                    }
+                    InputActionMap selectedMap = asset.actionMaps[selectedMapIndex];
+                    string[] availableActions = selectedMap.actions.Select(a => a.name).ToArray();
+
+                    // Draw dropdown for the action name
+                    int currentIndex = Mathf.Max(0, System.Array.IndexOf(availableActions, actionNameProp.stringValue));
+                    int newIndex = EditorGUILayout.Popup("Action Name", currentIndex, availableActions);
+                    if (newIndex != currentIndex)
+                    {
+                        actionNameProp.stringValue = availableActions[newIndex];
+                    }
+                }
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Assign an InputActions asset to select actions.", MessageType.Info);
+            }
+        }));
+
+        return root;
     }
 }

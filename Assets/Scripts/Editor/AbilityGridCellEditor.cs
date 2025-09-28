@@ -1,28 +1,27 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 [CustomEditor(typeof(AbilityGridCell))]
 [CanEditMultipleObjects]
 public class AbilityGridCellEditor : Editor
 {
-    public override void OnInspectorGUI()
+    public override VisualElement CreateInspectorGUI()
     {
-        AbilityGridCell cell = (AbilityGridCell)target;
-        serializedObject.Update();
+        var root = new VisualElement();
 
-        // Ability field
-        SerializedProperty abilityProp = serializedObject.FindProperty("Skill");
-        EditorGUILayout.PropertyField(abilityProp);
+        var abilityProp = this.serializedObject.FindProperty("Skill");
+        root.Add(new PropertyField(abilityProp, "Skill"));
 
-        // Transition fields
-        SerializedProperty transitionsProp = serializedObject.FindProperty("_transitions");
+        var transitionsProp = this.serializedObject.FindProperty("_transitions");
         string[] directions = { "Up Transition", "Left Transition", "Down Transition", "Right Transition" };
         for (int i = 0; i < directions.Length; i++)
         {
             SerializedProperty transitionProp = transitionsProp.GetArrayElementAtIndex(i);
-            EditorGUILayout.PropertyField(transitionProp, new GUIContent(directions[i]));
+            root.Add(new PropertyField(transitionProp, directions[i]));
         }
 
-        serializedObject.ApplyModifiedProperties();
+        return root;
     }
 }
