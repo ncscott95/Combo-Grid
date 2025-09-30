@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(Skill))]
 public class SkillObjectEditor : Editor
@@ -33,15 +34,15 @@ public class SkillObjectEditor : Editor
         leftSection.style.flexGrow = 1;
         leftSection.style.marginRight = 8;
 
-        var iconProp = this.serializedObject.FindProperty("_icon");
+        var iconProp = serializedObject.FindProperty("_icon");
         var iconField = new PropertyField(iconProp, "Icon");
         leftSection.Add(iconField);
 
-        var cooldownProp = this.serializedObject.FindProperty("_cooldown");
+        var cooldownProp = serializedObject.FindProperty("_cooldown");
         var cooldownField = new PropertyField(cooldownProp, "Cooldown");
         leftSection.Add(cooldownField);
 
-        var staminaCostProp = this.serializedObject.FindProperty("_staminaCost");
+        var staminaCostProp = serializedObject.FindProperty("_staminaCost");
         var staminaCostField = new PropertyField(staminaCostProp, "Stamina Cost");
         leftSection.Add(staminaCostField);
 
@@ -91,9 +92,10 @@ public class SkillObjectEditor : Editor
         root.Add(horizontalContainer);
 
         // Animation sequencer
-        _animationProp = this.serializedObject.FindProperty("_animation");
-        _startActiveFrameProp = this.serializedObject.FindProperty("_startActiveFrame");
-        _endActiveFrameProp = this.serializedObject.FindProperty("_endActiveFrame");
+        _animationProp = serializedObject.FindProperty("_animation");
+        _startActiveFrameProp = serializedObject.FindProperty("_startActiveFrame");
+        _endActiveFrameProp = serializedObject.FindProperty("_endActiveFrame");
+        var animationEventsProp = serializedObject.FindProperty("_animationEvents");
 
         root.Add(new Label("Animation Sequencer") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
@@ -101,6 +103,83 @@ public class SkillObjectEditor : Editor
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
         root.Add(new IMGUIContainer(() => DrawCustomAnimationPreview()));
 
+        // Animation Events List (ListView)
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+        root.Add(new Label("Custom Events") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+        root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+        var skillTarget = (Skill)target;
+        var methodNames = new List<string>();
+        var methods = skillTarget.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+        foreach (var m in methods)
+        {
+            if (m.DeclaringType == skillTarget.GetType() && !m.IsSpecialName)
+            {
+                methodNames.Add(m.Name);
+            }
+        }
+
+        var animationEventsList = new ListView
+        {
+            itemsSource = skillTarget.AnimationEvents,
+            selectionType = SelectionType.None,
+            style = { marginBottom = 8 },
+            fixedItemHeight = 24
+        };
+        animationEventsList.makeItem = () =>
+        {
+            var row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row;
+            row.style.marginBottom = 4;
+            var frameField = new IntegerField();
+            frameField.style.width = 80;
+            row.Add(frameField);
+            var eventDropdown = new PopupField<string>(methodNames, methodNames.Count > 0 ? methodNames[0] : "");
+            eventDropdown.style.width = 180;
+            row.Add(eventDropdown);
+            var removeButton = new Button();
+            removeButton.text = "Remove";
+            removeButton.style.marginLeft = 8;
+            removeButton.style.width = 70;
+            row.Add(removeButton);
+            return row;
+        };
+        animationEventsList.bindItem = (element, i) =>
+        {
+            var row = (VisualElement)element;
+            var frameField = row.ElementAt(0) as IntegerField;
+            var eventDropdown = row.ElementAt(1) as PopupField<string>;
+            var removeButton = row.ElementAt(2) as Button;
+            frameField.SetValueWithoutNotify(skillTarget.AnimationEvents[i].Frame);
+            frameField.RegisterValueChangedCallback(evt =>
+            {
+                skillTarget.AnimationEvents[i].Frame = evt.newValue;
+                EditorUtility.SetDirty(skillTarget);
+                // No need to Rebuild(), the field is updated.
+            });
+            eventDropdown.value = skillTarget.AnimationEvents[i].EventName;
+            eventDropdown.choices = methodNames;
+            eventDropdown.RegisterValueChangedCallback(evt =>
+            {
+                skillTarget.AnimationEvents[i].EventName = evt.newValue;
+                EditorUtility.SetDirty(skillTarget);
+                // No need to Rebuild(), the field is updated.
+            });
+            removeButton.clicked += () =>
+            {
+                skillTarget.AnimationEvents.RemoveAt(i);
+                EditorUtility.SetDirty(skillTarget);
+                animationEventsList.Rebuild(); // Rebuild is necessary after removing an item.
+            };
+        };
+        root.Add(animationEventsList);
+
+        var addButton = new Button(() => {
+            skillTarget.AnimationEvents.Add(new Skill.AnimationEvent { Frame = 0, EventName = methodNames.Count > 0 ? methodNames[0] : string.Empty });
+            EditorUtility.SetDirty(skillTarget);
+            animationEventsList.Rebuild();
+        });
+        addButton.text = "Add Event";
+        root.Add(addButton);
         return root;
     }
 

@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 
 public class SkillSequencer : MonoBehaviour
@@ -61,6 +62,15 @@ public class SkillSequencer : MonoBehaviour
             {
                 _currentSkill.EndActivePhase();
                 CurrentPhase = SkillPhase.Recovery;
+            }
+
+            // Handle animation events
+            foreach (var animEvent in _currentSkill.AnimationEvents)
+            {
+                if (animEvent.Frame == currentFrame)
+                {
+                    animEvent.Method?.Invoke(_currentSkill, null); // Pass parameters if needed
+                }
             }
         }
     }
