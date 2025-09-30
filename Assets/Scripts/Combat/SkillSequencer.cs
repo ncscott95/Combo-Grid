@@ -69,7 +69,26 @@ public class SkillSequencer : MonoBehaviour
             {
                 if (animEvent.Frame == currentFrame)
                 {
-                    animEvent.Method?.Invoke(_currentSkill, null); // Pass parameters if needed
+                    string eventName = animEvent.EventName;
+                    if (string.IsNullOrEmpty(eventName)) continue;
+
+                    MethodInfo method = null;
+                    object target = null;
+
+                    if (eventName.StartsWith("Behaviors/"))
+                    {
+                        string methodName = eventName.Substring("Behaviors/".Length);
+                        method = typeof(SkillBehaviors).GetMethod(methodName, BindingFlags.Public | BindingFlags.Static);
+                        target = null; // Static method
+                    }
+                    else if (eventName.StartsWith("Skill/"))
+                    {
+                        string methodName = eventName.Substring("Skill/".Length);
+                        method = _currentSkill.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                        target = _currentSkill; // Instance method
+                    }
+
+                    method?.Invoke(target, null);
                 }
             }
         }

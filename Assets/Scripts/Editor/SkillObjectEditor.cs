@@ -109,12 +109,30 @@ public class SkillObjectEditor : Editor
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
         var skillTarget = (Skill)target;
         var methodNames = new List<string>();
-        var methods = skillTarget.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-        foreach (var m in methods)
+
+        // Get instance methods from the Skill class and its subclasses
+        var skillMethods = skillTarget.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+        foreach (var m in skillMethods)
         {
-            if (m.DeclaringType == skillTarget.GetType() && !m.IsSpecialName)
+            if (!m.IsSpecialName && (m.DeclaringType == typeof(Skill) || m.DeclaringType.IsSubclassOf(typeof(Skill))) && !methodNames.Contains(m.Name))
             {
-                methodNames.Add(m.Name);
+                // Add with a "Skill/" prefix for grouping
+                methodNames.Add($"Skill/{m.Name}");
+            }
+        }
+
+        // Get static methods from SkillBehaviors class
+        var skillBehaviorsType = typeof(SkillBehaviors);
+        if (skillBehaviorsType != null)
+        {
+            var behaviorMethods = skillBehaviorsType.GetMethods(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            foreach (var m in behaviorMethods)
+            {
+                if (!m.IsSpecialName && m.DeclaringType == skillBehaviorsType && !methodNames.Contains(m.Name))
+                {
+                    // Add with a "Behaviors/" prefix for grouping
+                    methodNames.Add($"Behaviors/{m.Name}");
+                }
             }
         }
 
@@ -129,17 +147,19 @@ public class SkillObjectEditor : Editor
         {
             var row = new VisualElement();
             row.style.flexDirection = FlexDirection.Row;
+            row.style.alignItems = Align.Center;
             row.style.marginBottom = 4;
             var frameField = new IntegerField();
-            frameField.style.width = 80;
+            frameField.style.width = 50;
             row.Add(frameField);
             var eventDropdown = new PopupField<string>(methodNames, methodNames.Count > 0 ? methodNames[0] : "");
-            eventDropdown.style.width = 180;
+            eventDropdown.style.marginLeft = 8;
+            eventDropdown.style.flexGrow = 1;
             row.Add(eventDropdown);
             var removeButton = new Button();
-            removeButton.text = "Remove";
+            removeButton.text = "-";
             removeButton.style.marginLeft = 8;
-            removeButton.style.width = 70;
+            removeButton.style.width = 30;
             row.Add(removeButton);
             return row;
         };
@@ -154,7 +174,6 @@ public class SkillObjectEditor : Editor
             {
                 skillTarget.AnimationEvents[i].Frame = evt.newValue;
                 EditorUtility.SetDirty(skillTarget);
-                // No need to Rebuild(), the field is updated.
             });
             eventDropdown.value = skillTarget.AnimationEvents[i].EventName;
             eventDropdown.choices = methodNames;
@@ -162,7 +181,6 @@ public class SkillObjectEditor : Editor
             {
                 skillTarget.AnimationEvents[i].EventName = evt.newValue;
                 EditorUtility.SetDirty(skillTarget);
-                // No need to Rebuild(), the field is updated.
             });
             removeButton.clicked += () =>
             {
