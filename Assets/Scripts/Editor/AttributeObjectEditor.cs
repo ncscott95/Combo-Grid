@@ -82,8 +82,15 @@ public class AttributeObjectEditor : Editor
 
         root.Add(new Label("Attribute Values") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
         root.Add(new IMGUIContainer(() => GUILayout.Space(8)));
+
         var maxValueProp = serializedObject.FindProperty("MaxValue");
         root.Add(new PropertyField(maxValueProp, "Max Value"));
+
+        var regenDelayProp = serializedObject.FindProperty("RegenDelay");
+        root.Add(new PropertyField(regenDelayProp, "Regen Delay (s)"));
+
+        var regenRateProp = serializedObject.FindProperty("RegenRate");
+        root.Add(new PropertyField(regenRateProp, "Regen Rate (per second)"));
 
         return root;
     }

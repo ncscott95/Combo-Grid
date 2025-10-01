@@ -16,3 +16,5 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: f7ef572499079b84ea1da28ae5439e56, type: 3}
   Color: {r: 0, g: 1, b: 0, a: 1}
   MaxValue: 10
+  RegenDelay: 1
+  RegenRate: 1

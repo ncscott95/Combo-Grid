@@ -72,6 +72,11 @@ public class Skill : ScriptableObject
         ClearData();
     }
 
+    public virtual void ConsumeStamina()
+    {
+        PlayerControllerBase.Instance.ConsumeStamina(_staminaCost);
+    }
+
     private void ClearData()
     {
         if (_hitbox != null)

@@ -29,15 +29,15 @@ public class AbilityGridCell : ScriptableObject
 
     public void InitializeActions(AbilityGridCell[] neighbors)
     {
-        UpdateActions();
-        ClearAllActions();
+        GetActionsFromStrings();
+        UnsubscribeAllActions();
         _neighbors = neighbors;
 
         // neighbors[0] = Up, neighbors[1] = Left, neighbors[2] = Down, neighbors[3] = Right
-        if (_neighbors[0] != null) UpAction.started += ctx => MoveUp();
-        if (_neighbors[1] != null) LeftAction.started += ctx => MoveLeft();
-        if (_neighbors[2] != null) DownAction.started += ctx => MoveDown();
-        if (_neighbors[3] != null) RightAction.started += ctx => MoveRight();
+        if (_neighbors[0] != null) UpAction.started += ctx => TryMoveCell(0);
+        if (_neighbors[1] != null) LeftAction.started += ctx => TryMoveCell(1);
+        if (_neighbors[2] != null) DownAction.started += ctx => TryMoveCell(2);
+        if (_neighbors[3] != null) RightAction.started += ctx => TryMoveCell(3);
 
         HasUpAction = _neighbors[0] != null;
         HasLeftAction = _neighbors[1] != null;
@@ -46,10 +46,14 @@ public class AbilityGridCell : ScriptableObject
     }
 
     public void SetUICell(AbilityGridUICell uiCell) { UIElement = uiCell; }
-    private void MoveUp() { AbilityGridManager.Instance.MoveCell(_neighbors[0]); }
-    private void MoveLeft() { AbilityGridManager.Instance.MoveCell(_neighbors[1]); }
-    private void MoveDown() { AbilityGridManager.Instance.MoveCell(_neighbors[2]); }
-    private void MoveRight() { AbilityGridManager.Instance.MoveCell(_neighbors[3]); }
+
+    private void TryMoveCell(int direction)
+    {
+        if (PlayerControllerBase.Instance.CanUseStamina(_neighbors[direction].Skill.StaminaCost))
+        {
+            AbilityGridManager.Instance.MoveCell(_neighbors[direction]);
+        }
+    }
 
     public void EnterCell()
     {
@@ -85,7 +89,7 @@ public class AbilityGridCell : ScriptableObject
         InitializeActions(_neighbors);
     }
 
-    private void UpdateActions()
+    private void GetActionsFromStrings()
     {
         UpAction = ResolveInputAction(_transitions[0]);
         LeftAction = ResolveInputAction(_transitions[1]);
@@ -135,11 +139,11 @@ public class AbilityGridCell : ScriptableObject
         return newAction;
     }
 
-    private void ClearAllActions()
+    private void UnsubscribeAllActions()
     {
-        if (UpAction != null) UpAction.started -= ctx => MoveUp();
-        if (LeftAction != null) LeftAction.started -= ctx => MoveLeft();
-        if (DownAction != null) DownAction.started -= ctx => MoveDown();
-        if (RightAction != null) RightAction.started -= ctx => MoveRight();
+        if (UpAction != null) UpAction.started -= ctx => TryMoveCell(0);
+        if (LeftAction != null) LeftAction.started -= ctx => TryMoveCell(1);
+        if (DownAction != null) DownAction.started -= ctx => TryMoveCell(2);
+        if (RightAction != null) RightAction.started -= ctx => TryMoveCell(3);
     }
 }

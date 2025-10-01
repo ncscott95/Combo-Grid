@@ -122,7 +122,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     {
         if (_isInvincible) return;
 
-        HealthAttribute.ModifyCurrentValue(-damage);
+        HealthAttribute.ModifyCurrentValue(-damage, false);
         if (HealthAttribute.CurrentValue <= 0)
         {
             _isDead = true;
@@ -130,6 +130,16 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
             SetCameraControlActive(false);
             GameManager.Instance.OnDeath();
         }
+    }
+
+    public virtual void ConsumeStamina(float amount)
+    {
+        StaminaAttribute.ModifyCurrentValue(-amount, true);
+    }
+
+    public virtual bool CanUseStamina(float amount)
+    {
+        return StaminaAttribute.CurrentValue >= amount;
     }
 
     public virtual void SpawnPlayer(Transform point)

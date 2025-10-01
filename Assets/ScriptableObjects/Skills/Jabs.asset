@@ -20,4 +20,4 @@ MonoBehaviour:
   _endActiveFrame: 7
   _animationEvents:
   - Frame: 3
-    EventName: Behaviors/DashForward
+    EventName: Skill/ConsumeStamina

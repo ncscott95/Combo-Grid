@@ -18,4 +18,6 @@ MonoBehaviour:
   _animation: {fileID: 7400000, guid: 4d586858974852341a7e2b62aa7272aa, type: 2}
   _startActiveFrame: 7
   _endActiveFrame: 10
-  _animationEvents: []
+  _animationEvents:
+  - Frame: 4
+    EventName: Skill/ConsumeStamina
