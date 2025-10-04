@@ -17,7 +17,7 @@ public class SkillSequencer : MonoBehaviour
     public SkillPhase CurrentPhase { get; private set; } = SkillPhase.Inactive;
     public bool CanStartSkill => CurrentPhase == SkillPhase.Inactive || CurrentPhase == SkillPhase.Recovery;
     private Skill _currentSkill;
-    private DamageHitbox _hitbox;
+    private GameObject _currentHitbox;
     private int _lastFrame = -1;
 
     void Update()
@@ -35,7 +35,8 @@ public class SkillSequencer : MonoBehaviour
             {
                 _currentSkill.EndSkill();
                 _currentSkill = null;
-                _hitbox = null;
+                Destroy(_currentHitbox);
+                _currentHitbox = null;
                 CurrentPhase = SkillPhase.Inactive;
             }
             return;
@@ -94,19 +95,19 @@ public class SkillSequencer : MonoBehaviour
         }
     }
 
-    public bool TryStartSkill(Skill skill, DamageHitbox hitbox = null)
+    public bool TryStartSkill(Skill skill)
     {
         if (CurrentPhase == SkillPhase.Inactive)
         {
             // From idle or movement
-            StartSkill(skill, hitbox);
+            StartSkill(skill);
             return true;
         }
         else if (CurrentPhase == SkillPhase.Recovery)
         {
             // Combo
             InterruptCurrentSkill();
-            StartSkill(skill, hitbox);
+            StartSkill(skill);
             return true;
         }
 
@@ -118,15 +119,17 @@ public class SkillSequencer : MonoBehaviour
         if (_currentSkill == null) return;
 
         _currentSkill.InterruptSkill();
+        Destroy(_currentHitbox);
+        _currentHitbox = null;
     }
 
-    private void StartSkill(Skill skill, DamageHitbox hitbox = null)
+    private void StartSkill(Skill skill)
     {
         _currentSkill = skill;
-        _hitbox = hitbox;
+        _currentHitbox = Instantiate(skill.HitboxPrefab, transform);
         if (_currentSkill == null || _animator == null) return;
 
-        _currentSkill.StartSkill(_hitbox);
+        _currentSkill.StartSkill(_currentHitbox.GetComponent<DamageHitbox>());
         _animator.Play(_currentSkill.Animation.name, 0, 0f);
         _lastFrame = -1;
         CurrentPhase = SkillPhase.Anticipation;

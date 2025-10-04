@@ -13,56 +13,63 @@ public class Skill : ScriptableObject
 
     // Ability properties
     [SerializeField] private Sprite _icon;
-    [SerializeField] private float _cooldown = 5f;
+    [SerializeField] private float _damage = 1f;
+    // [SerializeField] private float _cooldown = 5f;
     [SerializeField] private float _staminaCost = 1f;
+    [SerializeField] private GameObject _hitboxPrefab;
+
     public Sprite Icon => _icon;
-    public float Cooldown => _cooldown;
+    public float Damage => _damage;
+    // public float Cooldown => _cooldown;
     public float StaminaCost => _staminaCost;
+    public GameObject HitboxPrefab => _hitboxPrefab;
 
     // Animation and event handling
     [SerializeField] private AnimationClip _animation;
     [SerializeField] private int _startActiveFrame;
     [SerializeField] private int _endActiveFrame;
     [SerializeField] private List<AnimationEvent> _animationEvents = new();
+
     public AnimationClip Animation => _animation;
     public int StartActiveFrame => _startActiveFrame;
     public int EndActiveFrame => _endActiveFrame;
     public List<AnimationEvent> AnimationEvents => _animationEvents;
 
-    private DamageHitbox _hitbox;
+    private DamageHitbox _sequencedHitbox;
 
     public void Activate()
     {
         // TODO: handle hitboxes
-        PlayerController2D.Instance.SkillSequencer.TryStartSkill(this, null);
+        PlayerController2D.Instance.SkillSequencer.TryStartSkill(this);
     }
 
     public virtual void StartSkill(DamageHitbox hitbox)
     {
-        _hitbox = hitbox;
+        _sequencedHitbox = hitbox;
+        _sequencedHitbox.InitializeHitbox(1, LayerMask.GetMask("Enemy"));
     }
 
     public void StartActivePhase()
     {
-        if (_hitbox != null)
+        if (_sequencedHitbox != null)
         {
-            _hitbox.SetHitboxActive(true);
+            _sequencedHitbox.SetHitboxActive(true);
         }
     }
 
     public void EndActivePhase()
     {
-        if (_hitbox != null)
+        if (_sequencedHitbox != null)
         {
-            _hitbox.SetHitboxActive(false);
+            _sequencedHitbox.SetHitboxActive(false);
         }
     }
 
     public virtual void InterruptSkill()
     {
-        if (_hitbox != null)
+        if (_sequencedHitbox != null)
         {
-            _hitbox.SetHitboxActive(false);
+            _sequencedHitbox.SetHitboxActive(false);
         }
         ClearData();
     }
@@ -79,9 +86,9 @@ public class Skill : ScriptableObject
 
     private void ClearData()
     {
-        if (_hitbox != null)
+        if (_sequencedHitbox != null)
         {
-            _hitbox = null;
+            _sequencedHitbox = null;
         }
     }
 }

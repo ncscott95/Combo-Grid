@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Jabs
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 4ffde3efc5bfb654fbea595bb388ed62, type: 3}
-  _cooldown: 5
+  _damage: 1
   _staminaCost: 1
+  _hitboxPrefab: {fileID: 2630376751870199373, guid: ae7a4ec68e44cbc419b463b614d7a4e0, type: 3}
   _animation: {fileID: 7400000, guid: b0954cb53b6cede46b92487c5f48d088, type: 2}
   _startActiveFrame: 3
   _endActiveFrame: 7

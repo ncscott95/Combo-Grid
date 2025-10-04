@@ -38,13 +38,21 @@ public class SkillObjectEditor : Editor
         var iconField = new PropertyField(iconProp, "Icon");
         leftSection.Add(iconField);
 
-        var cooldownProp = serializedObject.FindProperty("_cooldown");
-        var cooldownField = new PropertyField(cooldownProp, "Cooldown");
-        leftSection.Add(cooldownField);
+        var damageProp = serializedObject.FindProperty("_damage");
+        var damageField = new PropertyField(damageProp, "Damage");
+        leftSection.Add(damageField);
+
+        // var cooldownProp = serializedObject.FindProperty("_cooldown");
+        // var cooldownField = new PropertyField(cooldownProp, "Cooldown");
+        // leftSection.Add(cooldownField);
 
         var staminaCostProp = serializedObject.FindProperty("_staminaCost");
         var staminaCostField = new PropertyField(staminaCostProp, "Stamina Cost");
         leftSection.Add(staminaCostField);
+
+        var hitboxPrefabProp = serializedObject.FindProperty("_hitboxPrefab");
+        var hitboxPrefabField = new PropertyField(hitboxPrefabProp, "Hitbox Prefab");
+        leftSection.Add(hitboxPrefabField);
 
         // Right section: thumbnail preview
         var rightSection = new VisualElement();

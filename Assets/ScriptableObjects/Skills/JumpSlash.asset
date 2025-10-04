@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: JumpSlash
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 9cc058af156d74e41b9c22f35c9b6e84, type: 3}
-  _cooldown: 5
+  _damage: 1
   _staminaCost: 1
+  _hitboxPrefab: {fileID: 8104350315553652407, guid: 3e7a3b801268c4548840b2d3dab5ddab, type: 3}
   _animation: {fileID: 7400000, guid: 4d586858974852341a7e2b62aa7272aa, type: 2}
   _startActiveFrame: 7
   _endActiveFrame: 10

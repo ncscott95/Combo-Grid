@@ -21,3 +21,4 @@ MonoBehaviour:
   _animationEvents:
   - Frame: 1
     EventName: Skill/ConsumeStamina
+  _hitboxPrefab: {fileID: 1536642005192072623, guid: 03e136fe82d1cda48b3fd960b25ae4cf, type: 3}
