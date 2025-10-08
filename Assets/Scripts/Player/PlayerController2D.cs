@@ -77,14 +77,15 @@ public class PlayerController2D : PlayerControllerBase
         Vector2 velocity = _rb.linearVelocity;
 
         // Horizontal movement
-        if (_moveInput.x == 0)
+        float horizontalInput = _canMove ? _moveInput.x : 0f; // Handle movement check
+        if (horizontalInput == 0)
         {
             float deceleration = _isGrounded ? _groundDrag : _airDrag;
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
         else
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, _moveInput.x * Speed, _acceleration * Time.fixedDeltaTime);
+            velocity.x = Mathf.MoveTowards(velocity.x, horizontalInput * Speed, _acceleration * Time.fixedDeltaTime);
         }
 
         // Cap horizontal speed
@@ -173,7 +174,7 @@ public class PlayerController2D : PlayerControllerBase
 
     public void Jump()
     {
-        if (_isGrounded && _isJumpReady)
+        if (_canMove && _isGrounded && _isJumpReady)
         {
             _isJumping = true;
             _isJumpReady = false;

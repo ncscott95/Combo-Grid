@@ -22,3 +22,7 @@ MonoBehaviour:
   _animationEvents:
   - Frame: 4
     EventName: Skill/ConsumeStamina
+  - Frame: 1
+    EventName: Skill/StopAllowMovement
+  - Frame: 19
+    EventName: Skill/StartAllowMovement

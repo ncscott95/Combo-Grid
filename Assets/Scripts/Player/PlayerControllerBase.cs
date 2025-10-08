@@ -35,6 +35,7 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     protected List<float> _speedModifiers = new();
     public float Speed { get { return _maxSpeed * _speedModifiers.Aggregate(1f, (acc, val) => acc * val); } }
     protected Vector2 _moveInput;
+    protected bool _canMove = true;
 
     [Header("Combat")]
     public SkillSequencer SkillSequencer { get; private set; }
@@ -67,27 +68,31 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
     public virtual void OnEnable()
     {
         Actions.Player.Enable();
-        // Subscribe to input events
-        Actions.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
-        Actions.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
+
+        Actions.Player.Move.performed += OnMove;
+        Actions.Player.Move.canceled += OnMove;
         Actions.Player.ShowGrid.performed += ctx => ToggleGridUI();
-        // Actions.Player.Attack.performed += ctx => Attack();
     }
 
     public virtual void OnDisable()
     {
         Actions.Player.Disable();
-        // Unsubscribe from input events
-        Actions.Player.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
-        Actions.Player.Move.canceled -= ctx => _moveInput = Vector2.zero;
+
+        Actions.Player.Move.performed -= OnMove;
+        Actions.Player.Move.canceled -= OnMove;
         Actions.Player.ShowGrid.performed -= ctx => ToggleGridUI();
-        // Actions.Player.Attack.performed -= ctx => Attack();
     }
 
     public virtual void Update()
     {
         // Ground check
         _isGrounded = Physics2D.Raycast(transform.position + Vector3.up * 0.01f, Vector3.down, 0.3f, _groundMask);
+    }
+
+    private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        // Always read the input value. We'll check _canMove before applying it.
+        _moveInput = context.ReadValue<Vector2>();
     }
 
     public virtual void FixedUpdate() { }
@@ -152,4 +157,6 @@ public abstract class PlayerControllerBase : Singleton<PlayerControllerBase>, ID
         HealthAttribute.Initialize();
         StaminaAttribute.Initialize();
     }
+
+    public virtual void ToggleMovement(bool canMove) { _canMove = canMove; Debug.Log($"Can move: {_canMove}"); }
 }

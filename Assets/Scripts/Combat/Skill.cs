@@ -84,6 +84,16 @@ public class Skill : ScriptableObject
         PlayerControllerBase.Instance.ConsumeStamina(_staminaCost);
     }
 
+    public virtual void StopAllowMovement()
+    {
+        PlayerControllerBase.Instance.ToggleMovement(false);
+    }
+
+    public virtual void StartAllowMovement()
+    {
+        PlayerControllerBase.Instance.ToggleMovement(true);
+    }
+
     private void ClearData()
     {
         if (_sequencedHitbox != null)
