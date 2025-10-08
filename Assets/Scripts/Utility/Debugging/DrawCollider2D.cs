@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Written by Acme Nerd Games on gamedev.stackexchange.com
+// Adapted from code posted by Acme Nerd Games on gamedev.stackexchange.com
 // https://gamedev.stackexchange.com/questions/197313/show-colliders-in-a-build-game-in-unity
 
 [RequireComponent(typeof(Collider2D))]
