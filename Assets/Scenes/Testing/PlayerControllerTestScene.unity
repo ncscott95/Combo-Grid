@@ -858,6 +858,7 @@ GameObject:
   - component: {fileID: 916674433}
   - component: {fileID: 916674435}
   - component: {fileID: 916674436}
+  - component: {fileID: 916674437}
   m_Layer: 7
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -999,6 +1000,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &916674437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916674432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b3f15106569e44e8657a4cd3056ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linePrefab: {fileID: 1403844684813286175, guid: b50d298e327d5be40860e24f3df556bd, type: 3}
+  _lineColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &939367006 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4605254279555619668, guid: f249c0a8868ff114d87d66cca6d5f34c, type: 3}
@@ -1197,6 +1212,7 @@ GameObject:
   - component: {fileID: 1217563967}
   - component: {fileID: 1217563965}
   - component: {fileID: 1217563966}
+  - component: {fileID: 1217563969}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1358,6 +1374,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1217563967}
+--- !u!114 &1217563969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217563962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b3f15106569e44e8657a4cd3056ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linePrefab: {fileID: 1403844684813286175, guid: b50d298e327d5be40860e24f3df556bd, type: 3}
+  _lineColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &1560033163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5667880407145064632, guid: f249c0a8868ff114d87d66cca6d5f34c, type: 3}

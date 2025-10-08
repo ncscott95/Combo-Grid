@@ -28,6 +28,7 @@ public class PlayerController2D : PlayerControllerBase
     private bool _isJumping = false;
     private bool _isJumpReady = true;
     private bool _wasGroundedLastFrame = false;
+    public int FacingDirection => _facingDirection;
     private int _facingDirection = 1; // 1 = right, -1 = left
 
     public override void OnEnable()

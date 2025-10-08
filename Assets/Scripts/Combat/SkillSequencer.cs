@@ -127,11 +127,21 @@ public class SkillSequencer : MonoBehaviour
     {
         _currentSkill = skill;
         _currentHitbox = Instantiate(skill.HitboxPrefab, transform);
+
         if (_currentSkill == null || _animator == null) return;
+
+        // Flip hitbox based on player facing direction
+        PlayerController2D playerController = GetComponentInParent<PlayerController2D>();
+        if (playerController != null)
+        {
+            Debug.Log($"Flipping hitbox for facing direction {playerController.FacingDirection}");
+            Vector3 hitboxScale = _currentHitbox.transform.localScale;
+            _currentHitbox.transform.localScale = new Vector3(Mathf.Abs(hitboxScale.x) * playerController.FacingDirection, hitboxScale.y, hitboxScale.z);
+        }
 
         _currentSkill.StartSkill(_currentHitbox.GetComponent<DamageHitbox>());
         _animator.Play(_currentSkill.Animation.name, 0, 0f);
         _lastFrame = -1;
         CurrentPhase = SkillPhase.Anticipation;
-    }
+    }   
 }
