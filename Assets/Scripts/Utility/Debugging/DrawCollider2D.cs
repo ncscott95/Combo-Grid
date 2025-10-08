@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Adapted from code posted by Acme Nerd Games on gamedev.stackexchange.com
@@ -6,19 +7,28 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class DrawCollider2D : MonoBehaviour
 {
+    private const bool DRAW_COLLIDERS = true;
+
     [SerializeField] private GameObject _linePrefab;
     [SerializeField] private Color _lineColor = Color.white;
 
-    LineRenderer _lineRenderer;
+    private List<LineRenderer> _lineRenderers = new List<LineRenderer>();
     Collider2D _collider2D;
 
     void Start()
     {
-        _lineRenderer = Instantiate(_linePrefab).GetComponent<LineRenderer>();
-        _lineRenderer.transform.SetParent(transform);
-        _lineRenderer.transform.localPosition = Vector3.zero;
-        _lineRenderer.useWorldSpace = false;
-        _collider2D = GetComponent<Collider2D>();
+        if (!DRAW_COLLIDERS)
+        {
+            Destroy(this);
+            return;
+        }
+
+        // Prioritize CompositeCollider2D if it exists, as it holds the final geometry.
+        _collider2D = GetComponent<CompositeCollider2D>();
+        if (_collider2D == null)
+        {
+            _collider2D = GetComponent<Collider2D>();
+        }
     }
 
     void Update()
@@ -28,27 +38,44 @@ public class DrawCollider2D : MonoBehaviour
 
     void HiliteCollider()
     {
+        // Disable all line renderers if the main collider is disabled.
         if (!_collider2D.enabled)
         {
-            _lineRenderer.enabled = false;
+            foreach (var lr in _lineRenderers)
+            {
+                lr.enabled = false;
+            }
             return;
         }
-
-        _lineRenderer.transform.localScale = Vector3.one;
-        _lineRenderer.transform.localPosition = Vector3.zero;
-        _lineRenderer.enabled = true;
-        _lineRenderer.startColor = _lineColor;
-        _lineRenderer.endColor = _lineColor;
 
         if (_collider2D is PolygonCollider2D polygonCollider) DrawPolygonCollider2D(polygonCollider);
         else if (_collider2D is BoxCollider2D boxCollider) DrawBoxCollider2D(boxCollider);
         else if (_collider2D is CapsuleCollider2D capsuleCollider) DrawCapsuleCollider2D(capsuleCollider);
+        else if (_collider2D is CompositeCollider2D compositeCollider) DrawCompositeCollider2D(compositeCollider);
         else Debug.LogError($"Unsupported collider type for {nameof(DrawCollider2D)}: {_collider2D.GetType().Name}");
+    }
+
+    private LineRenderer GetLineRenderer(int index)
+    {
+        while (_lineRenderers.Count <= index)
+        {
+            var lineRenderer = Instantiate(_linePrefab).GetComponent<LineRenderer>();
+            lineRenderer.transform.SetParent(transform, false);
+            lineRenderer.transform.localPosition = Vector3.zero;
+            lineRenderer.useWorldSpace = false;
+            _lineRenderers.Add(lineRenderer);
+        }
+        var lr = _lineRenderers[index];
+        lr.enabled = true;
+        lr.startColor = _lineColor;
+        lr.endColor = _lineColor;
+        return lr;
     }
 
     private void DrawPolygonCollider2D(PolygonCollider2D polygonCollider2D)
     {
         var points = polygonCollider2D.GetPath(0); // Assuming only one path
+        var lineRenderer = GetLineRenderer(0);
 
         Vector3[] positions = new Vector3[points.Length];
         for (int i = 0; i < points.Length; i++)
@@ -56,13 +83,14 @@ public class DrawCollider2D : MonoBehaviour
             positions[i] = points[i];
         }
 
-        _lineRenderer.positionCount = points.Length;
-        _lineRenderer.SetPositions(positions);
+        lineRenderer.positionCount = points.Length;
+        lineRenderer.SetPositions(positions);
     }
 
     private void DrawBoxCollider2D(BoxCollider2D boxCollider2D)
     {
         Vector3[] positions = new Vector3[4];
+        var lineRenderer = GetLineRenderer(0);
         var size = boxCollider2D.size;
         var offset = boxCollider2D.offset;
 
@@ -71,13 +99,14 @@ public class DrawCollider2D : MonoBehaviour
         positions[2] = new Vector2(-size.x / 2, -size.y / 2) + offset;
         positions[3] = new Vector2(size.x / 2, -size.y / 2) + offset;
 
-        _lineRenderer.positionCount = positions.Length;
-        _lineRenderer.SetPositions(positions);
+        lineRenderer.positionCount = positions.Length;
+        lineRenderer.SetPositions(positions);
     }
 
     private void DrawCapsuleCollider2D(CapsuleCollider2D capsuleCollider)
     {
         const int segments = 20; // Number of segments for the entire capsule outline
+        var lineRenderer = GetLineRenderer(0);
         Vector2 size = capsuleCollider.size;
         Vector2 offset = capsuleCollider.offset;
         CapsuleDirection2D direction = capsuleCollider.direction;
@@ -127,7 +156,35 @@ public class DrawCollider2D : MonoBehaviour
                 : center2 + new Vector2(y, x);
         }
 
-        _lineRenderer.positionCount = segments + 1;
-        _lineRenderer.SetPositions(positions);
+        lineRenderer.positionCount = segments + 1;
+        lineRenderer.SetPositions(positions);
+    }
+
+    private void DrawCompositeCollider2D(CompositeCollider2D compositeCollider)
+    {
+        int pathCount = compositeCollider.pathCount;
+        var points = new List<Vector2>();
+
+        for (int i = 0; i < pathCount; i++)
+        {
+            points.Clear();
+            compositeCollider.GetPath(i, points);
+
+            var lineRenderer = GetLineRenderer(i);
+            Vector3[] positions = new Vector3[points.Count];
+            for (int j = 0; j < points.Count; j++)
+            {
+                positions[j] = points[j];
+            }
+
+            lineRenderer.positionCount = points.Count;
+            lineRenderer.SetPositions(positions);
+        }
+
+        // Disable any extra line renderers that are not being used
+        for (int i = pathCount; i < _lineRenderers.Count; i++)
+        {
+            _lineRenderers[i].enabled = false;
+        }
     }
 }
